@@ -1,5 +1,6 @@
+import MainLayout from "../components/Layouts/MainLayout";
 const IndexPage = () => {
-  return <h1>Index</h1>;
+  return <MainLayout />;
 };
 
 export default IndexPage;
