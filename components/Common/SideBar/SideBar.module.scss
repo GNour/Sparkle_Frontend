@@ -1,0 +1,51 @@
+//
+
+// Overriding default react-prosidebar styles
+$sidebar-bg-color: #818181;
+.pro-sidebar-header {
+  text-align: center;
+  padding: 5px;
+}
+.pro-sidebar {
+  padding: 10px;
+
+  > .pro-sidebar-inner {
+    border-radius: 15px;
+
+    > .pro-sidebar-layout .pro-sidebar-header {
+      border-bottom: none !important;
+    }
+  }
+}
+
+// CSS Modules for component
+
+// SideBarActionButton styles
+.SideBarAction {
+  &Container {
+    align-items: center;
+    padding: 10px 35px 10px 20px;
+    cursor: pointer;
+  }
+
+  &IconWrapper {
+    margin-right: 10px;
+    font-size: 14px;
+    width: 35px;
+    min-width: 35px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    display: inline-block;
+  }
+
+  &Content {
+    -webkit-flex-grow: 1;
+    -moz-box-flex: 1;
+    flex-grow: 1;
+    -webkit-flex-shrink: 1;
+    flex-shrink: 1;
+  }
+}
+// Original Stylesheet
+@import "~react-pro-sidebar/dist/scss/styles.scss";
