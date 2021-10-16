@@ -1,3 +1,4 @@
-@import "./base.scss";
-@import "./variables.scss";
-@import "./mixins.scss";
+@import "./variables";
+@import "./base";
+@import "./mixins";
+@import "../components/Common/SideBar/SideBar.module.scss";
