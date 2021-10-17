@@ -5,7 +5,6 @@ const MainLayout = () => {
   return (
     <Fragment>
       <SideBar />
-      <UserCard></UserCard>
     </Fragment>
   );
 };
