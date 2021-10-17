@@ -1,0 +1,31 @@
+.container {
+  width: 220px;
+  text-align: center;
+  padding-right: 1.5rem;
+}
+
+.img {
+  padding: 0.25rem;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  width: 120px;
+  min-width: 120px;
+  height: 120px;
+}
+
+@media (mid-width: 1200px) {
+  .container {
+    padding-right: 1.5rem;
+  }
+}
+@media (mid-width: 768px) {
+  .container {
+    padding-right: 0.5rem;
+  }
+}
+@media (mid-width: 576px) {
+  .container {
+    padding-right: 1.5rem;
+  }
+}
