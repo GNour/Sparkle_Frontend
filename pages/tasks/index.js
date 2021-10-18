@@ -19,7 +19,8 @@ const TasksPage = () => {
     <Fragment>
       <PageHeaderWithActions
         header="Tasks"
-        haveNav={["All", "Assigned", "Unassinged", "Latest"]}
+        haveNav={["All", "Courses", "Todos"]}
+        haveSubNav={["Assigned", "Unassinged", "Latest"]}
       />
       <TasksLayoutAdmin>
         <TaskCard task={dummyTask} />
