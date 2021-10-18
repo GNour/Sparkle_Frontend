@@ -21,6 +21,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { AiOutlineClose } from "react-icons/ai";
 import SideBarActionButton from "./SideBarActionButton";
 import IconButton from "../IconButton";
+import styles from "./SideBar.module.scss";
 
 const SideBar = () => {
   const [menuCollapse, setMenuCollapse] = useState(false);
@@ -37,14 +38,14 @@ const SideBar = () => {
   return (
     <Fragment>
       <IconButton
-        styles="d-block fs-1 ms-2 mt-2 d-sm-none"
+        styles={`${styles.toggle} d-block fs-1 me-3 mt-2 d-md-none`}
         icon={<GiHamburgerMenu />}
         subIcon={<AiOutlineClose />}
         isSub={toggled}
         action={handleToggleSidebar}
       />
       <ProSidebar
-        breakPoint="sm"
+        breakPoint="md"
         toggled={toggled}
         onToggle={handleToggleSidebar}
         collapsed={menuCollapse}
@@ -75,14 +76,23 @@ const SideBar = () => {
             <Link href="/">Dashboard</Link>
           </MenuItem>
           <SubMenu title="Employees" icon={<FaUsers />}>
-            <MenuItem icon={<FaUsers />}>All Employees</MenuItem>
-            <MenuItem icon={<AiOutlineTeam />}>Teams</MenuItem>
-            <MenuItem icon={<AiOutlineCalendar />}>Attendance</MenuItem>
+            <MenuItem icon={<FaUsers />}>
+              <Link href="/employees">All Employees</Link>
+            </MenuItem>
+            <MenuItem icon={<AiOutlineTeam />}>
+              <Link href="/teams">Teams</Link>
+            </MenuItem>
           </SubMenu>
           <SubMenu title="Tasks" icon={<FaTasks />}>
-            <MenuItem icon={<FaTasks />}>All Tasks</MenuItem>
-            <MenuItem icon={<FaChalkboardTeacher />}>Courses</MenuItem>
-            <MenuItem icon={<RiTodoLine />}>Todos</MenuItem>
+            <MenuItem icon={<FaTasks />}>
+              <Link href="/tasks">All Tasks</Link>
+            </MenuItem>
+            <MenuItem icon={<FaChalkboardTeacher />}>
+              <Link href="/tasks/courses">Courses</Link>
+            </MenuItem>
+            <MenuItem icon={<RiTodoLine />}>
+              <Link href="/tasks/todos">Todos</Link>
+            </MenuItem>
           </SubMenu>
         </Menu>
         <SidebarFooter style={{ textAlign: "center" }}>

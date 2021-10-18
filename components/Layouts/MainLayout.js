@@ -1,11 +1,15 @@
 import { Fragment } from "react";
 import UserCard from "../Common/Cards/UserCard/UserCard";
 import SideBar from "../Common/SideBar/SideBar";
-const MainLayout = () => {
+import styles from "./MainLayout.module.scss";
+const MainLayout = ({ children }) => {
   return (
-    <Fragment>
+    <div className={`theme-default ${styles.MainLayout}`}>
       <SideBar />
-    </Fragment>
+      <main className="px-lg-4 mt-5 py-5 py-md-0 px-md-4 w-100">
+        {children}
+      </main>
+    </div>
   );
 };
 

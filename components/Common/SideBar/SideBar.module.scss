@@ -20,6 +20,12 @@ $sidebar-bg-color: #818181;
 
 // CSS Modules for component
 
+.toggle {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+}
+
 // SideBarActionButton styles
 .SideBarAction {
   &Container {

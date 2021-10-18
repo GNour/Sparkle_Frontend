@@ -1,0 +1,15 @@
+.PageHeader {
+  &Container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  &Actions {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  &Heading {
+    display: inline-block;
+  }
+}
