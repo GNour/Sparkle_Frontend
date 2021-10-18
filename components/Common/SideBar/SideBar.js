@@ -83,17 +83,9 @@ const SideBar = () => {
               <Link href="/teams">Teams</Link>
             </MenuItem>
           </SubMenu>
-          <SubMenu title="Tasks" icon={<FaTasks />}>
-            <MenuItem icon={<FaTasks />}>
-              <Link href="/tasks">All Tasks</Link>
-            </MenuItem>
-            <MenuItem icon={<FaChalkboardTeacher />}>
-              <Link href="/tasks/courses">Courses</Link>
-            </MenuItem>
-            <MenuItem icon={<RiTodoLine />}>
-              <Link href="/tasks/todos">Todos</Link>
-            </MenuItem>
-          </SubMenu>
+          <MenuItem icon={<FaTasks />}>
+            <Link href="/tasks">Tasks</Link>
+          </MenuItem>
         </Menu>
         <SidebarFooter style={{ textAlign: "center" }}>
           <SideBarActionButton
