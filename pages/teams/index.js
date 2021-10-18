@@ -1,5 +1,11 @@
+import { Fragment } from "react";
+import PageHeader from "../../components/Common/PageHeader";
 const TeamsPage = () => {
-  return <h1>Teams</h1>;
+  return (
+    <Fragment>
+      <PageHeader header="Teams" />
+    </Fragment>
+  );
 };
 
 export default TeamsPage;

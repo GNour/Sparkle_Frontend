@@ -1,5 +1,11 @@
+import { Fragment } from "react";
+import PageHeader from "../../components/Common/PageHeader";
 const TasksPage = () => {
-  return <h1>Tasks</h1>;
+  return (
+    <Fragment>
+      <PageHeader header="Tasks" />
+    </Fragment>
+  );
 };
 
 export default TasksPage;

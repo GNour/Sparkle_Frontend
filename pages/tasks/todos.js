@@ -1,5 +1,11 @@
+import { Fragment } from "react";
+import PageHeader from "../../components/Common/PageHeader";
 const TasksTodosPage = () => {
-  return <h1>Tasks/Todos</h1>;
+  return (
+    <Fragment>
+      <PageHeader header="Todos" />
+    </Fragment>
+  );
 };
 
 export default TasksTodosPage;
