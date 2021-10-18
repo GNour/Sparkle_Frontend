@@ -1,6 +1,6 @@
-const IconText = ({ icon, text }) => {
+const IconText = ({ icon, text, style }) => {
   return (
-    <div className="d-flex align-items-center">
+    <div className={`${style} d-flex align-items-center`}>
       {icon}
       <span className="ms-2 small">{text}</span>
     </div>

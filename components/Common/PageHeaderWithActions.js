@@ -20,8 +20,15 @@ const PageHeader = ({ header, haveNav, haveSearchBar }) => {
           />
           {haveNav ? (
             <HeaderNav>
-              <HeaderNavItem text={"Assigned"} isActive={true} />
-              <HeaderNavItem text={"Unassigned"} isActive={false} />
+              {haveNav.map((item, index) => {
+                return (
+                  <HeaderNavItem
+                    key={index}
+                    text={item}
+                    isActive={index == 0 ? true : false}
+                  />
+                );
+              })}
             </HeaderNav>
           ) : (
             ""
