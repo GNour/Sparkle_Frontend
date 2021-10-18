@@ -12,7 +12,7 @@ const PageHeader = ({ header, haveNav, haveSearchBar }) => {
         <h3 className={`${styles.PageHeaderHeading} fw-bold py-2 mb-0`}>
           {header}
         </h3>
-        <div className={`d-flex py-2 flex-wrap w-sm-100`}>
+        <div className={`d-flex py-2 align-items-end flex-wrap`}>
           <ActionButtonWithIcon
             icon={<AiOutlinePlus />}
             text="Create"

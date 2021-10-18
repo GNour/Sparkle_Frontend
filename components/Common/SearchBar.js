@@ -3,7 +3,9 @@ import IconButton from "./IconButton";
 import { AiOutlineSearch } from "react-icons/ai";
 const SearchBar = () => {
   return (
-    <div className="input-group w-auto ms-2 input-group-md">
+    <div
+      className={`w-auto input-group mt-2 mt-sm-0 ms-0 ms-sm-2 input-group-md`}
+    >
       <input className="form-control" placeholder="Search" />
     </div>
   );
