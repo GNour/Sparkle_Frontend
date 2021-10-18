@@ -1,5 +1,7 @@
 @import "./variables";
 @import "./base";
 @import "./mixins";
+@import "./utilities";
+@import "./overrides";
 @import "../components/Common/SideBar/SideBar.module.scss";
 @import "node_modules/bootstrap/scss/bootstrap";

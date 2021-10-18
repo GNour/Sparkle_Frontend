@@ -1,0 +1,12 @@
+// BOOTSTRAP OVERRIDES
+
+.nav-link {
+  &.active {
+    background-color: $color-primary;
+  }
+  color: #eee;
+
+  &:hover {
+    color: #000;
+  }
+}
