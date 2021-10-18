@@ -5,7 +5,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import HeaderNav from "./Navs/HeaderNav";
 import HeaderNavItem from "./Navs/HeaderNavItem";
 import SearchBar from "./SearchBar";
-const PageHeader = ({ header, haveNav, haveSearchBar }) => {
+const PageHeader = ({ header, haveNav, haveSearchBar, haveSubNav }) => {
   return (
     <div>
       <div className={styles.PageHeaderContainer}>
@@ -21,6 +21,21 @@ const PageHeader = ({ header, haveNav, haveSearchBar }) => {
           {haveNav ? (
             <HeaderNav>
               {haveNav.map((item, index) => {
+                return (
+                  <HeaderNavItem
+                    key={index}
+                    text={item}
+                    isActive={index == 0 ? true : false}
+                  />
+                );
+              })}
+            </HeaderNav>
+          ) : (
+            ""
+          )}
+          {haveSubNav ? (
+            <HeaderNav>
+              {haveSubNav.map((item, index) => {
                 return (
                   <HeaderNavItem
                     key={index}
