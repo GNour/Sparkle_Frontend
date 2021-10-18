@@ -1,0 +1,16 @@
+.TaskCard {
+  &Container {
+    transition: all 0.4s ease-in-out;
+    border-radius: 0px;
+    padding: 20px;
+    position: relative;
+    color: var(--text-color);
+    border-color: var(--border-color);
+    background-color: var(--card-color);
+    box-shadow: rgb(99 99 99 / 10%) 0px 2px 8px 0px;
+  }
+
+  &Small {
+    font-size: 0.6rem;
+  }
+}
