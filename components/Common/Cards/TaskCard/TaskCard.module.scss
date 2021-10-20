@@ -4,10 +4,11 @@
     border-radius: 0px;
     padding: 20px;
     position: relative;
-    color: var(--text-color);
-    border-color: var(--border-color);
-    background-color: var(--card-color);
+    margin-top: 0.4rem;
+    color: $task-card-content-color;
+    background-color: $background-task-card;
     box-shadow: rgb(99 99 99 / 10%) 0px 2px 8px 0px;
+    border-bottom: solid 2px;
   }
 
   &Small {

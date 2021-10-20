@@ -9,7 +9,12 @@ import styles from "./TaskCard.module.scss";
 const TaskCard = ({ task }) => {
   console.log(task);
   return (
-    <div className={`${styles.TaskCardContainer}`}>
+    <div
+      className={`${styles.TaskCardContainer}`}
+      style={{
+        borderImage: `linear-gradient(90deg, green ${25}%, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.2) 100%) 1`,
+      }}
+    >
       <InfoBody
         cornerText="deadline: 2020-01-01"
         title="Clean Tables"
