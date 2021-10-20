@@ -1,10 +1,27 @@
 // COLORS
 $color-primary: #7c7511;
-$task-card-content-color: #000;
-$border-one: #ccc;
+$color-button: #000;
+$color-sec-button: #000;
 
+// BORDER COLORS
+$border-one: #ccc;
+$input-border-color: #ccc;
+
+// ON HOVER COLORS
+$color-button-hover: #eee;
+$color-sec-button-hover: #eee;
+
+// BACKGROUND COLORS
 $background-task-card: #ffef;
 $background-button: #eee;
-$color-button: #000;
+$background-sec-button: #eee;
+$background-input: #efef;
+
+// ON HOVER BACKGROUND
 $background-button-hover: #000;
-$color-button-hover: #eee;
+$background-sec-button-hover: #000;
+
+// CONTENT COLOR
+$task-card-content-color: #000;
+$input-content-color: #000;
+$label-color: #0f0f0f;
