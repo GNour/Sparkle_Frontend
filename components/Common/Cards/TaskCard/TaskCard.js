@@ -6,11 +6,18 @@ import IconText from "../../IconText";
 import InfoActionsFooter from "../../InfoActionsFooter";
 import InfoBody from "../../InfoBody";
 import styles from "./TaskCard.module.scss";
-const TaskCard = ({ task }) => {
-  console.log(task);
+const TaskCard = ({ task, handleClick, handlePopoverContent }) => {
   return (
     <div
       className={`${styles.TaskCardContainer}`}
+      onClick={
+        handleClick
+          ? (event) => {
+              handlePopoverContent(<h1>{task.completed.username}</h1>);
+              handleClick(event);
+            }
+          : () => {}
+      }
       style={{
         borderImage: `linear-gradient(90deg, green ${25}%, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.2) 100%) 1`,
       }}
@@ -47,7 +54,7 @@ const getCardFooter = (status, id) => {
         actions={[
           <Button
             key="1"
-            size="sm"
+            size="small"
             variant="outlined"
             startIcon={<AiOutlineClose />}
           >
@@ -60,7 +67,12 @@ const getCardFooter = (status, id) => {
     return (
       <InfoActionsFooter
         actions={[
-          <Button key="1" variant="outlined" startIcon={<AiOutlinePlus />}>
+          <Button
+            key="1"
+            size="small"
+            variant="outlined"
+            startIcon={<AiOutlinePlus />}
+          >
             Assign
           </Button>,
         ]}
@@ -78,7 +90,12 @@ const getCardFooter = (status, id) => {
           />,
         ]}
         actions={[
-          <Button key="1" variant="outlined" startIcon={<AiOutlinePlus />}>
+          <Button
+            key="1"
+            size="small"
+            variant="outlined"
+            startIcon={<AiOutlinePlus />}
+          >
             Reassign
           </Button>,
         ]}
