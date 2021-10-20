@@ -1,9 +1,8 @@
 import { Fragment, useState } from "react";
 import TasksLayout from "../../components/Layouts/TasksLayout/TasksLayout";
-import TaskCard from "../../components/Common/Cards/TaskCard/TaskCard";
+import TaskCard from "../../components/TasksPage/TaskCard/TaskCard";
 import ColoumnContainer from "../../components/Common/ColoumnContainer";
 import { Popover, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 
 const TasksPage = () => {
   const [anchorEl, setAnchorEl] = useState(null);

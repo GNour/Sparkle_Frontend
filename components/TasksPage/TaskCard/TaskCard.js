@@ -2,9 +2,9 @@ import { Button } from "@material-ui/core";
 import { AiOutlinePlus, AiOutlineClose } from "react-icons/ai";
 import { BsPersonCheckFill } from "react-icons/bs";
 import { MdAssignmentInd } from "react-icons/md";
-import IconText from "../../IconText";
-import InfoActionsFooter from "../../InfoActionsFooter";
-import InfoBody from "../../InfoBody";
+import IconText from "../../Common/IconText";
+import InfoActionsFooter from "../../Common/InfoActionsFooter";
+import InfoBody from "../../Common/InfoBody";
 import styles from "./TaskCard.module.scss";
 const TaskCard = ({ task, handleClick, handlePopoverContent }) => {
   return (
@@ -13,7 +13,7 @@ const TaskCard = ({ task, handleClick, handlePopoverContent }) => {
       onClick={
         handleClick
           ? (event) => {
-              handlePopoverContent(<h1>{task.completed.username}</h1>);
+              handlePopoverContent(task.completed.username);
               handleClick(event);
             }
           : () => {}

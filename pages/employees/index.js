@@ -3,7 +3,7 @@ import PageHeader from "../../components/Common/PageHeader";
 import PageHeaderWithActions from "../../components/Common/PageHeaderWithActions";
 import { Fragment, useState } from "react";
 import AllEmployeesLayout from "../../components/Layouts/Employees/AllEmployeesLayout";
-import UserCard from "../../components/Common/Cards/UserCard/UserCard";
+import UserCard from "../../components/EmployeesPage/UserCard/UserCard";
 import IconButton from "../../components/Common/IconButton";
 import { BsFilter } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";

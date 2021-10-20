@@ -1,6 +1,6 @@
-import IconText from "../../IconText";
-import RoundedImageWithText from "../../Images/RoundedImageWithText/RoundedImageWithText";
-import InfoText from "../../InfoText";
+import IconText from "../../Common/IconText";
+import RoundedImageWithText from "../../Common/Images/RoundedImageWithText/RoundedImageWithText";
+import InfoText from "../../Common/InfoText";
 import styles from "./UserCard.module.scss";
 import { GoDeviceMobile } from "react-icons/go";
 import { HiOutlineMail } from "react-icons/hi";
