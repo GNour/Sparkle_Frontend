@@ -57,6 +57,7 @@ const getCardFooter = (status, id) => {
             size="small"
             variant="outlined"
             startIcon={<AiOutlineClose />}
+            onClick={"confirmUnassignModalOpen"}
           >
             Unassign
           </Button>,

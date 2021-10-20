@@ -1,9 +1,16 @@
 import styles from "./Buttons.module.scss";
-const ActionButtonWithIcon = ({ icon, text, action }) => {
+const ActionButtonWithIcon = ({ icon, text, action, isSecondary }) => {
+  const handleAction = (e) => {
+    action(e.target.innerText);
+  };
   return (
     <button
-      className={`btn ${styles.ActionButtonWithIcon} btn-dark`}
-      onClick={() => action()}
+      className={`btn ${
+        isSecondary
+          ? styles.ActionButtonWithIconSecondary
+          : styles.ActionButtonWithIcon
+      }`}
+      onClick={handleAction}
     >
       {icon ? icon : ""}
       {text}

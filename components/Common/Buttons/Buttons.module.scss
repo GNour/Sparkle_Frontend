@@ -8,8 +8,13 @@
     color: $color-button-hover;
   }
 }
-
-.ActionButtons {
+.ActionButtonWithIconSecondary {
   border: 1px solid $border-one;
-  border-radius: 5px;
+  background-color: $background-sec-button;
+  color: $color-sec-button;
+
+  &:hover {
+    background-color: $background-sec-button-hover;
+    color: $color-sec-button-hover;
+  }
 }

@@ -5,7 +5,13 @@ import { AiOutlinePlus } from "react-icons/ai";
 import HeaderNav from "./Navs/HeaderNav";
 import HeaderNavItem from "./Navs/HeaderNavItem";
 import SearchBar from "./SearchBar";
-const PageHeader = ({ header, haveNav, haveSearchBar, haveSubNav }) => {
+const PageHeader = ({
+  header,
+  haveNav,
+  haveSearchBar,
+  haveSubNav,
+  handleModalOpen,
+}) => {
   return (
     <div>
       <div className={styles.PageHeaderContainer}>
@@ -16,7 +22,7 @@ const PageHeader = ({ header, haveNav, haveSearchBar, haveSubNav }) => {
           <ActionButtonWithIcon
             icon={<AiOutlinePlus />}
             text="Create"
-            action={() => console.log("create")}
+            action={handleModalOpen}
           />
           {haveNav ? (
             <HeaderNav>
