@@ -2,6 +2,7 @@
 $color-primary: #7c7511;
 $color-button: #000;
 $color-sec-button: #000;
+$color-scrollbar: #777272;
 
 // BORDER COLORS
 $border-one: #ccc;
@@ -16,10 +17,15 @@ $background-task-card: #ffef;
 $background-button: #eee;
 $background-sec-button: #eee;
 $background-input: #efef;
+$background-body: #ececec;
+$background-custom-container: #ffef;
+$background-content-card: #fff;
+$background-completed-content-card: #eeffaa;
 
 // ON HOVER BACKGROUND
 $background-button-hover: #000;
 $background-sec-button-hover: #000;
+$background-content-card-hover: #fefe;
 
 // CONTENT COLOR
 $task-card-content-color: #000;

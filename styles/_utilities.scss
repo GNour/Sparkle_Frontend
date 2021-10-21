@@ -5,3 +5,18 @@
 .text-md {
   font-size: 0.9rem;
 }
+
+.overflow-y-scroll {
+  overflow-y: auto;
+}
+
+.mh-350 {
+  max-height: 350px;
+}
+.custom-container {
+  background-color: $background-custom-container;
+}
+
+.pre-wrap {
+  white-space: pre-wrap;
+}
