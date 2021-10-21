@@ -1,0 +1,15 @@
+.ContentCard {
+  &Container {
+    background-color: $background-content-card;
+    cursor: pointer;
+    transition: all 0.2s;
+    &:hover {
+      background-color: $background-content-card-hover;
+      transform: translateY(-3px);
+    }
+
+    &Completed {
+      background-color: $background-completed-content-card;
+    }
+  }
+}
