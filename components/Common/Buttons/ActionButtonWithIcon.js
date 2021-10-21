@@ -1,5 +1,11 @@
 import styles from "./Buttons.module.scss";
-const ActionButtonWithIcon = ({ icon, text, action, isSecondary }) => {
+const ActionButtonWithIcon = ({
+  icon,
+  text,
+  action,
+  isSecondary,
+  externalStyles,
+}) => {
   const handleAction = (e) => {
     action(e.target.innerText);
   };
@@ -9,11 +15,13 @@ const ActionButtonWithIcon = ({ icon, text, action, isSecondary }) => {
         isSecondary
           ? styles.ActionButtonWithIconSecondary
           : styles.ActionButtonWithIcon
-      }`}
+      } ${externalStyles}`}
       onClick={handleAction}
     >
-      {icon ? icon : ""}
-      {text}
+      <div className="d-flex align-items-center justify-content-center">
+        {icon ? icon : null}
+        {text}
+      </div>
     </button>
   );
 };
