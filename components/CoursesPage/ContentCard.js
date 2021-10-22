@@ -1,6 +1,8 @@
 import styles from "./ContentCard.module.scss";
 import ReactPlayer from "react-player/youtube";
 import { useRef } from "react";
+import QuizStartPage from "./Quiz/QuizStartPage";
+import QuizContainer from "./Quiz/QuizContainer";
 const ContentCard = ({
   icon,
   title,
@@ -33,6 +35,7 @@ const ContentCard = ({
         <ReactPlayer url={content.video} width="100%" ref={forwardedRef} />
       );
     } else if (type == "Quiz") {
+      return <QuizStartPage quiz={content} />;
     } else {
       return (
         <div className="text-muted text-center my-5" ref={forwardedRef}>

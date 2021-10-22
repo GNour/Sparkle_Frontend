@@ -8,7 +8,6 @@ const ActionButtonWithIcon = ({
   externalStyles,
 }) => {
   const handleAction = (e) => {
-    console.log(e);
     action(e.target.innerText, e.target.id);
   };
   return (

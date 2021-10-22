@@ -34,13 +34,15 @@ const CoursePage = () => {
       <div>
         <div className="mb-2">{content}</div>
         <div>
-          <ActionButtonWithIcon
-            id={details.id}
-            externalStyles="w-100"
-            icon={<RiCheckDoubleFill style={{ marginRight: "2px" }} />}
-            text={`Complete ${details.type}`}
-            action={handleCompleteButton}
-          />
+          {details.type == "Quiz" ? null : (
+            <ActionButtonWithIcon
+              id={details.id}
+              externalStyles="w-100"
+              icon={<RiCheckDoubleFill style={{ marginRight: "2px" }} />}
+              text={`Complete ${details.type}`}
+              action={handleCompleteButton}
+            />
+          )}
         </div>
       </div>
     );
@@ -79,6 +81,38 @@ const CoursePage = () => {
     created_at: "2021-10-15T21:58:59.000000Z",
     updated_at: "2021-10-15T21:58:59.000000Z",
     deleted_at: null,
+    questions: [
+      {
+        id: 1,
+        question: "Et doloribus doloribus sit nihil.",
+        answer: "Velit officiis earum quidem.",
+        weight: 39,
+        quiz_id: 1,
+        created_at: "2021-10-15T21:58:59.000000Z",
+        updated_at: "2021-10-15T21:58:59.000000Z",
+        deleted_at: null,
+      },
+      {
+        id: 2,
+        question: "Assumenda velit iste dignissimos nulla et.",
+        answer: "Occaecati dolorem esse ut itaque id fuga.",
+        weight: 23,
+        quiz_id: 1,
+        created_at: "2021-10-15T21:58:59.000000Z",
+        updated_at: "2021-10-15T21:58:59.000000Z",
+        deleted_at: null,
+      },
+      {
+        id: 3,
+        question: "Consequatur mollitia ex nihil veniam minima nam.",
+        answer: "Expedita neque suscipit voluptatum placeat unde.",
+        weight: 41,
+        quiz_id: 1,
+        created_at: "2021-10-15T21:58:59.000000Z",
+        updated_at: "2021-10-15T21:58:59.000000Z",
+        deleted_at: null,
+      },
+    ],
   };
   return (
     <CourseLayout>

@@ -18,6 +18,7 @@
     "react-icons": "^4.3.1",
     "react-player": "^2.9.0",
     "react-pro-sidebar": "^0.7.1",
+    "react-timer-hook": "^3.0.5",
     "sass": "^1.43.2"
   },
   "devDependencies": {
