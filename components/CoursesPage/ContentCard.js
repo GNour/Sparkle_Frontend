@@ -1,5 +1,6 @@
 import styles from "./ContentCard.module.scss";
 import ReactPlayer from "react-player/youtube";
+import { useRef } from "react";
 const ContentCard = ({
   icon,
   title,
@@ -8,6 +9,7 @@ const ContentCard = ({
   content,
   type,
   action,
+  forwardedRef,
 }) => {
   const handleContentCardClick = (e) => {
     action(renderRelatedComponent(type, content), {
@@ -17,6 +19,29 @@ const ContentCard = ({
       type: type,
     });
   };
+
+  // Each type have different components, This function is called on cardClick
+  const renderRelatedComponent = (type, content) => {
+    if (type == "Article") {
+      return (
+        <div ref={forwardedRef}>
+          <div className="pre-wrap mb-2">{content.body}</div>
+        </div>
+      );
+    } else if (type == "Video") {
+      return (
+        <ReactPlayer url={content.video} width="100%" ref={forwardedRef} />
+      );
+    } else if (type == "Quiz") {
+    } else {
+      return (
+        <div className="text-muted text-center my-5" ref={forwardedRef}>
+          Choose from content to get started
+        </div>
+      );
+    }
+  };
+
   return (
     <div
       onClick={handleContentCardClick}
@@ -31,25 +56,6 @@ const ContentCard = ({
       </div>
     </div>
   );
-};
-
-const renderRelatedComponent = (type, content) => {
-  if (type == "Article") {
-    return (
-      <div>
-        <div className="pre-wrap mb-2">{content.body}</div>
-      </div>
-    );
-  } else if (type == "Video") {
-    return <ReactPlayer url={content.video} width="100%" />;
-  } else if (type == "Quiz") {
-  } else {
-    return (
-      <div className="text-muted text-center my-5">
-        Choose from content to get started
-      </div>
-    );
-  }
 };
 
 export default ContentCard;

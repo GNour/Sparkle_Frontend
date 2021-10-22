@@ -3,15 +3,25 @@ import ContentCard from "../../components/CoursesPage/ContentCard";
 import CourseLayout from "../../components/Layouts/TasksLayout/CourseLayout";
 import { RiVideoFill, RiArticleFill, RiCheckDoubleFill } from "react-icons/ri";
 import { MdQuiz } from "react-icons/md";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import TitleDescription from "../../components/Common/TitleDescription";
 import ActionButtonWithIcon from "../../components/Common/Buttons/ActionButtonWithIcon";
 const CoursePage = () => {
+  const previewedContentRef = useRef(null);
   const [previewedContent, setPreviewedContent] = useState(
     <div className="text-muted text-center my-5">
       Choose from content to get started
     </div>
   );
+
+  const handleCompleteButton = (type, id) => {
+    console.log(type, id);
+  };
+
+  useEffect(() => {
+    if (previewedContentRef.current) {
+    }
+  }, [previewedContent]);
 
   const [previewedContentDetails, setPreviewedContentDetails] = useState({
     title: "N/A",
@@ -25,9 +35,11 @@ const CoursePage = () => {
         <div className="mb-2">{content}</div>
         <div>
           <ActionButtonWithIcon
-            externalStyles="w-100 disabled"
+            id={details.id}
+            externalStyles="w-100"
             icon={<RiCheckDoubleFill style={{ marginRight: "2px" }} />}
             text={`Complete ${details.type}`}
+            action={handleCompleteButton}
           />
         </div>
       </div>
@@ -84,25 +96,31 @@ const CoursePage = () => {
         header="Content"
       >
         <ContentCard
+          key="0"
           icon={<RiVideoFill fontSize="24" />}
           title={video.title}
           type="Video"
           content={video}
+          forwardedRef={previewedContentRef}
           action={handleContentCardOnClick}
         />
         <ContentCard
+          key="1"
           icon={<RiArticleFill fontSize="24" />}
           title={article.title}
           isCompleted
           type="Article"
           content={article}
+          forwardedRef={previewedContentRef}
           action={handleContentCardOnClick}
         />
         <ContentCard
+          key="2"
           icon={<MdQuiz fontSize="24" />}
           title={quiz.title}
           type="Quiz"
           content={quiz}
+          forwardedRef={previewedContentRef}
           action={handleContentCardOnClick}
         />
       </ScrollableContainer>
