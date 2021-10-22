@@ -36,7 +36,7 @@ const CoursePage = () => {
 
   const video = {
     id: 1,
-    video: "https://via.placeholder.com/640x480.png/006699?text=est",
+    video: "https://youtu.be/yrJ7CVeiFvo",
     title: "Corrine Williamson",
     description:
       "Voluptatem officiis est aut eius. Voluptatem rerum eum ipsam. Dolorum voluptatem ea natus alias.",

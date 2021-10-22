@@ -1,4 +1,5 @@
 import styles from "./ContentCard.module.scss";
+import ReactPlayer from "react-player/youtube";
 const ContentCard = ({
   icon,
   title,
@@ -9,7 +10,7 @@ const ContentCard = ({
   action,
 }) => {
   const handleContentCardClick = (e) => {
-    action(getRelatedComponent(type, content), {
+    action(renderRelatedComponent(type, content), {
       title: content.title,
       description: content.description,
       id: content.id,
@@ -32,7 +33,7 @@ const ContentCard = ({
   );
 };
 
-const getRelatedComponent = (type, content) => {
+const renderRelatedComponent = (type, content) => {
   if (type == "Article") {
     return (
       <div>
@@ -40,6 +41,7 @@ const getRelatedComponent = (type, content) => {
       </div>
     );
   } else if (type == "Video") {
+    return <ReactPlayer url={content.video} width="100%" />;
   } else if (type == "Quiz") {
   } else {
     return (
