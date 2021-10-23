@@ -5,6 +5,7 @@ import TextInput from "../../Common/Inputs/TextInput";
 import TextAreaInput from "../../Common/Inputs/TextAreaInput";
 import SelectInput from "../../Common/Inputs/SelectInput";
 import ActionButtonWithIcon from "../../Common/Buttons/ActionButtonWithIcon";
+import { AiOutlinePlus } from "react-icons/ai";
 const TasksLayout = ({ children }) => {
   const [isModalOpened, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
@@ -22,7 +23,13 @@ const TasksLayout = ({ children }) => {
       <PageHeaderWithActions
         header="Tasks"
         haveNav={["All", "Courses", "Todos"]}
-        handleModalOpen={handleOpen}
+        button={
+          <ActionButtonWithIcon
+            icon={<AiOutlinePlus />}
+            text={"Create"}
+            action={handleOpen}
+          />
+        }
       />
       <div className="row g-3 gy-5 py-3 row-deck">{children}</div>
       <CustomModal isModalOpened={isModalOpened} modalClose={handleClose}>

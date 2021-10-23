@@ -5,12 +5,12 @@ import { AiOutlinePlus } from "react-icons/ai";
 import HeaderNav from "./Navs/HeaderNav";
 import HeaderNavItem from "./Navs/HeaderNavItem";
 import SearchBar from "./SearchBar";
-const PageHeader = ({
+const PageHeaderWithActions = ({
   header,
   haveNav,
   haveSearchBar,
   haveSubNav,
-  handleModalOpen,
+  button,
 }) => {
   return (
     <div>
@@ -19,11 +19,7 @@ const PageHeader = ({
           {header}
         </h3>
         <div className={`d-flex py-2 align-items-end flex-wrap`}>
-          <ActionButtonWithIcon
-            icon={<AiOutlinePlus />}
-            text="Create"
-            action={handleModalOpen}
-          />
+          {button ? button : null}
           {haveNav ? (
             <HeaderNav>
               {haveNav.map((item, index) => {
@@ -62,4 +58,4 @@ const PageHeader = ({
   );
 };
 
-export default PageHeader;
+export default PageHeaderWithActions;
