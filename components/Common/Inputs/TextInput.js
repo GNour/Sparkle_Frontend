@@ -1,16 +1,14 @@
+import { useField } from "formik";
 import styles from "./Inputs.module.scss";
-const TextInput = ({
-  externalStyles,
-  placeHolder,
-  label,
-  name,
-  handleChange,
-  type,
-}) => {
+const TextInput = ({ externalStyles, label, type, ...props }) => {
+  const [field, meta] = useField(props);
   return (
     <div className={`${externalStyles}`}>
       {label ? (
-        <label htmlFor={name} className={`form-label ${styles.InputLabel}`}>
+        <label
+          htmlFor={props.id || props.name}
+          className={`form-label ${styles.InputLabel}`}
+        >
           {label}
         </label>
       ) : (
@@ -18,11 +16,13 @@ const TextInput = ({
       )}
       <input
         type={type}
-        name={name}
         className={`form-control ${styles.InputField}`}
-        onChange={(e) => handleChange(e.target.value)}
-        placeholder={placeHolder}
+        {...field}
+        {...props}
       />
+      {meta.touched && meta.error ? (
+        <div className="error">{meta.error}</div>
+      ) : null}
     </div>
   );
 };

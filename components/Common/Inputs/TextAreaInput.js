@@ -1,29 +1,29 @@
 import styles from "./Inputs.module.scss";
-const TextAreaInput = ({
-  externalStyles,
-  placeHolder,
-  label,
-  name,
-  handleChange,
-  type,
-}) => {
+import { useField } from "formik";
+const TextAreaInput = ({ externalStyles, label, type, ...props }) => {
+  const [field, meta] = useField(props);
   return (
     <div className={`${externalStyles}`}>
       {label ? (
-        <label htmlFor={name} className={`form-label ${styles.InputLabel}`}>
+        <label
+          htmlFor={props.id || props.name}
+          className={`form-label ${styles.InputLabel}`}
+        >
           {label}
         </label>
       ) : (
         ""
       )}
       <textarea
+        {...field}
+        {...props}
         type={type}
-        name={name}
         rows={3}
         className={`form-control ${styles.InputField}`}
-        onChange={(e) => handleChange(e.target.value)}
-        placeholder={placeHolder}
       />
+      {meta.touched && meta.error ? (
+        <div className="error">{meta.error}</div>
+      ) : null}
     </div>
   );
 };
