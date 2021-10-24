@@ -8,7 +8,9 @@ import { BsFilter } from "react-icons/bs";
 import { AiOutlineClose, AiOutlinePlus } from "react-icons/ai";
 import styles from "./Employees.module.scss";
 import ActionButtonWithIcon from "../../components/Common/Buttons/ActionButtonWithIcon";
+import { useRouter } from "next/router";
 const MembersPage = () => {
+  const router = useRouter();
   const [toggledFilter, setToggledFilter] = useState(false);
 
   const handleToggleFilter = (value) => {
@@ -28,7 +30,7 @@ const MembersPage = () => {
           <ActionButtonWithIcon
             icon={<AiOutlinePlus />}
             text={"Create"}
-            action={handleCreateEmployee}
+            action={() => router.push("employees/create")}
           />
         }
       />
