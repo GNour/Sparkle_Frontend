@@ -31,7 +31,6 @@ const TasksLayout = ({ children }) => {
     <Fragment>
       <PageHeaderWithActions
         header="Tasks"
-        haveNav={["All", "Courses", "Todos"]}
         button={
           <ActionButtonWithIcon
             icon={<AiOutlinePlus />}
