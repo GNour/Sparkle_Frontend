@@ -1,11 +1,10 @@
 import PageHeaderWithActions from "../../components/Common/PageHeaderWithActions";
-import { AiOutlineClose, AiOutlinePlus } from "react-icons/ai";
+import { AiOutlineClose, AiOutlinePlus, AiFillHome } from "react-icons/ai";
 import ActionButtonWithIcon from "../../components/Common/Buttons/ActionButtonWithIcon";
 import { Fragment, useEffect, useState } from "react";
 import EmployeeLayout from "../../components/Layouts/Employees/EmployeeLayout";
 import UserCard from "../../components/EmployeesPage/UserCard/UserCard";
 import Infolist from "../../components/Common/Infolist";
-import { AiFillHome } from "react-icons/ai";
 import { MdEmergency } from "react-icons/md";
 import ScrollableContainer from "../../components/Common/ScrollableContainer";
 import NoteCard from "../../components/Common/Cards/NoteCard";
@@ -14,11 +13,105 @@ import TextInput from "../../components/Common/Inputs/TextInput";
 import TextAreaInput from "../../components/Common/Inputs/TextAreaInput";
 import SelectInput from "../../components/Common/Inputs/SelectInput";
 import { Form, Formik } from "formik";
+import { Pie } from "react-chartjs-2";
+import ChartContainer from "../../components/Common/ChartContainer";
 
 const MemberPage = () => {
   const [showMoreUserDetails, setShowMoreUserDetails] = useState(false);
   const [userNotes, setUserNotes] = useState([]);
   const [user, setUser] = useState([]);
+
+  // States for charts - Notes, Tasks, Courses
+  const [userNotesStats, setUserNotesStats] = useState([]);
+  const [userCoursesStats, setUserCoursesStats] = useState([]);
+  const [userTasksStats, setUserTasksStats] = useState([]);
+
+  // Follow the variables pattern when creating the charts
+  const getNotesStats = (notes) => {
+    let positiveNotesCount = 0;
+    let negativeNotesCount = 0;
+
+    notes.forEach((note) => {
+      if (note.positive === 1) {
+        positiveNotesCount++;
+      } else {
+        negativeNotesCount++;
+      }
+    });
+
+    return [negativeNotesCount, positiveNotesCount];
+  };
+
+  const getCoursesStats = (courses) => {};
+
+  const getTasksStats = (tasks) => {
+    let finishedTasksCount = 0;
+    let finishedTasksAfterDeadline = 0;
+    let unfinishedTasksCount = 0;
+    let missedTasksCount = 0;
+
+    tasks.forEach((task) => {
+      if (task.user_task.completed === 1) {
+        if (
+          new Date(task.user_task.deadline).getTime() <
+          new Date(task.user_task.updated_at).getTime()
+        ) {
+          finishedTasksAfterDeadline++;
+        } else {
+          finishedTasksCount++;
+        }
+      } else {
+        // Check if this task deadline is before Date.now()
+        if (
+          new Date(task.user_task.deadline).getTime() < new Date().getTime()
+        ) {
+          missedTasksCount++;
+        } else {
+          unfinishedTasksCount++;
+        }
+      }
+    });
+
+    return [
+      finishedTasksCount,
+      finishedTasksAfterDeadline,
+      unfinishedTasksCount,
+      missedTasksCount,
+    ];
+  };
+
+  const notesStatsData = {
+    labels: ["Negative", "Positive"],
+    datasets: [
+      {
+        label: "User Notes Statistics",
+        data: userNotesStats,
+        backgroundColor: ["rgba(255, 24, 67, 1)", "rgba(126, 185, 63, 1)"],
+      },
+    ],
+  };
+
+  const tasksStatsData = {
+    labels: ["Finished", "Finished After Deadline", "Unfinished", "Missed"],
+    datasets: [
+      {
+        label: "User Tasks Statistics",
+        data: userTasksStats,
+        backgroundColor: [
+          "rgba(126, 185, 63, 1)",
+          "rgba(219,196,64,86)",
+          "rgba(73,180,240,80)",
+          "rgba(255, 24, 67, 1)",
+        ],
+      },
+    ],
+  };
+
+  const coursesStatsData = {
+    labels: [],
+  };
+
+  // States for modal, Confirmation modal and Add note modal
   const [isModalOpened, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState(null);
   const [modal, setModal] = useState(<div></div>);
@@ -31,17 +124,23 @@ const MemberPage = () => {
 
   const handleAddNote = (values, { setSubmitting }) => {
     setUserNotes([values, ...userNotes]);
+
+    // Not completed yet, need fixes
+    if (values.isPositive == 1) {
+      let [negativeNotesCount, positiveNotesCount] = [...userNotesStats];
+      positiveNotesCount++;
+      setUserNotesStats([negativeNotesCount, positiveNotesCount]);
+    } else {
+      let [negativeNotesCount, positiveNotesCount] = [...userNotesStats];
+      negativeNotesCount++;
+      setUserNotesStats([negativeNotesCount, positiveNotesCount]);
+    }
     setIsModalOpen(false);
     setSubmitting(false);
   };
 
-  const handleSuspendAccount = (values, { setSubmitting }) => {
-    if (values.username == "@" + user.username) {
-      setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
-        setSubmitting(false);
-      }, 400);
-    }
+  const handleClose = () => {
+    setIsModalOpen(false);
   };
 
   useEffect(() => {
@@ -57,7 +156,7 @@ const MemberPage = () => {
                 initialValues={{
                   title: "",
                   description: "",
-                  isPositive: null,
+                  isPositive: -1,
                 }}
                 onSubmit={(values, { setSubmitting }) => {
                   handleAddNote(values, { setSubmitting });
@@ -154,8 +253,14 @@ const MemberPage = () => {
       );
     }
   }, [modalType]);
-  const handleClose = () => {
-    setIsModalOpen(false);
+
+  const handleSuspendAccount = (values, { setSubmitting }) => {
+    if (values.username == "@" + user.username) {
+      setTimeout(() => {
+        alert(JSON.stringify(values, null, 2));
+        setSubmitting(false);
+      }, 400);
+    }
   };
 
   useEffect(async () => {
@@ -180,7 +285,28 @@ const MemberPage = () => {
           description:
             "Quo fugiat ad laboriosam laboriosam pariatur in blanditiis. Saepe aut quos cupiditate quas beatae.",
           created_by: 1,
-          taskable_type: "App\\Models\\Course",
+          taskable_type: "course",
+          taskable_id: 1,
+          assigned: 2,
+          created_at: "2021-10-9T22:11:23.000000Z",
+          updated_at: "2021-10-22T22:40:52.000000Z",
+          deleted_at: null,
+          user_task: {
+            user_id: 1,
+            task_id: 1,
+            deadline: "2021-10-14 00:00:00",
+            completed: 1,
+            created_at: "2021-10-22T22:32:31.000000Z",
+            updated_at: "2021-10-13 00:00:00",
+          },
+        },
+        {
+          id: 2,
+          name: "Yadira Breitenberg",
+          description:
+            "Quo fugiat ad laboriosam laboriosam pariatur in blanditiis. Saepe aut quos cupiditate quas beatae.",
+          created_by: 1,
+          taskable_type: "course",
           taskable_id: 1,
           assigned: 2,
           created_at: "2021-10-22T22:11:23.000000Z",
@@ -188,7 +314,49 @@ const MemberPage = () => {
           deleted_at: null,
           user_task: {
             user_id: 1,
-            task_id: 1,
+            task_id: 2,
+            deadline: "2021-10-12 00:00:00",
+            completed: 1,
+            created_at: "2021-10-22T22:32:31.000000Z",
+            updated_at: "2021-10-22T22:46:08.000000Z",
+          },
+        },
+        {
+          id: 3,
+          name: "Yadira Breitenberg",
+          description:
+            "Quo fugiat ad laboriosam laboriosam pariatur in blanditiis. Saepe aut quos cupiditate quas beatae.",
+          created_by: 1,
+          taskable_type: "course",
+          taskable_id: 1,
+          assigned: 2,
+          created_at: "2021-10-22T22:11:23.000000Z",
+          updated_at: "2021-10-22T22:40:52.000000Z",
+          deleted_at: null,
+          user_task: {
+            user_id: 1,
+            task_id: 3,
+            deadline: "2022-10-12 00:00:00",
+            completed: 0,
+            created_at: "2021-10-22T22:32:31.000000Z",
+            updated_at: "2021-10-22T22:46:08.000000Z",
+          },
+        },
+        {
+          id: 4,
+          name: "Yadira Breitenberg",
+          description:
+            "Quo fugiat ad laboriosam laboriosam pariatur in blanditiis. Saepe aut quos cupiditate quas beatae.",
+          created_by: 1,
+          taskable_type: "course",
+          taskable_id: 1,
+          assigned: 2,
+          created_at: "2021-10-22T22:11:23.000000Z",
+          updated_at: "2021-10-22T22:40:52.000000Z",
+          deleted_at: null,
+          user_task: {
+            user_id: 1,
+            task_id: 4,
             deadline: "2021-10-12 00:00:00",
             completed: 0,
             created_at: "2021-10-22T22:32:31.000000Z",
@@ -209,7 +377,25 @@ const MemberPage = () => {
           user_course: {
             user_id: 1,
             course_id: 1,
-            completed: 0,
+            completed: 1,
+            grade: 84,
+            created_at: "2021-10-22T23:33:56.000000Z",
+            updated_at: "2021-10-22T23:33:56.000000Z",
+          },
+        },
+        {
+          id: 2,
+          name: "Prof. Aurelie Lind",
+          description:
+            "Esse sint rerum id. Id aut ratione quia. Rem harum ipsa voluptates totam.",
+          created_by: 1,
+          created_at: "2021-10-22T22:11:23.000000Z",
+          updated_at: "2021-10-22T22:11:23.000000Z",
+          deleted_at: null,
+          user_course: {
+            user_id: 1,
+            course_id: 2,
+            completed: 1,
             grade: 0,
             created_at: "2021-10-22T23:33:56.000000Z",
             updated_at: "2021-10-22T23:33:56.000000Z",
@@ -218,7 +404,7 @@ const MemberPage = () => {
       ],
       notes: [
         {
-          id: 2,
+          id: 1,
           title: "Positive",
           description: "test description",
           user_id: 1,
@@ -227,7 +413,7 @@ const MemberPage = () => {
           updated_at: "2021-10-22T23:43:58.000000Z",
         },
         {
-          id: 3,
+          id: 2,
           title: "Negative",
           description:
             "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad dicta error quia eveniet quibusdam laborum quod necessitatibus molestiae aspernatur consectetur temporibus, commodi, maiores dolores, sequi officiis qui ratione sed a?",
@@ -237,7 +423,7 @@ const MemberPage = () => {
           updated_at: "2021-10-22T23:43:58.000000Z",
         },
         {
-          id: 4,
+          id: 3,
           title: "Test Title",
           description: "Freestyling",
           user_id: 1,
@@ -246,7 +432,7 @@ const MemberPage = () => {
           updated_at: "2021-10-22T23:43:58.000000Z",
         },
         {
-          id: 5,
+          id: 4,
           title: "FIRE",
           description: "He made a fire in the kitchen",
           user_id: 1,
@@ -254,9 +440,48 @@ const MemberPage = () => {
           created_at: "2021-10-22T23:43:58.000000Z",
           updated_at: "2021-10-22T23:43:58.000000Z",
         },
+        {
+          id: 5,
+          title: "Positive",
+          description: "test description",
+          user_id: 1,
+          positive: 1,
+          created_at: "2021-10-22T23:43:58.000000Z",
+          updated_at: "2021-10-22T23:43:58.000000Z",
+        },
+        {
+          id: 6,
+          title: "Negative",
+          description:
+            "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad dicta error quia eveniet quibusdam laborum quod necessitatibus molestiae aspernatur consectetur temporibus, commodi, maiores dolores, sequi officiis qui ratione sed a?",
+          user_id: 1,
+          positive: 1,
+          created_at: "2021-10-22T23:43:58.000000Z",
+          updated_at: "2021-10-22T23:43:58.000000Z",
+        },
+        {
+          id: 7,
+          title: "Test Title",
+          description: "Freestyling",
+          user_id: 1,
+          positive: 1,
+          created_at: "2021-10-22T23:43:58.000000Z",
+          updated_at: "2021-10-22T23:43:58.000000Z",
+        },
+        {
+          id: 8,
+          title: "FIRE",
+          description: "He made a fire in the kitchen",
+          user_id: 1,
+          positive: 1,
+          created_at: "2021-10-22T23:43:58.000000Z",
+          updated_at: "2021-10-22T23:43:58.000000Z",
+        },
       ],
     };
 
+    setUserNotesStats(getNotesStats(user.notes));
+    setUserTasksStats(getTasksStats(user.tasks));
     setUserNotes(user.notes);
     setUser(user);
   }, []);
@@ -279,8 +504,33 @@ const MemberPage = () => {
         }
       />
       <EmployeeLayout>
-        <div className="col-xl-7 col-lg-7 order-2 order-md-1"></div>
-        <div className="col-xl-5 order-1 p-2 order-md-2 col-lg-5 rounded custom-container">
+        <div className="col-xl-7 col-lg-7 order-2 order-md-1">
+          <ChartContainer
+            externalStyles="custom-container rounded p-2 mb-2"
+            header="Tasks"
+          >
+            <Pie
+              data={tasksStatsData}
+              width={500}
+              height={300}
+              options={{ maintainAspectRatio: false }}
+              redraw={false}
+            />
+          </ChartContainer>
+          <ChartContainer
+            externalStyles="custom-container rounded p-2 mb-2"
+            header="Courses"
+          >
+            <Pie
+              data={tasksStatsData}
+              width={500}
+              height={300}
+              options={{ maintainAspectRatio: false }}
+              redraw={false}
+            />
+          </ChartContainer>
+        </div>
+        <div className="col-xl-5 order-1 p-2 order-md-2 col-lg-5 h-auto rounded custom-container">
           <div>
             <UserCard
               outerStyle="col"
@@ -296,7 +546,7 @@ const MemberPage = () => {
                     { icon: <AiFillHome />, text: "07410111" },
                     { icon: <MdEmergency />, text: "+961 70908090" },
                   ]}
-                  externalStyles="m-1"
+                  externalStyles="m-1 rounded custom-container-sub p-1"
                 />
                 <div className="text-center text-muted text-sm m-1">
                   Click user card to hide more details
@@ -321,6 +571,20 @@ const MemberPage = () => {
               />
             }
           >
+            {userNotes.length == 0 ? (
+              <p>No notes</p>
+            ) : (
+              <div>
+                <Pie
+                  width={150}
+                  height={120}
+                  options={{ maintainAspectRatio: false }}
+                  data={notesStatsData}
+                  redraw={true}
+                />
+              </div>
+            )}
+
             {userNotes.map((note) => {
               return (
                 <NoteCard
