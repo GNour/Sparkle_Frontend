@@ -1,0 +1,41 @@
+.NoteCard {
+  &Container {
+    border-left: 2px solid $border-one;
+    display: flex;
+    position: relative;
+    padding: 1em;
+
+    &::after {
+      -moz-transition: ease 0.1s;
+      -o-transition: ease 0.1s;
+      -webkit-transition: ease 0.1s;
+      transition: ease 0.1s;
+      border: 2px solid $border-one;
+      display: block;
+      background: #000;
+      position: absolute;
+      content: "";
+      width: 8px;
+      height: 8px;
+      top: 1.3em;
+      left: -5px;
+      border-radius: 30px;
+    }
+
+    &:hover::after {
+      transform: scale(3);
+    }
+
+    &Negative {
+      &::after {
+        background: #ff1843;
+      }
+    }
+
+    &Positive {
+      &::after {
+        background: #7eb93f;
+      }
+    }
+  }
+}
