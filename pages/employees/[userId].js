@@ -506,7 +506,7 @@ const MemberPage = () => {
             <hr />
           </div>
           <ScrollableContainer
-            externalStyles="mh-350 overflow-y-scroll order-1 order-md-2 rounded custom-container-sub"
+            externalStyles="mh-450 overflow-y-scroll order-1 order-md-2 rounded custom-container-sub"
             header="Notes"
             button={
               <ActionButtonWithIcon
