@@ -43,11 +43,11 @@ const MembersPage = () => {
         />
       </div>
       <AllEmployeesLayout>
-        <UserCard outerStyle="col" />
-        <UserCard outerStyle="col" />
-        <UserCard outerStyle="col" />
-        <UserCard outerStyle="col" />
-        <UserCard outerStyle="col" />
+        <UserCard outerStyle="col" image={"/id_img.jpg"} imageText={"Waiter"} />
+        <UserCard outerStyle="col" image={"/id_img.jpg"} imageText={"Waiter"} />
+        <UserCard outerStyle="col" image={"/id_img.jpg"} imageText={"Waiter"} />
+        <UserCard outerStyle="col" image={"/id_img.jpg"} imageText={"Waiter"} />
+        <UserCard outerStyle="col" image={"/id_img.jpg"} imageText={"Waiter"} />
       </AllEmployeesLayout>
     </Fragment>
   );
