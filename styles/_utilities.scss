@@ -6,6 +6,10 @@
   font-size: 0.9rem;
 }
 
+.text-lg {
+  font-size: 1.6rem;
+}
+
 .overflow-y-scroll {
   overflow-y: auto;
 }
@@ -34,4 +38,8 @@
 
 .pre-wrap {
   white-space: pre-wrap;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
