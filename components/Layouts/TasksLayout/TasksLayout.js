@@ -6,6 +6,7 @@ import TextAreaInput from "../../Common/Inputs/TextAreaInput";
 import SelectInput from "../../Common/Inputs/SelectInput";
 import ActionButtonWithIcon from "../../Common/Buttons/ActionButtonWithIcon";
 import { AiOutlinePlus } from "react-icons/ai";
+import { Formik, Form } from "formik";
 const TasksLayout = ({ children }) => {
   const [isModalOpened, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
@@ -18,6 +19,14 @@ const TasksLayout = ({ children }) => {
   const handleClose = () => {
     setIsModalOpen(false);
   };
+
+  const handleCreateTask = (values, { setSubmitting }) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+      setSubmitting(false);
+    }, 400);
+  };
+
   return (
     <Fragment>
       <PageHeaderWithActions
@@ -39,41 +48,55 @@ const TasksLayout = ({ children }) => {
               <h4>Create Task</h4>
             </div>
             <div className="modal-body">
-              <TextInput
-                placeHolder="Task Title"
-                label="Task Title"
-                externalStyles="mb-3"
-                name="title"
-                type="text"
-                handleChange={(value) => console.log(value)}
-              />
-              <TextAreaInput
-                placeHolder="Task Description"
-                label="Task Title"
-                externalStyles="mb-3"
-                name="title"
-                type="text"
-                handleChange={(value) => console.log(value)}
-              />
-              <SelectInput
-                label="Choose Task Type"
-                externalStyles="mb-3"
-                name="title"
-                handleChange={(value) => console.log(value)}
+              <Formik
+                initialValues={{
+                  title: "",
+                  description: "",
+                  type: "",
+                }}
+                onSubmit={(values, { setSubmitting }) => {
+                  handleCreateTask(values, { setSubmitting });
+                }}
               >
-                <option defaultValue>Select</option>
-                <option value="1">Hello</option>
-                <option value="2">World</option>
-                <option value="3">!</option>
-              </SelectInput>
-            </div>
-            <div className="modal-footer">
-              <ActionButtonWithIcon
-                text="Close"
-                isSecondary
-                action={handleClose}
-              />
-              <ActionButtonWithIcon text="Create" />
+                <Form>
+                  <TextInput
+                    key="title"
+                    placeholder="Task Title"
+                    label="Task Title"
+                    externalStyles="mb-3"
+                    name="title"
+                    type="text"
+                  />
+
+                  <TextAreaInput
+                    key="description"
+                    placeholder="Note Description"
+                    label="Note Description"
+                    externalStyles="mb-3"
+                    name="description"
+                    type="text"
+                  />
+                  <SelectInput
+                    label="Task type"
+                    externalStyles="mb-3"
+                    name="type"
+                  >
+                    <option value="todo" defaultValue>
+                      Todo
+                    </option>
+                    <option value="Course">Course</option>
+                  </SelectInput>
+
+                  <div className="modal-footer">
+                    <ActionButtonWithIcon
+                      text="Close"
+                      isSecondary
+                      action={handleClose}
+                    />
+                    <ActionButtonWithIcon text="Create" />
+                  </div>
+                </Form>
+              </Formik>
             </div>
           </div>
         </div>
