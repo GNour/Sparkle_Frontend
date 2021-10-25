@@ -1,31 +1,36 @@
 import styles from "./Inputs.module.scss";
+import { useField } from "formik";
 const SelectInput = ({
   externalStyles,
-  placeHolder,
   label,
-  name,
-  handleChange,
   children,
   isMultiple,
+  ...props
 }) => {
+  const [field, meta] = useField(props);
   return (
     <div className={`${externalStyles}`}>
       {label ? (
-        <label htmlFor={name} className={`form-label ${styles.InputLabel}`}>
+        <label
+          htmlFor={props.id || props.name}
+          className={`form-label ${styles.InputLabel}`}
+        >
           {label}
         </label>
       ) : (
         ""
       )}
       <select
-        name={name}
+        {...field}
+        {...props}
         multiple={isMultiple ? true : false}
         className={`form-select ${styles.InputField}`}
-        onChange={(e) => handleChange(e.target.value)}
-        placeholder={placeHolder}
       >
         {children}
       </select>
+      {meta.touched && meta.error ? (
+        <div className="error">{meta.error}</div>
+      ) : null}
     </div>
   );
 };

@@ -1,6 +1,8 @@
 import { Fragment } from "react";
 import PageHeaderWithActions from "../../components/Common/PageHeaderWithActions";
 import MUIDataTable from "mui-datatables";
+import ActionButtonWithIcon from "../../components/Common/Buttons/ActionButtonWithIcon";
+import { AiOutlinePlus } from "react-icons/ai";
 const TeamsPage = () => {
   const columns = [
     {
@@ -63,9 +65,22 @@ const TeamsPage = () => {
     print: false,
     download: false,
   };
+
+  const handleCreateTeam = () => {
+    console.log("Team");
+  };
   return (
     <Fragment>
-      <PageHeaderWithActions header="Teams" />
+      <PageHeaderWithActions
+        header="Teams"
+        button={
+          <ActionButtonWithIcon
+            icon={<AiOutlinePlus />}
+            text={"Create"}
+            action={handleCreateTeam}
+          />
+        }
+      />
       <MUIDataTable
         title={"All Teams"}
         data={data}

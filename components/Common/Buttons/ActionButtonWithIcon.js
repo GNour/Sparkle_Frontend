@@ -6,12 +6,20 @@ const ActionButtonWithIcon = ({
   id,
   isSecondary,
   externalStyles,
+  type,
+  buttonType,
 }) => {
-  const handleAction = (e) => {
-    action(e.target.innerText, e.target.id);
-  };
+  // Incase of submit action, no need to handleAction...
+  let handleAction = () => {};
+  if (typeof action === "function") {
+    handleAction = (e) => {
+      action(type, e.target.id);
+    };
+  }
+
   return (
     <button
+      type={buttonType}
       className={`btn ${
         isSecondary
           ? styles.ActionButtonWithIconSecondary

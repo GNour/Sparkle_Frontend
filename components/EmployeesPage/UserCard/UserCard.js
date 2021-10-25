@@ -12,14 +12,18 @@ const UserCard = ({
   phone,
   email,
   outerStyle,
+  action,
 }) => {
+  const handleOnClick = () => {
+    action();
+  };
   return (
-    <div className={outerStyle}>
+    <div className={outerStyle} onClick={handleOnClick}>
       <div className={styles.container}>
         <div className={styles.bodyFlex}>
           <RoundedImageWithText
-            text="Waiter"
-            image="/id_img.jpg"
+            text={imageText}
+            image={image}
           ></RoundedImageWithText>
           <div className="border-start ps-xl-4 ps-md-3 ps-sm-4 ps-4 w-100">
             <InfoText main={"Ghyath noureddine"} sub={"@ghyath"} />
