@@ -18,3 +18,13 @@
     color: $color-sec-button-hover;
   }
 }
+
+.ActionButtonWithIconTertiary {
+  border: 1px solid $border-one;
+  background-color: transparent;
+  color: $color-ter-button;
+
+  &:hover {
+    color: $color-ter-button-hover;
+  }
+}

@@ -2,6 +2,7 @@
 $color-primary: #7c7511;
 $color-button: #000;
 $color-sec-button: #000;
+$color-ter-button: #333333;
 $color-scrollbar: #777272;
 $color-quizmcq-container: #777272;
 
@@ -12,11 +13,12 @@ $input-border-color: #ccc;
 // ON HOVER COLORS
 $color-button-hover: #eee;
 $color-sec-button-hover: #eee;
+$color-ter-button-hover: #000000;
 
 // BACKGROUND COLORS
 $background-task-card: #ffef;
 $background-button: #eee;
-$background-sec-button: #eee;
+$background-sec-button: green;
 $background-input: #efef;
 $background-body: #ececec;
 $background-custom-container: #ffef;
@@ -26,7 +28,7 @@ $background-completed-content-card: #eeffaa;
 
 // ON HOVER BACKGROUND
 $background-button-hover: #000;
-$background-sec-button-hover: #000;
+$background-sec-button-hover: red;
 $background-content-card-hover: #fefe;
 
 // CONTENT COLOR

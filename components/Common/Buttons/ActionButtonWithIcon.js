@@ -5,9 +5,11 @@ const ActionButtonWithIcon = ({
   action,
   id,
   isSecondary,
+  isTertiary,
   externalStyles,
   type,
   buttonType,
+  isDisabled,
 }) => {
   // Incase of submit action, no need to handleAction...
   let handleAction = () => {};
@@ -20,11 +22,14 @@ const ActionButtonWithIcon = ({
   return (
     <button
       type={buttonType}
+      disabled={isDisabled}
       className={`btn ${
         isSecondary
           ? styles.ActionButtonWithIconSecondary
+          : isTertiary
+          ? styles.ActionButtonWithIconTertiary
           : styles.ActionButtonWithIcon
-      } ${externalStyles}`}
+      }  ${externalStyles}`}
       onClick={handleAction}
     >
       <div id={id} className="d-flex align-items-center justify-content-center">
