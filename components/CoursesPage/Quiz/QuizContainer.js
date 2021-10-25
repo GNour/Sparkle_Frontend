@@ -1,6 +1,7 @@
+import { Form, Formik } from "formik";
 import { useTimer } from "react-timer-hook";
 import ActionButtonWithIcon from "../../Common/Buttons/ActionButtonWithIcon";
-const QuizContainer = ({ expiryTimestamp, children }) => {
+const QuizContainer = ({ expiryTimestamp, children, questions }) => {
   const {
     seconds,
     minutes,
@@ -22,12 +23,16 @@ const QuizContainer = ({ expiryTimestamp, children }) => {
 
   return (
     <div>
-      {children}
-      <ActionButtonWithIcon
-        externalStyles={"mt-2"}
-        text={"Submit Quiz"}
-        action={handleQuizSubmission}
-      />
+      <Formik>
+        <Form>
+          {children}
+          <ActionButtonWithIcon
+            externalStyles={"mt-2"}
+            text={"Submit Quiz"}
+            action={handleQuizSubmission}
+          />
+        </Form>
+      </Formik>
     </div>
   );
 };

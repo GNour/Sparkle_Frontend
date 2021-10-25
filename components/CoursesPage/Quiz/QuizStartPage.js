@@ -5,27 +5,26 @@ import QuizMCQ from "./QuizMCQ";
 const QuizStartPage = ({ quiz }) => {
   const handleStart = () => {
     setStartQuiz(renderQuiz(quiz));
-    console.log(startQuiz);
   };
 
   const [startQuiz, setStartQuiz] = useState(
     <div>
-      <p>Timelimit: {quiz.limit}</p>
-      <ActionButtonWithIcon text="Start" action={handleStart} />
+      <p>Quiz Timelimit: {quiz.limit}</p>
+      <ActionButtonWithIcon text="Start" isSecondary action={handleStart} />
     </div>
   );
 
   const renderQuiz = ({ quiz }) => {
     return (
       <div>
-        <QuizContainer expiryTimestamp={3000}>
+        <QuizContainer expiryTimestamp={3000} questions={quiz.questions}>
           <QuizMCQ
             answersArray={[
               { id: 1, answer: "Hello world" },
               { id: 2, answer: "Hello" },
               { id: 3, answer: "world" },
             ]}
-            question={"Basic question"}
+            question={{ id: 1, question: "Basic question" }}
           />
         </QuizContainer>
       </div>

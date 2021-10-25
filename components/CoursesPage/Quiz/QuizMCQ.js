@@ -7,23 +7,26 @@ import {
   Radio,
 } from "@material-ui/core";
 import { useEffect, useState } from "react";
+import TextInput from "../../Common/Inputs/TextInput";
 const QuizMCQ = ({ question, answersArray }) => {
   useEffect(() => {
     shuffleArray(answersArray);
   }, []);
 
   const [value, setValue] = useState(null);
-  const handleChange = (value) => {
-    setValue(value);
-  };
   return (
     <div className={`${styles.QuizMCQContainer} p-2 rounded shadow-sm`}>
-      <label>{question}</label>
+      <label>{question.question}</label>
       {answersArray.map((answer) => {
         return (
-          <input key={answer.id} value={answer.id} onChange={handleChange}>
-            {answer.answer}
-          </input>
+          <TextInput
+            key={answer.id}
+            placeholder={`First Name`}
+            label={`First Name`}
+            value={answer.id}
+            name={question.id}
+            type="radio"
+          />
         );
       })}
     </div>
