@@ -7,7 +7,9 @@ import SelectInput from "../../Common/Inputs/SelectInput";
 import ActionButtonWithIcon from "../../Common/Buttons/ActionButtonWithIcon";
 import { AiOutlinePlus } from "react-icons/ai";
 import { Formik, Form } from "formik";
+import { useRouter } from "next/router";
 const TasksLayout = ({ children }) => {
+  const router = useRouter();
   const [isModalOpened, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
 
@@ -19,6 +21,8 @@ const TasksLayout = ({ children }) => {
   const handleClose = () => {
     setIsModalOpen(false);
   };
+
+  const handleCreateCourse = () => {};
 
   const handleCreateTask = (values, { setSubmitting }) => {
     setTimeout(() => {
@@ -32,11 +36,19 @@ const TasksLayout = ({ children }) => {
       <PageHeaderWithActions
         header="Tasks"
         button={
-          <ActionButtonWithIcon
-            icon={<AiOutlinePlus />}
-            text={"Create"}
-            action={handleOpen}
-          />
+          <div>
+            <ActionButtonWithIcon
+              icon={<AiOutlinePlus />}
+              text={"Create task"}
+              externalStyles="me-1"
+              action={handleOpen}
+            />
+            <ActionButtonWithIcon
+              icon={<AiOutlinePlus />}
+              text={"Create Course"}
+              action={() => router.push("courses/create")}
+            />
+          </div>
         }
       />
       <div className="row g-3 gy-5 py-3 row-deck">{children}</div>
