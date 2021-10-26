@@ -1,11 +1,14 @@
 import MainLayout from "../components/Layouts/MainLayout";
+import ProtectedRoute from "../helpers/ProtectedRoutes";
 import "../styles/globals.scss";
-
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, router }) {
+  const protectedRoutes = ["/"];
   return (
-    <MainLayout>
-      <Component {...pageProps} />
-    </MainLayout>
+    <ProtectedRoute router={router} protectedRoutes={protectedRoutes}>
+      <MainLayout>
+        <Component {...pageProps} />
+      </MainLayout>
+    </ProtectedRoute>
   );
 }
 
