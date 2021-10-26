@@ -6,6 +6,7 @@ import SelectInput from "../../components/Common/Inputs/SelectInput";
 import { Form, Formik } from "formik";
 import ActionButtonWithIcon from "../../components/Common/Buttons/ActionButtonWithIcon";
 import RoundedImageWithText from "../../components/Common/Images/RoundedImageWithText/RoundedImageWithText";
+import axiosConfig from "../../helpers/axiosConfig";
 const CreateEmployee = () => {
   const [profilePicturePreview, setProfilePicturePreview] =
     useState("/id_img.jpg");
@@ -25,27 +26,34 @@ const CreateEmployee = () => {
       <PageHeader header={"Create Employee"} />
       <Formik
         initialValues={{
+          username: "",
           first_name: "",
-          father_name: "",
           last_name: "",
-          surname: "",
-          nationality: "",
-          idnumber: "",
-          dob: null,
-          gender: null,
-          blood_type: null,
-          mobile_number: "",
-          home_number: "",
+          gender: 0,
+          phone_number: "",
           email: "",
-          address_state: "",
-          address_province: "",
-          address_town: "",
-          address_st: "",
-          address_bldg: "",
+          password: "",
+          role: "",
+          position: "",
+          password: "",
+          password_confirmation: "",
           profile_picture: undefined,
         }}
         onSubmit={(values, { setSubmitting }) => {
-          console.log(values);
+          const formData = new FormData();
+          for (let key in values) {
+            formData.append(key, values[key]);
+          }
+          axiosConfig
+            .post("auth/register", formData, {
+              headers: { "Content-Type": "multipart/form-data" },
+            })
+            .then((response) => {
+              console.log(response);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
         }}
       >
         {(formik) => {
@@ -66,6 +74,32 @@ const CreateEmployee = () => {
                   }}
                 />
                 <RoundedImageWithText image={profilePicturePreview} />
+                <TextInput
+                  key="username"
+                  placeholder={`Username`}
+                  label={`Username`}
+                  externalStyles="mb-3 col-12 col-sm-6 col-md-3"
+                  name="username"
+                  type="text"
+                />
+              </div>
+              <div className="row mb-3">
+                <TextInput
+                  key="password"
+                  placeholder={`Password`}
+                  label={`Password`}
+                  externalStyles="mb-3 col-12 col-sm-6 col-md-3"
+                  name="password"
+                  type="password"
+                />
+                <TextInput
+                  key="password_confirmation"
+                  placeholder={`Confirm Password`}
+                  label={`Confirm Password`}
+                  externalStyles="mb-3 col-12 col-sm-6 col-md-3"
+                  name="password_confirmation"
+                  type="password"
+                />
               </div>
               <div className="row mb-3">
                 <h5 className="">Identity Card Information</h5>
@@ -78,52 +112,12 @@ const CreateEmployee = () => {
                   type="text"
                 />
                 <TextInput
-                  key="father_name"
-                  placeholder={`Father Name`}
-                  label={`Father Name`}
+                  key="lastname"
+                  placeholder={`Last Name`}
+                  label={`Last Name`}
                   externalStyles="mb-3 col-12 col-sm-6 col-md-3"
-                  name="father_name"
+                  name="last_name"
                   type="text"
-                />
-                <TextInput
-                  key="surname"
-                  placeholder={`Surname`}
-                  label={`Surname`}
-                  externalStyles="mb-3 col-12 col-sm-6 col-md-3"
-                  name="surname"
-                  type="text"
-                />
-                <TextInput
-                  key="mother_name"
-                  placeholder={`Mother Name`}
-                  label={`Mother Name`}
-                  externalStyles="mb-3 col-12 col-sm-6 col-md-3"
-                  name="mother_name"
-                  type="text"
-                />
-                <TextInput
-                  key="nationality"
-                  placeholder={`Nationality`}
-                  label={`Nationality`}
-                  externalStyles="mb-3 col-12 col-sm-6 col-md-3"
-                  name="nationality"
-                  type="text"
-                />
-                <TextInput
-                  key="idnumber"
-                  placeholder={`Identity Number`}
-                  label={`Identity Number`}
-                  externalStyles="mb-3 col-12 col-sm-6 col-md-3"
-                  name="idnumber"
-                  type="text"
-                />
-                <TextInput
-                  key="dob"
-                  placeholder={`Date of birth`}
-                  label={`Date of birth`}
-                  externalStyles="mb-3 col-12 col-sm-4 col-md-2"
-                  name="dob"
-                  type="date"
                 />
                 <SelectInput
                   label="Gender"
@@ -134,38 +128,15 @@ const CreateEmployee = () => {
                   <option value="1">Male</option>
                   <option value="0">Female</option>
                 </SelectInput>
-                <SelectInput
-                  label="Blood type"
-                  externalStyles="mb-3 col-12 col-sm-4 col-md-2"
-                  name="blood_type"
-                >
-                  <option defaultValue>Choose Blood Type</option>
-                  <option value="A+">A+</option>
-                  <option value="B+">B+</option>
-                  <option value="AB+">AB+</option>
-                  <option value="O-">O+</option>
-                  <option value="A-">A-</option>
-                  <option value="B-">B-</option>
-                  <option value="AB-">AB-</option>
-                  <option value="O-">O-</option>
-                </SelectInput>
               </div>
               <div className="row mb-3">
                 <h5 className="">Communication Tools</h5>
                 <TextInput
-                  key="mobile_number"
+                  key="phone_number"
                   placeholder={`Mobile Number`}
                   label={`Mobile No.`}
                   externalStyles="mb-3 col-12 col-sm-6 col-md-3"
-                  name="mobile_number"
-                  type="text"
-                />
-                <TextInput
-                  key="home_number"
-                  placeholder={`Home Number`}
-                  label={`Home No.`}
-                  externalStyles="mb-3 col-12 col-sm-6 col-md-3"
-                  name="home_number"
+                  name="phone_number"
                   type="text"
                 />
                 <TextInput
@@ -178,45 +149,22 @@ const CreateEmployee = () => {
                 />
               </div>
               <div className="row">
-                <h5 className="">Present Address</h5>
+                <h5 className="">Employment information</h5>
+                <SelectInput
+                  label="Role"
+                  externalStyles="mb-3 col-12 col-sm-4 col-md-2"
+                  name="role"
+                >
+                  <option defaultValue>Choose Role</option>
+                  <option value="Manager">Manager</option>
+                  <option value="Staff">Staff</option>
+                </SelectInput>
                 <TextInput
-                  key="state"
-                  placeholder={`State`}
-                  label={`State`}
+                  key="position"
+                  placeholder={`Position`}
+                  label={`Position`}
                   externalStyles="mb-3 col-12 col-sm-6 col-md-3"
-                  name="address_state"
-                  type="text"
-                />
-                <TextInput
-                  key="province"
-                  placeholder={`Province`}
-                  label={`Province`}
-                  externalStyles="mb-3 col-12 col-sm-6 col-md-3"
-                  name="address_province"
-                  type="text"
-                />
-                <TextInput
-                  key="town"
-                  placeholder={`Town`}
-                  label={`Town`}
-                  externalStyles="mb-3 col-12 col-sm-6 col-md-3"
-                  name="address_town"
-                  type="text"
-                />
-                <TextInput
-                  key="street"
-                  placeholder={`Street`}
-                  label={`Street`}
-                  externalStyles="mb-3 col-12 col-sm-6 col-md-3"
-                  name="address_st"
-                  type="text"
-                />
-                <TextInput
-                  key="building"
-                  placeholder={`Building`}
-                  label={`Building`}
-                  externalStyles="mb-3 col-12 col-sm-6 col-md-3"
-                  name="address_bldg"
+                  name="position"
                   type="text"
                 />
               </div>
