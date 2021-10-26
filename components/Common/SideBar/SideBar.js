@@ -6,7 +6,7 @@ import {
   MenuItem,
   SubMenu,
 } from "react-pro-sidebar";
-import { Fragment, useState } from "react";
+import { Fragment, useContext, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -14,19 +14,22 @@ import {
   AiOutlineTeam,
   AiOutlineCalendar,
 } from "react-icons/ai";
-import { FaUsers, FaTasks, FaChalkboardTeacher } from "react-icons/fa";
-import { FiArrowRightCircle, FiArrowLeftCircle } from "react-icons/fi";
-import { RiTodoLine } from "react-icons/ri";
+import { FaUsers, FaTasks } from "react-icons/fa";
+import {
+  FiArrowRightCircle,
+  FiArrowLeftCircle,
+  FiLogOut,
+} from "react-icons/fi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { AiOutlineClose } from "react-icons/ai";
 import SideBarActionButton from "./SideBarActionButton";
 import IconButton from "../IconButton";
 import styles from "./SideBar.module.scss";
-
+import { useAuth } from "../../../stores/AuthContext";
 const SideBar = () => {
   const [menuCollapse, setMenuCollapse] = useState(false);
   const [toggled, setToggled] = useState(false);
-
+  const { user, logout } = useAuth();
   const menuIconClick = () => {
     menuCollapse ? setMenuCollapse(false) : setMenuCollapse(true);
   };
@@ -75,14 +78,17 @@ const SideBar = () => {
           <MenuItem icon={<AiOutlineDashboard />}>
             <Link href="/">Dashboard</Link>
           </MenuItem>
-          <SubMenu title="Employees" icon={<FaUsers />}>
-            <MenuItem icon={<FaUsers />}>
-              <Link href="/employees">All Employees</Link>
-            </MenuItem>
-            <MenuItem icon={<AiOutlineTeam />}>
-              <Link href="/teams">Teams</Link>
-            </MenuItem>
-          </SubMenu>
+          {user?.role == "Admin" ? (
+            <SubMenu title="Employees" icon={<FaUsers />}>
+              <MenuItem icon={<FaUsers />}>
+                <Link href="/employees">All Employees</Link>
+              </MenuItem>
+              <MenuItem icon={<AiOutlineTeam />}>
+                <Link href="/teams">Teams</Link>
+              </MenuItem>
+            </SubMenu>
+          ) : null}
+
           <MenuItem icon={<FaTasks />}>
             <Link href="/tasks">Tasks</Link>
           </MenuItem>
@@ -94,6 +100,13 @@ const SideBar = () => {
             action={menuIconClick}
             icon={<FiArrowRightCircle />}
             subIcon={<FiArrowLeftCircle />}
+          />
+          <SideBarActionButton
+            text="Logout"
+            isCollapsed={menuCollapse}
+            action={logout}
+            icon={<FiLogOut />}
+            subIcon={<FiLogOut />}
           />
         </SidebarFooter>
       </ProSidebar>
