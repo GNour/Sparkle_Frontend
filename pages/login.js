@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
 import Image from "next/image";
 import { Form, Formik } from "formik";
 import TextInput from "../components/Common/Inputs/TextInput";
@@ -6,8 +6,11 @@ import ActionButtonWithIcon from "../components/Common/Buttons/ActionButtonWithI
 import axiosConfig from "../helpers/axiosConfig";
 import AuthHelper from "../helpers/AuthHelper";
 import { useRouter } from "next/router";
+import { useAuth } from "../stores/AuthContext";
 const Login = () => {
+  const { login } = useAuth();
   const router = useRouter();
+  console.log(login);
   return (
     <Fragment>
       <div className="row justify-content-center">
@@ -31,27 +34,7 @@ const Login = () => {
               }}
               onSubmit={async (values, { setSubmitting }) => {
                 setSubmitting(false);
-                await axiosConfig
-                  .post("auth/login", {
-                    email: values.email,
-                    password: values.password,
-                  })
-                  .then((response) => {
-                    let code = response.data.code;
-                    if (parseInt(code) !== 200) {
-                      if (parseInt(code) == 401) {
-                        throw new Error("Unauthorized");
-                      }
-                      if (parseInt(code) == 422) {
-                        throw new Error("Password or Email are wrong!");
-                      }
-                    }
-                    AuthHelper.login(response.data);
-                    router.push("/employees/" + response.data.user.id);
-                  })
-                  .catch((err) => {
-                    toast.error(err.toString());
-                  });
+                login(values);
               }}
             >
               <Form>

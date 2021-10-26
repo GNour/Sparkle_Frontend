@@ -1,14 +1,16 @@
 import MainLayout from "../components/Layouts/MainLayout";
-import ProtectedRoute from "../helpers/ProtectedRoutes";
+import { ProtectRoute } from "../stores/AuthContext";
 import "../styles/globals.scss";
+import { AuthContextProvider, useAuth } from "../stores/AuthContext";
 function MyApp({ Component, pageProps, router }) {
-  const protectedRoutes = ["/"];
   return (
-    <ProtectedRoute router={router} protectedRoutes={protectedRoutes}>
-      <MainLayout>
-        <Component {...pageProps} />
-      </MainLayout>
-    </ProtectedRoute>
+    <AuthContextProvider>
+      <ProtectRoute router={router}>
+        <MainLayout>
+          <Component {...pageProps} />
+        </MainLayout>
+      </ProtectRoute>
+    </AuthContextProvider>
   );
 }
 
