@@ -13,12 +13,13 @@ const UserCard = ({
   email,
   outerStyle,
   action,
+  id,
 }) => {
   const handleOnClick = () => {
     action();
   };
   return (
-    <div className={outerStyle} onClick={handleOnClick}>
+    <div className={outerStyle} id={id} onClick={handleOnClick}>
       <div className={styles.container}>
         <div className={styles.bodyFlex}>
           <RoundedImageWithText
@@ -26,10 +27,10 @@ const UserCard = ({
             image={image}
           ></RoundedImageWithText>
           <div className="border-start ps-xl-4 ps-md-3 ps-sm-4 ps-4 w-100">
-            <InfoText main={"Ghyath noureddine"} sub={"@ghyath"} />
+            <InfoText main={name} sub={`@${username}`} />
             <div className="d-flex flex-column">
-              <IconText icon={<GoDeviceMobile />} text={"+961 70909080"} />
-              <IconText icon={<HiOutlineMail />} text={"example@gmail.com"} />
+              <IconText icon={<GoDeviceMobile />} text={phone} />
+              <IconText icon={<HiOutlineMail />} text={email} />
             </div>
           </div>
         </div>
