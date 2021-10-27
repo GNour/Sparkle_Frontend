@@ -29,7 +29,7 @@ import { useAuth } from "../../../stores/AuthContext";
 const SideBar = () => {
   const [menuCollapse, setMenuCollapse] = useState(false);
   const [toggled, setToggled] = useState(false);
-  const { user, logout } = useAuth();
+
   const menuIconClick = () => {
     menuCollapse ? setMenuCollapse(false) : setMenuCollapse(true);
   };
@@ -38,6 +38,7 @@ const SideBar = () => {
     setToggled(value);
   };
 
+  const { user, logout } = useAuth();
   return (
     <Fragment>
       <IconButton
@@ -76,9 +77,13 @@ const SideBar = () => {
         </SidebarHeader>
         <Menu iconShape="rounded">
           <MenuItem icon={<AiOutlineDashboard />}>
-            <Link href="/">Dashboard</Link>
+            {user.role == "Admin" ? (
+              <Link href="/">DashBoard</Link>
+            ) : (
+              <Link href={`/employees/${user.id}`}>My Dashboard</Link>
+            )}
           </MenuItem>
-          {user?.user.role == "Admin" ? (
+          {user.role == "Admin" ? (
             <SubMenu title="Employees" icon={<FaUsers />}>
               <MenuItem icon={<FaUsers />}>
                 <Link href="/employees">All Employees</Link>
