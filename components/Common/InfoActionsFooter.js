@@ -5,7 +5,7 @@ const InfoActionsFooter = ({ icons, actions }) => {
       <div className="col-sm">
         <div className="d-flex align-items-center flex-wrap">{icons}</div>
       </div>
-      <div className="col-sm text-end">{actions}</div>
+      <div className="d-flex justify-content-between">{actions}</div>
     </div>
   );
 };
