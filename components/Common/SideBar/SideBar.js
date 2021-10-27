@@ -78,7 +78,7 @@ const SideBar = () => {
           <MenuItem icon={<AiOutlineDashboard />}>
             <Link href="/">Dashboard</Link>
           </MenuItem>
-          {user?.role == "Admin" ? (
+          {user?.user.role == "Admin" ? (
             <SubMenu title="Employees" icon={<FaUsers />}>
               <MenuItem icon={<FaUsers />}>
                 <Link href="/employees">All Employees</Link>
