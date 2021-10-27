@@ -15,14 +15,12 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     async function loadUserFromCookies() {
       const token = Cookies.get("token");
-      console.log(token);
       if (token) {
-        console.log("Got a token in the cookies, let's see if it is valid");
         axiosConfig.defaults.headers.Authorization = `Bearer ${token}`;
         await axiosConfig
           .get("auth/me")
           .then((response) => {
-            setUser(response.data);
+            setUser(response.data.user);
           })
           .catch((e) => {
             console.log(e);
@@ -51,10 +49,13 @@ export const AuthContextProvider = ({ children }) => {
           }
         }
 
-        setUser(response.data);
+        setUser(response.data.user);
         Cookies.set("token", response.data.access_token, {
           expires: 24,
         });
+        axiosConfig.defaults.headers.Authorization = `Bearer ${Cookies.get(
+          "token"
+        )}`;
         router.push("/employees/" + response.data.user.id);
       })
       .catch((err) => {
@@ -64,6 +65,10 @@ export const AuthContextProvider = ({ children }) => {
 
   const logout = async () => {
     const token = Cookies.get("token");
+    Cookies.remove("token");
+    setUser(null);
+    delete axiosConfig.defaults.headers.Authorization;
+
     await axiosConfig
       .post(
         "auth/logout",
@@ -75,22 +80,11 @@ export const AuthContextProvider = ({ children }) => {
         }
       )
       .then((response) => {
-        Cookies.remove("token");
-        setUser(null);
-        console.log(response);
-        delete axiosConfig.defaults.headers.Authorization;
         router.push("/login");
       })
       .catch((e) => {
-        console.log(e);
+        router.push("/login");
       });
-  };
-
-  const auth = {
-    user,
-    login,
-    logout,
-    loading,
   };
 
   return (
