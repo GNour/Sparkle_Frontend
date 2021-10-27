@@ -3,14 +3,9 @@ import Image from "next/image";
 import { Form, Formik } from "formik";
 import TextInput from "../components/Common/Inputs/TextInput";
 import ActionButtonWithIcon from "../components/Common/Buttons/ActionButtonWithIcon";
-import axiosConfig from "../helpers/axiosConfig";
-import AuthHelper from "../helpers/AuthHelper";
-import { useRouter } from "next/router";
 import { useAuth } from "../stores/AuthContext";
 const Login = () => {
   const { login } = useAuth();
-  const router = useRouter();
-  console.log(login);
   return (
     <Fragment>
       <div className="row justify-content-center">
