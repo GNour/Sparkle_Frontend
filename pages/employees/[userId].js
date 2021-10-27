@@ -16,7 +16,11 @@ import { Form, Formik } from "formik";
 import { Pie } from "react-chartjs-2";
 import ChartContainer from "../../components/Common/ChartContainer";
 import { getTasksStats, getNotesStats } from "../../helpers/UserStatsHelpers";
+import { createNoteModal } from "../../helpers/ModalHelper";
+import { useRouter } from "next/router";
 const MemberPage = () => {
+  const router = useRouter();
+  const { userId } = router.query;
   const [showMoreUserDetails, setShowMoreUserDetails] = useState(false);
   const handleCardClick = () => {
     setShowMoreUserDetails(showMoreUserDetails ? false : true);
@@ -72,21 +76,9 @@ const MemberPage = () => {
     console.log(modalType, id);
   };
 
-  const handleAddNote = (values, { setSubmitting }) => {
-    setUserNotes([values, ...userNotes]);
-
-    // Not completed yet, need fixes
-    if (values.isPositive == 1) {
-      let [negativeNotesCount, positiveNotesCount] = [...userNotesStats];
-      positiveNotesCount++;
-      setUserNotesStats([negativeNotesCount, positiveNotesCount]);
-    } else {
-      let [negativeNotesCount, positiveNotesCount] = [...userNotesStats];
-      negativeNotesCount++;
-      setUserNotesStats([negativeNotesCount, positiveNotesCount]);
-    }
+  const handleAddNote = (values) => {
+    console.log(values);
     setIsModalOpen(false);
-    setSubmitting(false);
   };
 
   const handleClose = () => {
@@ -95,68 +87,7 @@ const MemberPage = () => {
 
   useEffect(() => {
     if (modalType == 1) {
-      setModal(
-        <div className="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h4>Create Note</h4>
-            </div>
-            <div className="modal-body">
-              <Formik
-                initialValues={{
-                  title: "",
-                  description: "",
-                  isPositive: -1,
-                }}
-                onSubmit={(values, { setSubmitting }) => {
-                  handleAddNote(values, { setSubmitting });
-                }}
-              >
-                <Form>
-                  <TextInput
-                    key="title"
-                    placeholder="Note Title"
-                    label="Note Title"
-                    externalStyles="mb-3"
-                    name="title"
-                    type="text"
-                  />
-
-                  <TextAreaInput
-                    key="description"
-                    placeholder="Note Description"
-                    label="Note Description"
-                    externalStyles="mb-3"
-                    name="description"
-                    type="text"
-                  />
-                  <SelectInput
-                    label="Positive ?"
-                    externalStyles="mb-3"
-                    name="isPositive"
-                  >
-                    <option defaultValue>Choose if it is positive note</option>
-                    <option value="1">Positive</option>
-                    <option value="0">Negative</option>
-                  </SelectInput>
-                  <div className="modal-footer">
-                    <ActionButtonWithIcon
-                      text="Close"
-                      isSecondary
-                      action={handleClose}
-                    />
-                    <ActionButtonWithIcon
-                      text="Create"
-                      type="submit"
-                      action={"submit"}
-                    />
-                  </div>
-                </Form>
-              </Formik>
-            </div>
-          </div>
-        </div>
-      );
+      setModal(createNoteModal(userId, handleClose, handleAddNote));
     } else if (modalType == 0) {
       setModal(
         <div className="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
