@@ -15,12 +15,19 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     async function loadUserFromCookies() {
       const token = Cookies.get("token");
+      console.log(token);
       if (token) {
         console.log("Got a token in the cookies, let's see if it is valid");
         axiosConfig.defaults.headers.Authorization = `Bearer ${token}`;
-        await axiosConfig.get("auth/me").then((response) => {
-          setUser(response.data.user);
-        });
+        await axiosConfig
+          .get("auth/me")
+          .then((response) => {
+            setUser(response.data);
+          })
+          .catch((e) => {
+            console.log(e);
+            router.push("/login");
+          });
       }
       setLoading(false);
     }
@@ -46,7 +53,7 @@ export const AuthContextProvider = ({ children }) => {
 
         setUser(response.data);
         Cookies.set("token", response.data.access_token, {
-          expires: response.data.expires_in,
+          expires: 24,
         });
         router.push("/employees/" + response.data.user.id);
       })
@@ -56,20 +63,22 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   const logout = async () => {
+    const token = Cookies.get("token");
     await axiosConfig
       .post(
         "auth/logout",
         {},
         {
           headers: {
-            Authorization: `Bearer ${user.access_token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       )
       .then((response) => {
         Cookies.remove("token");
         setUser(null);
-        delete api.defaults.headers.Authorization;
+        console.log(response);
+        delete axiosConfig.defaults.headers.Authorization;
         router.push("/login");
       })
       .catch((e) => {
@@ -97,7 +106,6 @@ export const useAuth = () => useContext(AuthContext);
 
 export const ProtectRoute = ({ children, router }) => {
   const { isAuthenticated, loading } = useAuth();
-  console.log(isAuthenticated, loading);
   if (loading || (!isAuthenticated && router.pathname !== "/login")) {
     return <div>Loading...</div>;
   }
