@@ -5,4 +5,7 @@ module.exports = {
     includePaths: [path.join(__dirname, "styles")],
     prependData: `@import "_variables.scss";`,
   },
+  images: {
+    domains: ["localhost"],
+  },
 };
