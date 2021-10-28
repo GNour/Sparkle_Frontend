@@ -1,11 +1,19 @@
 // COLORS
-$color-primary: #7c7511;
-$color-button: #000;
-$color-sec-button: #000;
-$color-ter-button: #333333;
-$color-scrollbar: #777272;
-$color-quizmcq-container: #777272;
 $color-white: #fff;
+$color-dark: #242431;
+$color-primary: #355ea0;
+$color-primary-dim: #30b9be;
+$color-primary-dim-hover: #119da4;
+$color-primary-dark: #6d9dc5;
+$color-primary-dark-hover: #5a9fd8;
+$color-secondary: #80ded9;
+$color-secondary-light: #aeecef;
+
+$color-button: $color-white;
+$color-sec-button: $color-white;
+$color-ter-button: $color-dark;
+$color-scrollbar: $color-primary-dark;
+$color-quizmcq-container: #777272;
 
 // BORDER COLORS
 $border-one: #ccc;
@@ -18,25 +26,25 @@ $color-ter-button-hover: #000000;
 
 // BACKGROUND COLORS
 $background-task-card: #ffef;
-$background-button: #eee;
-$background-sec-button: green;
-$background-input: #efef;
-$background-body: #ececec;
+$background-button: $color-primary-dim;
+$background-sec-button: $color-primary-dark;
+$background-input: $color-white;
+$background-body: #f7f7f7;
 $background-custom-container: #ffef;
 $background-custom-container-sub: #efef;
 $background-content-card: #fff;
 $background-completed-content-card: #eeffaa;
-$background-received-message: #fd7e3d;
+$background-received-message: #f89d70;
 $background-sent-message: #e3366f;
-$background-chat-container: #b5b2ed;
-$background-chat-container-sub: #e3c8fa;
+$background-chat-container: $color-primary-dark;
+$background-chat-container-sub: #ffef;
 
 // ON HOVER BACKGROUND
-$background-button-hover: #000;
-$background-sec-button-hover: red;
+$background-button-hover: $color-primary-dim-hover;
+$background-sec-button-hover: $color-primary-dark-hover;
 $background-content-card-hover: #fefe;
 
 // CONTENT COLOR
-$task-card-content-color: #000;
-$input-content-color: #000;
+$task-card-content-color: $color-dark;
+$input-content-color: $color-dark;
 $label-color: #0f0f0f;
