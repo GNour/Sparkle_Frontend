@@ -8,7 +8,8 @@ import ActionButtonWithIcon from "../../Common/Buttons/ActionButtonWithIcon";
 import { AiOutlinePlus } from "react-icons/ai";
 import { Formik, Form } from "formik";
 import { useRouter } from "next/router";
-const TasksLayout = ({ children }) => {
+const TasksLayout = ({ children, taskableCourses }) => {
+  console.log(taskableCourses);
   const router = useRouter();
   const [isModalOpened, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
@@ -63,50 +64,94 @@ const TasksLayout = ({ children }) => {
                 initialValues={{
                   title: "",
                   description: "",
-                  type: "",
+                  taskable_type: "todo",
+                  todo_title: "",
+                  todo_description: "",
+                  taskable_id: "",
                 }}
                 onSubmit={(values, { setSubmitting }) => {
                   handleCreateTask(values, { setSubmitting });
                 }}
               >
-                <Form>
-                  <TextInput
-                    key="title"
-                    placeholder="Task Title"
-                    label="Task Title"
-                    externalStyles="mb-3"
-                    name="title"
-                    type="text"
-                  />
+                {(form) => {
+                  return (
+                    <Form>
+                      <TextInput
+                        key="title"
+                        placeholder="Task Title"
+                        label="Task Title"
+                        externalStyles="mb-3"
+                        name="title"
+                        type="text"
+                      />
 
-                  <TextAreaInput
-                    key="description"
-                    placeholder="Note Description"
-                    label="Note Description"
-                    externalStyles="mb-3"
-                    name="description"
-                    type="text"
-                  />
-                  <SelectInput
-                    label="Task type"
-                    externalStyles="mb-3"
-                    name="type"
-                  >
-                    <option value="todo" defaultValue>
-                      Todo
-                    </option>
-                    <option value="Course">Course</option>
-                  </SelectInput>
+                      <TextAreaInput
+                        key="description"
+                        placeholder="Note Description"
+                        label="Note Description"
+                        externalStyles="mb-3"
+                        name="description"
+                        type="text"
+                      />
+                      <SelectInput
+                        label="Task type"
+                        externalStyles="mb-3"
+                        name="taskable_type"
+                      >
+                        <option value="todo" defaultValue>
+                          Todo
+                        </option>
+                        <option value="course">Course</option>
+                      </SelectInput>
+                      {form.values.taskable_type == "todo" ? (
+                        <div>
+                          <TextInput
+                            key="todo_title"
+                            placeholder="Todo Title"
+                            label="Todo Title"
+                            externalStyles="mb-3"
+                            name="todo_title"
+                            type="text"
+                          />
 
-                  <div className="modal-footer">
-                    <ActionButtonWithIcon
-                      text="Close"
-                      isSecondary
-                      action={handleClose}
-                    />
-                    <ActionButtonWithIcon text="Create" />
-                  </div>
-                </Form>
+                          <TextAreaInput
+                            key="todo_description"
+                            placeholder="Todo Description"
+                            label="Todo Description"
+                            externalStyles="mb-3"
+                            name="todo_description"
+                            type="text"
+                          />
+                        </div>
+                      ) : (
+                        <div>
+                          <SelectInput
+                            name="taskable_id"
+                            label="Select course"
+                            externalStyles="mb-3"
+                          >
+                            <option>Choose Course</option>
+                            {taskableCourses.map((course) => {
+                              return (
+                                <option key={course.id} value={course.id}>
+                                  {course.name}
+                                </option>
+                              );
+                            })}
+                          </SelectInput>
+                        </div>
+                      )}
+                      <div className="modal-footer">
+                        <ActionButtonWithIcon
+                          text="Close"
+                          isSecondary
+                          action={handleClose}
+                        />
+                        <ActionButtonWithIcon text="Create" />
+                      </div>
+                    </Form>
+                  );
+                }}
               </Formik>
             </div>
           </div>

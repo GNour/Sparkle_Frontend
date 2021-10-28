@@ -13,7 +13,8 @@ import {
   removeTaskModal,
 } from "../../helpers/ModalHelper";
 import { useRouter } from "next/router";
-const TasksPage = () => {
+const TasksPage = ({ taskableCourses }) => {
+  console.log(taskableCourses);
   const { user, loading } = useAuth();
   const router = useRouter();
 
@@ -95,7 +96,7 @@ const TasksPage = () => {
 
   return (
     <Fragment>
-      <TasksLayout>
+      <TasksLayout taskableCourses={taskableCourses}>
         <ColoumnContainer title={user.role == "Admin" ? "Assigned" : "Todos"}>
           {user.role == "Admin"
             ? data &&
@@ -236,6 +237,26 @@ const getupcomingTaskss = (tasks) => {
   });
 
   return temp;
+};
+
+export const getServerSideProps = async () => {
+  try {
+    const res = await axiosConfig.post("server/courses", {
+      key: process.env.API_KEY,
+    });
+
+    return {
+      props: {
+        taskableCourses: res.data,
+      },
+    };
+  } catch (error) {
+    console.log(error);
+  }
+
+  return {
+    props: {},
+  };
 };
 
 export default TasksPage;
