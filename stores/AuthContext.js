@@ -20,12 +20,18 @@ export const AuthContextProvider = ({ children }) => {
         await axiosConfig
           .get("auth/me")
           .then((response) => {
-            setUser(response.data.user);
+            if (response.status == 200) {
+              setUser(response.data.user);
+            } else {
+              router.push("/login");
+            }
           })
           .catch((e) => {
             console.log(e);
             router.push("/login");
           });
+      } else {
+        router.push("/login");
       }
       setLoading(false);
     }
@@ -103,5 +109,6 @@ export const ProtectRoute = ({ children, router }) => {
   if (loading || (!isAuthenticated && router.pathname !== "/login")) {
     return <div>Loading...</div>;
   }
+
   return children;
 };
