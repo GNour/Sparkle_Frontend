@@ -103,7 +103,7 @@ const TasksPage = ({ taskableCourses }) => {
               data[1].map((task) => {
                 return (
                   <TaskCard
-                    key={task.id}
+                    key={"Assigned" + task.id}
                     task={task}
                     userRole={user.role}
                     handlePopoverContent={handleCardClick}
@@ -118,7 +118,7 @@ const TasksPage = ({ taskableCourses }) => {
               data.todo.map((task) => {
                 return (
                   <TaskCard
-                    key={task.id}
+                    key={"Todos" + task.id}
                     task={task}
                     userRole={user.role}
                     handlePopoverContent={handleCardClick}
@@ -138,7 +138,7 @@ const TasksPage = ({ taskableCourses }) => {
               data[0].map((task) => {
                 return (
                   <TaskCard
-                    key={task.id}
+                    key={"Unassigned" + task.id}
                     task={task}
                     userRole={user.role}
                     handlePopoverContent={handleCardClick}
@@ -152,7 +152,7 @@ const TasksPage = ({ taskableCourses }) => {
             : data.course.map((task) => {
                 return (
                   <TaskCard
-                    key={task.id}
+                    key={"Courses" + task.id}
                     task={task}
                     userRole={user.role}
                     handlePopoverContent={handleCardClick}
@@ -169,7 +169,7 @@ const TasksPage = ({ taskableCourses }) => {
               data[2].map((task) => {
                 return (
                   <TaskCard
-                    key={task.id}
+                    key={"Finished" + task.id}
                     task={task}
                     userRole={user.role}
                     handlePopoverContent={handleCardClick}
@@ -187,7 +187,7 @@ const TasksPage = ({ taskableCourses }) => {
             : getupcomingTaskss([...data.todo, ...data.course]).map((task) => {
                 return (
                   <TaskCard
-                    key={task.id}
+                    key={"Urgent" + task.id}
                     task={task}
                     userRole={user.role}
                     handlePopoverContent={handleCardClick}

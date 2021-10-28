@@ -31,46 +31,44 @@ const TaskCard = ({
         )}
       </div>
     );
-  } else {
-    const taskStats = getTaskStats(task.users);
-    const taskStatsProgress = Math.floor(
-      (taskStats?.completedUsers.length / taskStats?.uncompletedUsers.length) *
-        100
-    );
-
-    return (
-      <div
-        className={`${styles.TaskCardContainer}`}
-        onClick={(e) => handlePopoverContent(e)}
-        style={{
-          borderImage: `linear-gradient(90deg, green ${
-            taskStatsProgress ? taskStatsProgress : 0
-          }%, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.2) 100%) 1`,
-        }}
-      >
-        <InfoBody
-          cornerText={`${
-            task.users.length != 0
-              ? `deadline: ${task.users[0].details.deadline}`
-              : ""
-          }`}
-          title={task.name}
-          subTitle={`@${task.created_by.username}`}
-          body={`${task.description}`}
-        />
-        {getCardFooterAdmin(
-          task,
-          task.assigned,
-          task.id,
-          handleActionButton,
-          handleRemoveAction,
-          taskStats
-        )}
-      </div>
-    );
   }
 
-  return <div></div>;
+  const taskStats = getTaskStats(task.users);
+  const taskStatsProgress = Math.floor(
+    (taskStats?.completedUsers.length / taskStats?.uncompletedUsers.length) *
+      100
+  );
+
+  return (
+    <div
+      className={`${styles.TaskCardContainer}`}
+      onClick={(e) => handlePopoverContent(e)}
+      style={{
+        borderImage: `linear-gradient(90deg, green ${
+          taskStatsProgress ? taskStatsProgress : 0
+        }%, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.2) 100%) 1`,
+      }}
+    >
+      <InfoBody
+        cornerText={`${
+          task.users.length != 0
+            ? `deadline: ${task.users[0].details.deadline}`
+            : ""
+        }`}
+        title={task.name}
+        subTitle={`@${task.created_by.username}`}
+        body={`${task.description}`}
+      />
+      {getCardFooterAdmin(
+        task,
+        task.assigned,
+        task.id,
+        handleActionButton,
+        handleRemoveAction,
+        taskStats
+      )}
+    </div>
+  );
 };
 
 const getCardFooterEmployee = ({}, type, id, action) => {
@@ -79,7 +77,7 @@ const getCardFooterEmployee = ({}, type, id, action) => {
       <InfoActionsFooter
         actions={[
           <Button
-            key={id}
+            key={"Complete" + id}
             id={id}
             size="small"
             variant="outlined"
@@ -97,7 +95,7 @@ const getCardFooterEmployee = ({}, type, id, action) => {
       <InfoActionsFooter
         actions={[
           <Button
-            key={id}
+            key={"Start" + id}
             id={id}
             size="small"
             variant="outlined"
@@ -156,7 +154,7 @@ const getCardFooterAdmin = (
       <InfoActionsFooter
         actions={[
           <Button
-            key={id}
+            key={"Assign" + id}
             id={id}
             size="small"
             variant="outlined"
@@ -181,7 +179,8 @@ const getCardFooterAdmin = (
         ]}
         actions={[
           <Button
-            key="1"
+            key={"Ressagin" + id}
+            id={id}
             size="small"
             variant="outlined"
             startIcon={<AiOutlinePlus />}
@@ -190,7 +189,7 @@ const getCardFooterAdmin = (
             Reassign
           </Button>,
           <Button
-            key={id}
+            key={"Remove" + id}
             id={id}
             size="small"
             variant="outlined"

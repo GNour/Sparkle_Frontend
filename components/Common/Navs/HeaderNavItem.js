@@ -1,5 +1,3 @@
-import React from "react";
-
 const HeaderNavItem = ({ text, isActive }) => {
   return (
     <li className="nav-item">
