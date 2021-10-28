@@ -10,6 +10,7 @@ const ActionButtonWithIcon = ({
   type,
   buttonType,
   isDisabled,
+  ...props
 }) => {
   // Incase of submit action, no need to handleAction...
   let handleAction = () => {};
@@ -23,6 +24,7 @@ const ActionButtonWithIcon = ({
     <button
       type={buttonType}
       disabled={isDisabled}
+      props
       className={`btn ${
         isSecondary
           ? styles.ActionButtonWithIconSecondary

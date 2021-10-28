@@ -13,14 +13,42 @@ import { useRouter } from "next/router";
 import CoursesContentPreview from "../../components/Common/CoursesContentPreview";
 import { RiVideoFill, RiArticleFill } from "react-icons/ri";
 import { MdQuiz } from "react-icons/md";
+import axiosConfig from "../../helpers/axiosConfig";
+import useSWR, { useSWRConfig } from "swr";
 const CreateCourse = () => {
   const router = useRouter();
   const [isContentShown, setIsContentShown] = useState(false);
-  const [articlesAdded, setArticlesAdded] = useState([]);
-  const [videosAdded, setVideosAdded] = useState([]);
-  const [quizzesAdded, setQuizzesAdded] = useState([]);
-  const handleCreateCourse = (values) => {
+  const [courseId, setCourseId] = useState(null);
+  const [isQuestionModalOpen, setIsQuestionModalOpen] = useState(null);
+  const [isCreateQuestionEnabled, setIsCreateQuestionEnabled] = useState(false);
+
+  const fetcher = (url) =>
+    axiosConfig
+      .get(url)
+      .then((res) => res.data)
+      .catch((err) => {
+        err;
+      });
+
+  const { mutate } = useSWRConfig();
+  const { data, error } = useSWR("course/show/" + courseId, fetcher);
+
+  console.log(data);
+
+  const handleIsQuestionModalOpen = () => {
+    setIsQuestionModalOpen(true);
+  };
+
+  const handleQuestionModalClose = () => {
+    setIsQuestionModalOpen(false);
+  };
+
+  const handleCreateCourse = async (values, { setSubmitting }) => {
+    const res = await axiosConfig.post("course/create", values);
+    console.log(res.data);
+    setCourseId(res.data.Course.id);
     setIsContentShown(true);
+    setSubmitting(false);
   };
 
   // States for modal, Confirmation modal and Add note modal
@@ -29,34 +57,9 @@ const CreateCourse = () => {
   const [modal, setModal] = useState(<div></div>);
 
   const handleModalOpen = (value, id) => {
-    setModalType(id);
-    setIsModalOpen(true);
-  };
-
-  const handleClose = () => {
-    setIsModalOpen(false);
-    setModalType(-1);
-  };
-
-  const handleCreateQuiz = (values) => {
-    setQuizzesAdded([values, ...quizzesAdded]);
-  };
-  const handleCreateArticle = (values) => {
-    setArticlesAdded([values, ...articlesAdded]);
-  };
-  const handleCreateVideo = (values) => {
-    setVideosAdded([values, ...videosAdded]);
-  };
-
-  const handleRemoveQuiz = () => {};
-
-  const handleRemoveArticle = () => {};
-
-  const handleRemoveVideo = () => {};
-
-  useEffect(() => {
     // Models => Article: 0, Video: 1, Quiz: 2
-    if (modalType == 0) {
+    console.log(id);
+    if (id == 0) {
       setModal(
         <div className="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
           <div className="modal-content">
@@ -71,12 +74,10 @@ const CreateCourse = () => {
                   body: "",
                 }}
                 onSubmit={(values, { setSubmitting }) => {
-                  setSubmitting(false);
-                  setIsModalOpen(false);
-                  handleCreateArticle(values);
+                  handleCreateArticle(values, { setSubmitting });
                 }}
               >
-                <Form>
+                <Form key="articleForm">
                   <TextInput
                     key="title"
                     placeholder="Article Title"
@@ -112,6 +113,7 @@ const CreateCourse = () => {
                     <ActionButtonWithIcon
                       text="Create"
                       type="submit"
+                      buttonType="submit"
                       action={"submit"}
                     />
                   </div>
@@ -121,7 +123,7 @@ const CreateCourse = () => {
           </div>
         </div>
       );
-    } else if (modalType == 1) {
+    } else if (id == 1) {
       setModal(
         <div className="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
           <div className="modal-content">
@@ -136,9 +138,7 @@ const CreateCourse = () => {
                   description: "",
                 }}
                 onSubmit={(values, { setSubmitting }) => {
-                  setSubmitting(false);
-                  setIsModalOpen(false);
-                  handleCreateVideo(values);
+                  handleCreateVideo(values, { setSubmitting });
                 }}
               >
                 <Form>
@@ -177,6 +177,7 @@ const CreateCourse = () => {
                     <ActionButtonWithIcon
                       text="Create"
                       type="submit"
+                      buttonType="submit"
                       action={"submit"}
                     />
                   </div>
@@ -186,7 +187,7 @@ const CreateCourse = () => {
           </div>
         </div>
       );
-    } else if (modalType == 2) {
+    } else if (id == 2) {
       setModal(
         <div className="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
           <div className="modal-content">
@@ -199,58 +200,122 @@ const CreateCourse = () => {
                   title: "",
                   limit: "",
                   description: "",
+                  weight: 100,
                 }}
                 onSubmit={(values, { setSubmitting }) => {
-                  setSubmitting(false);
-                  setIsModalOpen(false);
-                  handleCreateQuiz(values);
+                  handleCreateQuiz(values, { setSubmitting });
                 }}
               >
-                <Form>
-                  <TextInput
-                    key="title"
-                    placeholder="Video Title"
-                    label="Video Title"
-                    externalStyles="mb-3"
-                    name="title"
-                    type="text"
-                  />
-                  <TextAreaInput
-                    key="description"
-                    placeholder="Video Description"
-                    label="Video Description"
-                    externalStyles="mb-3"
-                    name="description"
-                    type="text"
-                  />
-                  <TextInput
-                    key="limit"
-                    placeholder="01:30:00 (Hours:Minutes:Seconds)"
-                    label="Quiz Limit"
-                    externalStyles="mb-3"
-                    name="limit"
-                    type="text"
-                  />
-                  <div className="modal-footer">
-                    <ActionButtonWithIcon
-                      text="Close"
-                      isSecondary
-                      action={handleClose}
-                    />
-                    <ActionButtonWithIcon
-                      text="Create"
-                      type="submit"
-                      action={"submit"}
-                    />
-                  </div>
-                </Form>
+                {(form) => {
+                  return (
+                    <Form key="quizForm">
+                      <TextInput
+                        key="title"
+                        placeholder="Quiz Title"
+                        label="Quiz Title"
+                        externalStyles="mb-3"
+                        name="title"
+                        type="text"
+                      />
+                      <TextAreaInput
+                        key="description"
+                        placeholder="Quiz Description"
+                        label="Quiz Description"
+                        externalStyles="mb-3"
+                        name="description"
+                        type="text"
+                      />
+                      <TextInput
+                        key="limit"
+                        placeholder="01:30:00 (Hours:Minutes:Seconds)"
+                        label="Quiz Limit"
+                        externalStyles="mb-3"
+                        name="limit"
+                        type="text"
+                      />
+                      <div className="modal-footer">
+                        <ActionButtonWithIcon
+                          text="Close"
+                          isSecondary
+                          action={handleClose}
+                        />
+                        <ActionButtonWithIcon
+                          text="Create"
+                          type="submit"
+                          buttonType="submit"
+                          action={"submit"}
+                        />
+                      </div>
+                    </Form>
+                  );
+                }}
               </Formik>
             </div>
           </div>
         </div>
       );
     }
-  }, [modalType]);
+    setIsModalOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsModalOpen(false);
+    setModalType(-1);
+  };
+
+  const handleCreateQuiz = async (values, { setSubmitting }) => {
+    const data = { ...values, course_id: courseId };
+    const res = await axiosConfig
+      .post("course/quiz/create", data)
+      .catch((err) => {
+        console.log();
+        console.log(err.message);
+      });
+    setSubmitting(false);
+    setIsModalOpen(false);
+    mutate("course/show/" + courseId);
+    setIsCreateQuestionEnabled(true);
+  };
+
+  const handleCreateQuestion = async (values, { setSubmitting }) => {
+    const res = await axiosConfig.put(
+      "course/quiz/question/create/" + data.quizzes[0].id,
+      values
+    );
+    setSubmitting(false);
+    setIsQuestionModalOpen(false);
+    mutate("course/show/" + courseId);
+  };
+
+  const handleCreateArticle = async (values, { setSubmitting }) => {
+    const res = await axiosConfig.post("course/article/create", {
+      ...values,
+      course_id: courseId,
+    });
+
+    console.log(res);
+    setSubmitting(false);
+    setIsModalOpen(false);
+    mutate("course/show/" + courseId);
+  };
+  const handleCreateVideo = async (values, { setSubmitting }) => {
+    const data = { ...values, course_id: courseId };
+    const res = await axiosConfig
+      .post("course/video/createviaurl", data)
+      .catch((err) => {
+        console.log();
+        console.log(err.message);
+      });
+    setSubmitting(false);
+    setIsModalOpen(false);
+    mutate("course/show/" + courseId);
+  };
+
+  const handleRemoveQuiz = () => {};
+
+  const handleRemoveArticle = () => {};
+
+  const handleRemoveVideo = () => {};
 
   return (
     <Fragment>
@@ -262,13 +327,12 @@ const CreateCourse = () => {
           description: "",
         }}
         onSubmit={(values, { setSubmitting }) => {
-          setSubmitting(false);
-          handleCreateCourse(values);
+          handleCreateCourse(values, { setSubmitting });
         }}
       >
         {(formik) => {
           return (
-            <Form>
+            <Form key="courseForm" form="courseForm">
               <div className="row">
                 <h5>Course Basic info</h5>
                 <div className="col-12 col-md-4 me-0">
@@ -294,6 +358,8 @@ const CreateCourse = () => {
                       text="Confirm"
                       externalStyles={"w-50 mb-5"}
                       type="submit"
+                      buttonType="submit"
+                      form="courseForm"
                       isDisabled={isContentShown ? true : false}
                     />
                   </div>
@@ -306,14 +372,14 @@ const CreateCourse = () => {
                           externalStyles="mh-450 overflow-y-scroll order-1 order-md-2 rounded custom-container"
                           header="Articles"
                         >
-                          {articlesAdded.length != 0 ? (
-                            articlesAdded.map((article) => {
+                          {data && data.articles.length != 0 ? (
+                            data.articles.map((article) => {
                               return (
                                 <CoursesContentPreview
-                                  key={article.title}
+                                  key={article.id}
                                   title={article.title}
                                   icon={<RiArticleFill />}
-                                  action={handleRemoveArticle}
+                                  action={() => handleRemoveArticle(article.id)}
                                 />
                               );
                             })
@@ -325,6 +391,7 @@ const CreateCourse = () => {
                           <ActionButtonWithIcon
                             icon={<AiOutlinePlus />}
                             isSecondary
+                            buttonType={"button"}
                             id={0}
                             action={handleModalOpen}
                             externalStyles={"w-100 my-1"}
@@ -336,14 +403,14 @@ const CreateCourse = () => {
                           externalStyles="mh-450 overflow-y-scroll order-1 order-md-2 rounded custom-container"
                           header="Videos"
                         >
-                          {videosAdded.length != 0 ? (
-                            videosAdded.map((video) => {
+                          {data && data.videos.length != 0 ? (
+                            data.videos.map((video) => {
                               return (
                                 <CoursesContentPreview
-                                  key={video.title}
+                                  key={video.id}
                                   title={video.title}
                                   icon={<RiVideoFill />}
-                                  action={handleRemoveVideo}
+                                  action={() => handleRemoveVideo(video.id)}
                                 />
                               );
                             })
@@ -355,6 +422,7 @@ const CreateCourse = () => {
                           <ActionButtonWithIcon
                             icon={<AiOutlinePlus />}
                             isSecondary
+                            buttonType={"button"}
                             id={1}
                             action={handleModalOpen}
                             externalStyles={"w-100 my-1"}
@@ -366,14 +434,14 @@ const CreateCourse = () => {
                           externalStyles="mh-450 overflow-y-scroll order-1 order-md-2 rounded custom-container"
                           header="Quizzes"
                         >
-                          {quizzesAdded.length != 0 ? (
-                            quizzesAdded.map((quiz) => {
+                          {data && data.quizzes.length != 0 ? (
+                            data.quizzes.map((quiz) => {
                               return (
                                 <CoursesContentPreview
-                                  key={quiz.title}
+                                  key={quiz.id}
                                   title={quiz.title}
                                   icon={<MdQuiz />}
-                                  action={handleRemoveQuiz}
+                                  action={() => handleRemoveQuiz(quiz.id)}
                                 />
                               );
                             })
@@ -382,13 +450,25 @@ const CreateCourse = () => {
                               No quizzes added
                             </div>
                           )}
-                          <ActionButtonWithIcon
-                            icon={<AiOutlinePlus />}
-                            isSecondary
-                            id={2}
-                            action={handleModalOpen}
-                            externalStyles={"w-100 my-1"}
-                          />
+                          {!isCreateQuestionEnabled ? (
+                            <ActionButtonWithIcon
+                              icon={<AiOutlinePlus />}
+                              isSecondary
+                              buttonType={"button"}
+                              id={2}
+                              action={handleModalOpen}
+                              externalStyles={"w-100 my-1"}
+                            />
+                          ) : (
+                            <ActionButtonWithIcon
+                              icon={<AiOutlinePlus />}
+                              text={"Create Question"}
+                              isSecondary
+                              buttonType={"button"}
+                              action={handleIsQuestionModalOpen}
+                              externalStyles={"w-100 my-1"}
+                            />
+                          )}
                         </ScrollableContainer>
                       </div>
                     </div>
@@ -399,8 +479,80 @@ const CreateCourse = () => {
           );
         }}
       </Formik>
+
       <CustomModal isModalOpened={isModalOpened} modalClose={handleClose}>
         {modal}
+      </CustomModal>
+
+      <CustomModal
+        isModalOpened={isQuestionModalOpen}
+        modalClose={handleQuestionModalClose}
+      >
+        {isCreateQuestionEnabled ? (
+          <div className="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h4>Create Question for {data.quizzes[0].title}</h4>
+              </div>
+              <div className="modal-body">
+                <Formik
+                  initialValues={{
+                    question: "",
+                    answer: "",
+                    weight: 0,
+                  }}
+                  onSubmit={(values, { setSubmitting }) => {
+                    handleCreateQuestion(values, { setSubmitting });
+                  }}
+                >
+                  {(form) => {
+                    return (
+                      <Form key="questionForm">
+                        <TextInput
+                          key="question_title"
+                          placeholder="Question"
+                          label="Enter Question here"
+                          externalStyles="mb-3"
+                          name="question"
+                          type="text"
+                        />
+                        <TextAreaInput
+                          key="question_answer"
+                          placeholder="Enter answer here"
+                          label="Question Answer"
+                          externalStyles="mb-3"
+                          name="answer"
+                          type="text"
+                        />
+                        <TextInput
+                          key="question_weight"
+                          placeholder="Enter question weight here"
+                          label="Question weight"
+                          externalStyles="mb-3"
+                          name="weight"
+                          type="number"
+                        />
+                        <div className="modal-footer">
+                          <ActionButtonWithIcon
+                            text="Close"
+                            isSecondary
+                            action={handleQuestionModalClose}
+                          />
+                          <ActionButtonWithIcon
+                            text="Create"
+                            type="submit"
+                            buttonType="submit"
+                            action={"submit"}
+                          />
+                        </div>
+                      </Form>
+                    );
+                  }}
+                </Formik>
+              </div>
+            </div>
+          </div>
+        ) : null}
       </CustomModal>
     </Fragment>
   );
