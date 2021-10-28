@@ -29,11 +29,27 @@
   max-height: 500px;
 }
 
+.minh-300 {
+  min-height: 300px;
+}
+
 .custom-container {
   background-color: $background-custom-container;
 }
 .custom-container-sub {
   background-color: $background-custom-container-sub;
+}
+
+.chat-container {
+  background-color: $background-chat-container;
+}
+
+.chat-container-sub {
+  background-color: $background-chat-container-sub;
+}
+
+.color-white {
+  color: $color-white;
 }
 
 .pre-wrap {
@@ -42,4 +58,9 @@
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.bg-notification {
+  background-color: #fa5148a6;
+  color: #fff;
 }
