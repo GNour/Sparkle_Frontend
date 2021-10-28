@@ -12,8 +12,9 @@ import Link from "next/link";
 import {
   AiOutlineDashboard,
   AiOutlineTeam,
-  AiOutlineCalendar,
+  AiOutlineClose,
 } from "react-icons/ai";
+import { BsChatDots } from "react-icons/bs";
 import { FaUsers, FaTasks } from "react-icons/fa";
 import {
   FiArrowRightCircle,
@@ -21,7 +22,6 @@ import {
   FiLogOut,
 } from "react-icons/fi";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { AiOutlineClose } from "react-icons/ai";
 import SideBarActionButton from "./SideBarActionButton";
 import IconButton from "../IconButton";
 import styles from "./SideBar.module.scss";
@@ -96,6 +96,9 @@ const SideBar = () => {
 
           <MenuItem icon={<FaTasks />}>
             <Link href="/tasks">Tasks</Link>
+          </MenuItem>
+          <MenuItem icon={<BsChatDots />}>
+            <Link href="/chat">Chat</Link>
           </MenuItem>
         </Menu>
         <SidebarFooter style={{ textAlign: "center" }}>

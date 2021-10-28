@@ -50,7 +50,11 @@ const Login = () => {
                   type="password"
                 />
                 <div className="d-flex justify-content-center">
-                  <ActionButtonWithIcon text="Sign In" type="submit" />
+                  <ActionButtonWithIcon
+                    text="Sign In"
+                    icon={null}
+                    buttonType="submit"
+                  />
                 </div>
               </Form>
             </Formik>

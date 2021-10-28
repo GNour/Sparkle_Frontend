@@ -1,0 +1,12 @@
+.ChatMessage {
+  &Content {
+    color: $color-white;
+    &Received {
+      background-color: $background-received-message;
+    }
+
+    &Sent {
+      background-color: $background-sent-message;
+    }
+  }
+}
