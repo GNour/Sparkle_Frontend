@@ -20,7 +20,7 @@ export const AuthContextProvider = ({ children }) => {
         await axiosConfig
           .get("auth/me")
           .then((response) => {
-            if (response.status == 200) {
+            if (response.status == 200 && response.data.user) {
               setUser(response.data.user);
             } else {
               router.push("/login");
