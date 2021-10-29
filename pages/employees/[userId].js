@@ -16,10 +16,13 @@ import { Form, Formik } from "formik";
 import { Pie } from "react-chartjs-2";
 import ChartContainer from "../../components/Common/ChartContainer";
 import { getTasksStats, getNotesStats } from "../../helpers/UserStatsHelpers";
-import { createNoteModal } from "../../helpers/ModalHelper";
+import {
+  createNoteModal,
+  suspendAccountModal,
+} from "../../helpers/ModalHelper";
 import { useRouter } from "next/router";
 import { useAuth } from "../../stores/AuthContext";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import axiosConfig from "../../helpers/axiosConfig";
 const MemberPage = () => {
   const router = useRouter();
@@ -90,9 +93,16 @@ const MemberPage = () => {
     console.log(modalType, id);
   };
 
-  const handleAddNote = (values) => {
-    console.log(values);
-    setIsModalOpen(false);
+  const handleAddNote = async (values) => {
+    const res = await axiosConfig
+      .post("user/note/add", {
+        ...values,
+        user_id: data.id,
+      })
+      .then((res) => {
+        mutate("user/show/" + userId);
+        setIsModalOpen(false);
+      });
   };
 
   const handleClose = () => {
@@ -104,53 +114,18 @@ const MemberPage = () => {
       setModal(createNoteModal(userId, handleClose, handleAddNote));
     } else if (modalType == 0) {
       setModal(
-        <div className="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h4>Are you sure?</h4>
-            </div>
-            <div className="modal-body">
-              <Formik
-                initialValues={{
-                  id: user.id,
-                  username: "",
-                }}
-                onSubmit={(values, { setSubmitting }) => {
-                  handleSuspendAccount(values, { setSubmitting });
-                }}
-              >
-                <Form>
-                  <TextInput
-                    key="username"
-                    placeholder={`Confirm by writing @${user.username}`}
-                    label={`Suspend @${user.username}`}
-                    externalStyles="mb-3"
-                    name="username"
-                    type="text"
-                  />
-                  <div className="modal-footer">
-                    <ActionButtonWithIcon
-                      text="Close"
-                      isSecondary
-                      action={handleClose}
-                    />
-                    <ActionButtonWithIcon
-                      text="Confirm"
-                      type="submit"
-                      action={"submit"}
-                    />
-                  </div>
-                </Form>
-              </Formik>
-            </div>
-          </div>
-        </div>
+        suspendAccountModal(
+          userId,
+          data.username,
+          handleClose,
+          handleSuspendAccount
+        )
       );
     }
   }, [modalType]);
 
   const handleSuspendAccount = (values, { setSubmitting }) => {
-    if (values.username == "@" + user.username) {
+    if (values.username == "@" + data.username) {
       setTimeout(() => {
         alert(JSON.stringify(values, null, 2));
         setSubmitting(false);
