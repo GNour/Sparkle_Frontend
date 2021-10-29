@@ -5,14 +5,11 @@ $sidebar-bg-color: $color-primary;
 $submenu-bg-color: $color-dark;
 .pro-sidebar-header {
   text-align: center;
-  padding: 5px;
 }
 .pro-sidebar {
-  padding: 10px;
+  height: 100vh !important;
 
   > .pro-sidebar-inner {
-    border-radius: 15px;
-
     > .pro-sidebar-layout .pro-sidebar-header {
       border-bottom: none !important;
     }
