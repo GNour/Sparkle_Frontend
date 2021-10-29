@@ -174,7 +174,7 @@ const getCardFooterAdmin = (
             key="uncompleted"
             icon={<BsPersonCheckFill />}
             style="me-2"
-            text="25"
+            text={stats?.completedUsers.length}
           />,
         ]}
         actions={[

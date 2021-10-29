@@ -104,6 +104,7 @@ const TasksPage = ({ taskableCourses }) => {
         <ColoumnContainer title={user.role == "Admin" ? "Assigned" : "Todos"}>
           {user.role == "Admin"
             ? data &&
+              data[1] &&
               data[1].map((task) => {
                 return (
                   <TaskCard
@@ -139,6 +140,7 @@ const TasksPage = ({ taskableCourses }) => {
         >
           {user.role == "Admin"
             ? data &&
+              data[0] &&
               data[0].map((task) => {
                 return (
                   <TaskCard
@@ -170,6 +172,7 @@ const TasksPage = ({ taskableCourses }) => {
         >
           {user.role == "Admin"
             ? data &&
+              data[2] &&
               data[2].map((task) => {
                 return (
                   <TaskCard
