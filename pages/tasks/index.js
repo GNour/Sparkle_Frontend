@@ -5,7 +5,7 @@ import ColoumnContainer from "../../components/Common/ColoumnContainer";
 import { Popover, Typography } from "@material-ui/core";
 import axiosConfig from "../../helpers/axiosConfig";
 import { useAuth } from "../../stores/AuthContext";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import CustomModal from "../../components/Common/CustomModal";
 import {
   unassignTaskModal,
@@ -14,7 +14,8 @@ import {
 } from "../../helpers/ModalHelper";
 import { useRouter } from "next/router";
 import PageHeader from "../../components/Common/PageHeader";
-const TasksPage = ({ taskableCourses }) => {
+const TasksPage = ({ taskableCourses, teams }) => {
+  console.log(teams);
   const { user, loading } = useAuth();
   const router = useRouter();
 
@@ -56,13 +57,28 @@ const TasksPage = ({ taskableCourses }) => {
   if (error) return <div>{error}</div>;
   if (!data) return <div>Loading..</div>;
 
-  const handleAssignTask = (task, id) => {
-    setModal(assignTaskModal(id, handleModalClose, confirmAssignTask, id));
+  const handleAssignTask = (id) => {
+    setModal(assignTaskModal(teams, handleModalClose, confirmAssignTask, id));
     setIsModalOpen(true);
   };
 
-  const confirmAssignTask = (values) => {
-    console.log(values);
+  const confirmAssignTask = async (values, { setSubmitting }) => {
+    const data = {
+      users: values.users,
+      teams: values.teams,
+      deadline: new Date(values.deadline).toISOString().split("T")[0],
+    };
+    console.log(data);
+    await axiosConfig
+      .put("task/assign/" + values.id, data)
+      .then((res) => {
+        setSubmitting(false);
+        mutate("task/all");
+        setIsModalOpen(false);
+      })
+      .catch((err) => console.log(err));
+
+    setSubmitting(false);
   };
 
   const handleUnassignTask = (id) => {
@@ -79,8 +95,15 @@ const TasksPage = ({ taskableCourses }) => {
     setIsModalOpen(true);
   };
 
-  const confirmRemoveTask = (values) => {
-    console.log(values);
+  const confirmRemoveTask = async (values, { setSubmitting }) => {
+    await axiosConfig
+      .delete("task/delete/" + values.id)
+      .then((res) => {
+        setSubmitting(false);
+        mutate("task/all");
+        setIsModalOpen(false);
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleCompleteTodo = (id) => {
@@ -252,9 +275,14 @@ export const getServerSideProps = async () => {
       key: process.env.API_KEY,
     });
 
+    const teams = await axiosConfig.post("server/teams", {
+      key: process.env.API_KEY,
+    });
+
     return {
       props: {
         taskableCourses: res.data,
+        teams: teams.data,
       },
     };
   } catch (error) {
