@@ -35,7 +35,7 @@ export const unassignTaskModal = (
                 />
                 <ActionButtonWithIcon
                   text="Confirm"
-                  type="submit"
+                  buttonType="submit"
                   action={"submit"}
                 />
               </div>
@@ -93,7 +93,7 @@ export const assignTaskModal = (task, handleClose, handleAssignTask, id) => {
                 />
                 <ActionButtonWithIcon
                   text="Confirm"
-                  type="submit"
+                  buttonType="submit"
                   action={"submit"}
                 />
               </div>
@@ -136,7 +136,7 @@ export const removeTaskModal = (task, handleClose, handleAssignTask, id) => {
                 />
                 <ActionButtonWithIcon
                   text="Confirm"
-                  type="submit"
+                  buttonType="submit"
                   action={"submit"}
                 />
               </div>
@@ -203,7 +203,58 @@ export const createNoteModal = (id, handleClose, handleCreateNote) => {
                 />
                 <ActionButtonWithIcon
                   text="Create"
-                  type="submit"
+                  buttonType="submit"
+                  action={"submit"}
+                />
+              </div>
+            </Form>
+          </Formik>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const suspendAccountModal = (
+  id,
+  username,
+  handleClose,
+  handleConfirm
+) => {
+  return (
+    <div className="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h4>Are you sure?</h4>
+        </div>
+        <div className="modal-body">
+          <Formik
+            initialValues={{
+              id: id,
+              username: "",
+            }}
+            onSubmit={(values, { setSubmitting }) => {
+              handleConfirm(values, { setSubmitting });
+            }}
+          >
+            <Form>
+              <TextInput
+                key="username"
+                placeholder={`Confirm by writing @${username}`}
+                label={`Suspend @${username}`}
+                externalStyles="mb-3"
+                name="username"
+                type="text"
+              />
+              <div className="modal-footer">
+                <ActionButtonWithIcon
+                  text="Close"
+                  isSecondary
+                  action={handleClose}
+                />
+                <ActionButtonWithIcon
+                  text="Confirm"
+                  buttonType="submit"
                   action={"submit"}
                 />
               </div>
