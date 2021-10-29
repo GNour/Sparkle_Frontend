@@ -62,7 +62,12 @@ export const AuthContextProvider = ({ children }) => {
         axiosConfig.defaults.headers.Authorization = `Bearer ${Cookies.get(
           "token"
         )}`;
-        router.push("/employees/" + response.data.user.id);
+
+        if (user.role == "Admin") {
+          router.push("/");
+        } else {
+          router.push("/employees/" + response.data.user.id);
+        }
       })
       .catch((err) => {
         console.log(err);
