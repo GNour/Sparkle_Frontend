@@ -9,7 +9,10 @@ const ChatMessage = ({ type, content }) => {
       <div className={`max-width-70 ${type == "sent" ? "text-right" : null}`}>
         <div className="mb-1">
           <small className="text-muted">
-            {new Date(content.created_at).toLocaleTimeString()}
+            {"@" +
+              content.from.username +
+              " " +
+              new Date(content.created_at).toLocaleTimeString()}
           </small>
         </div>
         <div
