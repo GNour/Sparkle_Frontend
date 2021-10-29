@@ -9,6 +9,11 @@
   -webkit-box-direction: normal;
   -ms-flex-direction: row;
   flex-direction: row;
+
+  &SideBar {
+    width: 270px;
+    max-width: fit-content;
+  }
 }
 
 @media only screen and (max-width: 576px) {

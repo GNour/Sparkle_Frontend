@@ -7,7 +7,9 @@ const MainLayout = ({ children }) => {
   return (
     <div className={`theme-default ${styles.MainLayout}`}>
       {asPath.endsWith("create") || asPath.endsWith("login") ? null : (
-        <SideBar />
+        <div className={`${styles.MainLayoutSideBar}`}>
+          <SideBar />
+        </div>
       )}
       <main className="px-lg-4 mt-5 py-5 py-md-0 px-md-4 w-100">
         {children}
