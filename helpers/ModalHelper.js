@@ -47,7 +47,7 @@ export const unassignTaskModal = (
   );
 };
 
-export const assignTaskModal = (task, handleClose, handleAssignTask, id) => {
+export const assignTaskModal = (users, handleClose, handleAssignTask, id) => {
   return (
     <div className="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
       <div className="modal-content">
@@ -60,44 +60,76 @@ export const assignTaskModal = (task, handleClose, handleAssignTask, id) => {
               id: id,
               users: [],
               teams: [],
+              deadline: "",
             }}
             onSubmit={(values, { setSubmitting }) => {
-              handleAssignTask(values);
+              handleAssignTask(values, { setSubmitting });
             }}
           >
-            <Form>
-              <SelectInput
-                label="Users"
-                externalStyles="mb-3"
-                name="users"
-                isMultiple
-              >
-                <option value="1">Marketing</option>
-                <option value="2">Developers</option>
-                <option value="3">Team</option>
-              </SelectInput>
-              <SelectInput
-                label="Teams"
-                externalStyles="mb-3"
-                name="teams"
-                isMultiple
-              >
-                <option value="0">John Doe</option>
-                <option value="1">Jane Doe</option>
-              </SelectInput>
-              <div className="modal-footer">
-                <ActionButtonWithIcon
-                  text="Close"
-                  isSecondary
-                  action={handleClose}
-                />
-                <ActionButtonWithIcon
-                  text="Confirm"
-                  buttonType="submit"
-                  action={"submit"}
-                />
-              </div>
-            </Form>
+            {(form) => {
+              return (
+                <Form>
+                  <TextInput
+                    key="assigndeadline"
+                    placeholder="Deadline (1970-01-31 00:00:00)"
+                    label="Task Deadline"
+                    externalStyles="mb-3"
+                    name="deadline"
+                    type="date"
+                  />
+                  <SelectInput
+                    label="Users"
+                    externalStyles="mb-3"
+                    name="users"
+                    isMultiple
+                    disabled={form.values.teams.length > 0 ? "disabled" : null}
+                  >
+                    {users &&
+                      users.length > 0 &&
+                      users.map(
+                        (team) =>
+                          team.members.length > 0 &&
+                          team.members.map((user) => {
+                            return (
+                              <option key={`user${user.id}`} value={user.id}>
+                                {user.username}
+                              </option>
+                            );
+                          })
+                      )}
+                  </SelectInput>
+                  <SelectInput
+                    label="Teams"
+                    externalStyles="mb-3"
+                    name="teams"
+                    isMultiple
+                    disabled={form.values.users.length > 0 ? "disabled" : null}
+                  >
+                    {users &&
+                      users.length > 0 &&
+                      users.map((team) => {
+                        return (
+                          <option key={`team${team.id}`} value={team.id}>
+                            {team.name}
+                          </option>
+                        );
+                      })}
+                  </SelectInput>
+                  <div className="modal-footer">
+                    <ActionButtonWithIcon
+                      text="Close"
+                      isSecondary
+                      action={handleClose}
+                    />
+                    <ActionButtonWithIcon
+                      text="Confirm"
+                      buttonType="submit"
+                      action={"submit"}
+                    />
+                  </div>
+                </Form>
+              );
+            }}
           </Formik>
         </div>
       </div>
@@ -105,7 +137,7 @@ export const assignTaskModal = (task, handleClose, handleAssignTask, id) => {
   );
 };
 
-export const removeTaskModal = (task, handleClose, handleAssignTask, id) => {
+export const removeTaskModal = (task, handleClose, handleRemoveTask, id) => {
   return (
     <div className="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
       <div className="modal-content">
@@ -118,8 +150,7 @@ export const removeTaskModal = (task, handleClose, handleAssignTask, id) => {
               id: id,
             }}
             onSubmit={(values, { setSubmitting }) => {
-              setSubmitting(false);
-              handleUnassignTask(values);
+              handleRemoveTask(values, { setSubmitting });
             }}
           >
             <Form>
