@@ -192,6 +192,9 @@ const getCardFooterAdmin = (
             key={"Remove" + id}
             id={id}
             size="small"
+            style={{
+              color: "#e53e3e",
+            }}
             variant="outlined"
             startIcon={<BsTrash />}
             onClick={handleRemoveAction}
