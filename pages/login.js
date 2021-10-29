@@ -10,7 +10,7 @@ const Login = () => {
     <Fragment>
       <div className="row justify-content-center">
         <div className="col-12 col-sm-4">
-          <div className="h-100 rounded custom-container p-5">
+          <div className="h-100 rounded custom-container-primary p-5">
             <div className="d-flex justify-content-center mb-3">
               <Image
                 src="/logoBig.png"
