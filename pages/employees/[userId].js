@@ -1,11 +1,11 @@
 import PageHeaderWithActions from "../../components/Common/PageHeaderWithActions";
-import { AiOutlineClose, AiOutlinePlus, AiFillHome } from "react-icons/ai";
+import { AiOutlineClose, AiOutlinePlus, AiOutlineTeam } from "react-icons/ai";
+import { BsFillCalendarDateFill } from "react-icons/bs";
 import ActionButtonWithIcon from "../../components/Common/Buttons/ActionButtonWithIcon";
 import { Fragment, useEffect, useState } from "react";
 import EmployeeLayout from "../../components/Layouts/Employees/EmployeeLayout";
 import UserCard from "../../components/EmployeesPage/UserCard/UserCard";
 import Infolist from "../../components/Common/Infolist";
-import { MdEmergency } from "react-icons/md";
 import ScrollableContainer from "../../components/Common/ScrollableContainer";
 import NoteCard from "../../components/Common/Cards/NoteCard";
 import CustomModal from "../../components/Common/CustomModal";
@@ -18,22 +18,36 @@ import ChartContainer from "../../components/Common/ChartContainer";
 import { getTasksStats, getNotesStats } from "../../helpers/UserStatsHelpers";
 import { createNoteModal } from "../../helpers/ModalHelper";
 import { useRouter } from "next/router";
+import { useAuth } from "../../stores/AuthContext";
+import useSWR from "swr";
+import axiosConfig from "../../helpers/axiosConfig";
 const MemberPage = () => {
   const router = useRouter();
   const { userId } = router.query;
+  const { user: loggedInUser } = useAuth();
+
   const [showMoreUserDetails, setShowMoreUserDetails] = useState(false);
   const handleCardClick = () => {
     setShowMoreUserDetails(showMoreUserDetails ? false : true);
   };
 
   const [userNotes, setUserNotes] = useState([]);
-  const [user, setUser] = useState([]);
 
   // States for charts - Notes, Tasks, Courses. Helpers in helpers/UserStatsHelpers.js
   const [userNotesStats, setUserNotesStats] = useState([]);
   const [userCoursesStats, setUserCoursesStats] = useState([]);
   const [userTasksStats, setUserTasksStats] = useState([]);
 
+  const fetcher = (url) =>
+    axiosConfig
+      .get(url)
+      .then((res) => res.data)
+      .catch((err) => {
+        err;
+      });
+  const { data, error } = useSWR("user/show/" + userId, fetcher);
+
+  console.log(data);
   const notesStatsData = {
     labels: ["Negative", "Positive"],
     datasets: [
@@ -144,240 +158,30 @@ const MemberPage = () => {
     }
   };
 
-  useEffect(async () => {
-    const user = {
-      id: 1,
-      username: "admin",
-      first_name: "Ghyath",
-      last_name: "Noureddine",
-      email: "admin@gmail.com",
-      phone_number: "+961 78844775",
-      profile_picture: "imgs/gsdf/sdf.jpg",
-      gender: 0,
-      created_at: "2021-10-22T22:11:22.000000Z",
-      updated_at: "2021-10-22T22:11:22.000000Z",
-      deleted_at: null,
-      team_id: null,
-      team: null,
-      tasks: [
-        {
-          id: 1,
-          name: "Yadira Breitenberg",
-          description:
-            "Quo fugiat ad laboriosam laboriosam pariatur in blanditiis. Saepe aut quos cupiditate quas beatae.",
-          created_by: 1,
-          taskable_type: "course",
-          taskable_id: 1,
-          assigned: 2,
-          created_at: "2021-10-9T22:11:23.000000Z",
-          updated_at: "2021-10-22T22:40:52.000000Z",
-          deleted_at: null,
-          user_task: {
-            user_id: 1,
-            task_id: 1,
-            deadline: "2021-10-14 00:00:00",
-            completed: 1,
-            created_at: "2021-10-22T22:32:31.000000Z",
-            updated_at: "2021-10-13 00:00:00",
-          },
-        },
-        {
-          id: 2,
-          name: "Yadira Breitenberg",
-          description:
-            "Quo fugiat ad laboriosam laboriosam pariatur in blanditiis. Saepe aut quos cupiditate quas beatae.",
-          created_by: 1,
-          taskable_type: "course",
-          taskable_id: 1,
-          assigned: 2,
-          created_at: "2021-10-22T22:11:23.000000Z",
-          updated_at: "2021-10-22T22:40:52.000000Z",
-          deleted_at: null,
-          user_task: {
-            user_id: 1,
-            task_id: 2,
-            deadline: "2021-10-12 00:00:00",
-            completed: 1,
-            created_at: "2021-10-22T22:32:31.000000Z",
-            updated_at: "2021-10-22T22:46:08.000000Z",
-          },
-        },
-        {
-          id: 3,
-          name: "Yadira Breitenberg",
-          description:
-            "Quo fugiat ad laboriosam laboriosam pariatur in blanditiis. Saepe aut quos cupiditate quas beatae.",
-          created_by: 1,
-          taskable_type: "course",
-          taskable_id: 1,
-          assigned: 2,
-          created_at: "2021-10-22T22:11:23.000000Z",
-          updated_at: "2021-10-22T22:40:52.000000Z",
-          deleted_at: null,
-          user_task: {
-            user_id: 1,
-            task_id: 3,
-            deadline: "2022-10-12 00:00:00",
-            completed: 0,
-            created_at: "2021-10-22T22:32:31.000000Z",
-            updated_at: "2021-10-22T22:46:08.000000Z",
-          },
-        },
-        {
-          id: 4,
-          name: "Yadira Breitenberg",
-          description:
-            "Quo fugiat ad laboriosam laboriosam pariatur in blanditiis. Saepe aut quos cupiditate quas beatae.",
-          created_by: 1,
-          taskable_type: "course",
-          taskable_id: 1,
-          assigned: 2,
-          created_at: "2021-10-22T22:11:23.000000Z",
-          updated_at: "2021-10-22T22:40:52.000000Z",
-          deleted_at: null,
-          user_task: {
-            user_id: 1,
-            task_id: 4,
-            deadline: "2021-10-12 00:00:00",
-            completed: 0,
-            created_at: "2021-10-22T22:32:31.000000Z",
-            updated_at: "2021-10-22T22:46:08.000000Z",
-          },
-        },
-      ],
-      courses: [
-        {
-          id: 1,
-          name: "Prof. Aurelie Lind",
-          description:
-            "Esse sint rerum id. Id aut ratione quia. Rem harum ipsa voluptates totam.",
-          created_by: 1,
-          created_at: "2021-10-22T22:11:23.000000Z",
-          updated_at: "2021-10-22T22:11:23.000000Z",
-          deleted_at: null,
-          user_course: {
-            user_id: 1,
-            course_id: 1,
-            completed: 1,
-            grade: 84,
-            created_at: "2021-10-22T23:33:56.000000Z",
-            updated_at: "2021-10-22T23:33:56.000000Z",
-          },
-        },
-        {
-          id: 2,
-          name: "Prof. Aurelie Lind",
-          description:
-            "Esse sint rerum id. Id aut ratione quia. Rem harum ipsa voluptates totam.",
-          created_by: 1,
-          created_at: "2021-10-22T22:11:23.000000Z",
-          updated_at: "2021-10-22T22:11:23.000000Z",
-          deleted_at: null,
-          user_course: {
-            user_id: 1,
-            course_id: 2,
-            completed: 1,
-            grade: 0,
-            created_at: "2021-10-22T23:33:56.000000Z",
-            updated_at: "2021-10-22T23:33:56.000000Z",
-          },
-        },
-      ],
-      notes: [
-        {
-          id: 1,
-          title: "Positive",
-          description: "test description",
-          user_id: 1,
-          positive: 1,
-          created_at: "2021-10-22T23:43:58.000000Z",
-          updated_at: "2021-10-22T23:43:58.000000Z",
-        },
-        {
-          id: 2,
-          title: "Negative",
-          description:
-            "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad dicta error quia eveniet quibusdam laborum quod necessitatibus molestiae aspernatur consectetur temporibus, commodi, maiores dolores, sequi officiis qui ratione sed a?",
-          user_id: 1,
-          positive: 0,
-          created_at: "2021-10-22T23:43:58.000000Z",
-          updated_at: "2021-10-22T23:43:58.000000Z",
-        },
-        {
-          id: 3,
-          title: "Test Title",
-          description: "Freestyling",
-          user_id: 1,
-          positive: 1,
-          created_at: "2021-10-22T23:43:58.000000Z",
-          updated_at: "2021-10-22T23:43:58.000000Z",
-        },
-        {
-          id: 4,
-          title: "FIRE",
-          description: "He made a fire in the kitchen",
-          user_id: 1,
-          positive: 0,
-          created_at: "2021-10-22T23:43:58.000000Z",
-          updated_at: "2021-10-22T23:43:58.000000Z",
-        },
-        {
-          id: 5,
-          title: "Positive",
-          description: "test description",
-          user_id: 1,
-          positive: 1,
-          created_at: "2021-10-22T23:43:58.000000Z",
-          updated_at: "2021-10-22T23:43:58.000000Z",
-        },
-        {
-          id: 6,
-          title: "Negative",
-          description:
-            "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad dicta error quia eveniet quibusdam laborum quod necessitatibus molestiae aspernatur consectetur temporibus, commodi, maiores dolores, sequi officiis qui ratione sed a?",
-          user_id: 1,
-          positive: 1,
-          created_at: "2021-10-22T23:43:58.000000Z",
-          updated_at: "2021-10-22T23:43:58.000000Z",
-        },
-        {
-          id: 7,
-          title: "Test Title",
-          description: "Freestyling",
-          user_id: 1,
-          positive: 1,
-          created_at: "2021-10-22T23:43:58.000000Z",
-          updated_at: "2021-10-22T23:43:58.000000Z",
-        },
-        {
-          id: 8,
-          title: "FIRE",
-          description: "He made a fire in the kitchen",
-          user_id: 1,
-          positive: 1,
-          created_at: "2021-10-22T23:43:58.000000Z",
-          updated_at: "2021-10-22T23:43:58.000000Z",
-        },
-      ],
-    };
+  useEffect(() => {
+    if (data) {
+      setUserNotesStats(getNotesStats(data.notes));
+      setUserTasksStats(getTasksStats(data.tasks));
+      setUserNotes(data.notes);
+    }
+  }, [data]);
 
-    setUserNotesStats(getNotesStats(user.notes));
-    setUserTasksStats(getTasksStats(user.tasks));
-    setUserNotes(user.notes);
-    setUser(user);
-  }, []);
+  if (error) return <div>{error}</div>;
+  if (!data) return <div>Loading..</div>;
 
   return (
     <Fragment>
       <PageHeaderWithActions
-        header={user.first_name + " " + user.last_name}
+        header={data.username + " Dashboard"}
         button={
-          <ActionButtonWithIcon
-            icon={<AiOutlineClose />}
-            text={"Suspend"}
-            type={0}
-            action={handleOpen}
-          />
+          loggedInUser.role == "Admin" ? (
+            <ActionButtonWithIcon
+              icon={<AiOutlineClose />}
+              text={"Suspend"}
+              type={0}
+              action={handleOpen}
+            />
+          ) : null
         }
       />
       <EmployeeLayout>
@@ -410,18 +214,26 @@ const MemberPage = () => {
         <div className="col-xl-5 order-1 p-2 order-md-2 col-lg-5 h-auto rounded custom-container">
           <div>
             <UserCard
-              outerStyle="col"
-              image={"/id_img.jpg"}
-              imageText={"Waiter"}
+              key={data.id}
+              id={data.id}
+              image={`http://localhost:8000/images/${data.profile_picture}`}
+              imageText={data.position}
+              name={data.first_name + " " + data.last_name}
+              username={data.username}
+              phone={data.phone_number}
+              email={data.email}
               action={handleCardClick}
             />
             {showMoreUserDetails ? (
               <div>
                 <Infolist
-                  title={"More Contact"}
+                  title={"More Info"}
                   list={[
-                    { icon: <AiFillHome />, text: "07410111" },
-                    { icon: <MdEmergency />, text: "+961 70908090" },
+                    { icon: <AiOutlineTeam />, text: data.team.name },
+                    {
+                      icon: <BsFillCalendarDateFill />,
+                      text: new Date(data.created_at).toLocaleDateString(),
+                    },
                   ]}
                   externalStyles="m-1 rounded custom-container-sub p-1"
                 />
@@ -438,18 +250,22 @@ const MemberPage = () => {
           </div>
           <ScrollableContainer
             externalStyles="mh-450 overflow-y-scroll order-1 order-md-2 rounded custom-container-sub"
-            header="Notes"
+            header="Feedbacks"
             button={
-              <ActionButtonWithIcon
-                icon={<AiOutlinePlus />}
-                action={handleOpen}
-                type={1}
-                externalStyles="float-end"
-              />
+              loggedInUser.role == "Admin" ? (
+                <ActionButtonWithIcon
+                  icon={<AiOutlinePlus />}
+                  action={handleOpen}
+                  type={1}
+                  externalStyles="float-end"
+                />
+              ) : null
             }
           >
-            {userNotes.length == 0 ? (
-              <p>No notes</p>
+            {data.notes.length == 0 ? (
+              <p className="d-flex justify-content-center text-muted">
+                No feedback yet
+              </p>
             ) : (
               <div>
                 <Pie
@@ -462,16 +278,17 @@ const MemberPage = () => {
               </div>
             )}
 
-            {userNotes.map((note) => {
-              return (
-                <NoteCard
-                  key={note.id}
-                  title={note.title}
-                  isPositive={note.positive}
-                  description={note.description}
-                />
-              );
-            })}
+            {data.notes.length > 0 &&
+              data.notes.map((note) => {
+                return (
+                  <NoteCard
+                    key={note.id}
+                    title={note.title}
+                    isPositive={note.positive}
+                    description={note.description}
+                  />
+                );
+              })}
           </ScrollableContainer>
         </div>
       </EmployeeLayout>
