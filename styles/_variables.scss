@@ -34,8 +34,8 @@ $background-custom-container: #ffef;
 $background-custom-container-sub: #efef;
 $background-content-card: #fff;
 $background-completed-content-card: #eeffaa;
-$background-received-message: #f89d70;
-$background-sent-message: #e3366f;
+$background-received-message: $color-secondary;
+$background-sent-message: $color-primary;
 $background-chat-container: $color-primary-dark;
 $background-chat-container-sub: #ffef;
 
