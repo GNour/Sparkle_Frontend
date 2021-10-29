@@ -160,7 +160,7 @@ export const createNoteModal = (id, handleClose, handleCreateNote) => {
             initialValues={{
               title: "",
               description: "",
-              isPositive: "",
+              positive: "",
             }}
             onSubmit={(values, { setSubmitting }) => {
               console.log(values);
@@ -189,7 +189,7 @@ export const createNoteModal = (id, handleClose, handleCreateNote) => {
               <SelectInput
                 label="Positive ?"
                 externalStyles="mb-3"
-                name="isPositive"
+                name="positive"
               >
                 <option defaultValue>Choose if it is positive note</option>
                 <option value={1}>Positive</option>
