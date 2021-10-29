@@ -1,12 +1,12 @@
 import Image from "next/image";
-
+import styles from "./Chat.module.scss";
 const ChatUserCard = ({ image, username, newMessagesCount, action }) => {
   return (
     <div
-      className="list-group-item bg-none px-md-4 py-3 py-md-4"
+      className={`${styles.ChatUserCardContainer} cursor-pointer px-md-4 py-3 py-md-4`}
       onClick={() => action()}
     >
-      <div className="d-flex cursor-pointer">
+      <div className="d-flex">
         <Image
           src={image}
           className={`rounded-circle shadow-sm`}

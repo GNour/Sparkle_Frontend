@@ -12,9 +12,8 @@ import ActionButtonWithIcon from "../components/Common/Buttons/ActionButtonWithI
 import { AiOutlineSend, AiOutlinePlus } from "react-icons/ai";
 import { useAuth } from "../stores/AuthContext";
 const Chat = ({ users }) => {
-  console.log(users);
   const lastMessage = useRef(null);
-
+  const renderedUsers = [];
   const { user } = useAuth();
   const loggedInUserId = user.id;
 
@@ -34,9 +33,8 @@ const Chat = ({ users }) => {
         console.log(err);
       });
   const { data, error } = useSWR("/message/messages", fetcher);
-  console.log(data);
   useEffect(() => {
-    Pusher.logToConsole = true;
+    Pusher.logToConsole = false;
 
     var pusher = new Pusher("31ab41bd72b4edd636e8", {
       cluster: "ap2",
@@ -52,6 +50,7 @@ const Chat = ({ users }) => {
   }, []);
 
   const handleSendMessage = async (values, { setSubmitting, resetForm }) => {
+    console.log(values);
     await axiosConfig.post("message/send", values);
     setSubmitting(false);
     resetForm();
@@ -97,17 +96,29 @@ const Chat = ({ users }) => {
       >
         {!startNewChat &&
           data &&
-          Object.keys(data).map((key) => {
-            let userNameToPreview = data[key][0].from.username;
-            if (userNameToPreview == user.username) {
-              userNameToPreview = data[key][0].to.username;
+          data.map((message) => {
+            console.log(message);
+            let userNameToPreview = message.from.username;
+            if (renderedUsers.includes(userNameToPreview)) {
+              return;
             }
+            if (userNameToPreview == user.username) {
+              userNameToPreview = message.to.username;
+              if (renderedUsers.includes(userNameToPreview)) {
+                return;
+              }
+            }
+            renderedUsers.push(userNameToPreview);
+            console.log(renderedUsers);
             return (
               <ChatUserCard
-                key={"recent" + data[key]}
-                action={() => setSelectedUser(key)}
-                newMessagesCount={getUnreadMessagesCount(data[key], user.id)}
-                image={`http://localhost:8000/images/${data[key][0].from.profile_picture}`}
+                key={message.from.id}
+                action={() => setSelectedUser(message.from.id)}
+                newMessagesCount={getUnreadMessagesCount(
+                  message.from.id,
+                  loggedInUserId
+                )}
+                image={`http://localhost:8000/images/${message.from.profile_picture}`}
                 username={userNameToPreview}
               />
             );
@@ -132,8 +143,7 @@ const Chat = ({ users }) => {
 
       <ScrollableContainer externalStyles="col-12 col-md-8 mh-500 minh-300 overflow-y-scroll chat-container-sub">
         {data && data.length != 0 && selectedUser ? (
-          data[selectedUser] &&
-          data[selectedUser].map((message) => {
+          data.map((message) => {
             return (
               <ChatMessage
                 key={message.id}
@@ -152,7 +162,7 @@ const Chat = ({ users }) => {
         {selectedUser && (
           <Formik
             initialValues={{
-              from: user.id,
+              from: loggedInUserId,
               to: selectedUser,
               message: "",
             }}
@@ -186,11 +196,11 @@ const Chat = ({ users }) => {
 
 const getUnreadMessagesCount = (messagesFromUser, currentUser) => {
   let count = 0;
-  messagesFromUser.forEach((message) => {
-    if (message.read == 0 && message.to == currentUser.id) {
-      count++;
-    }
-  });
+  // messagesFromUser.forEach((message) => {
+  //   if (message.read == 0 && message.to.id == currentUser) {
+  //     count++;
+  //   }
+  // });
   return count;
 };
 

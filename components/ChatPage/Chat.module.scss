@@ -10,3 +10,11 @@
     }
   }
 }
+
+.ChatUserCard {
+  &Container {
+    &:hover {
+      background-color: rgba($color: $color-dark, $alpha: 0.4);
+    }
+  }
+}
