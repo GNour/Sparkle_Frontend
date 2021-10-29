@@ -492,7 +492,10 @@ const CreateCourse = () => {
           <div className="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
             <div className="modal-content">
               <div className="modal-header">
-                <h4>Create Question for {data.quizzes[0].title}</h4>
+                <h4>
+                  Create Question for{" "}
+                  {data && data.quizzes[0] && data.quizzes[0].title}
+                </h4>
               </div>
               <div className="modal-body">
                 <Formik
