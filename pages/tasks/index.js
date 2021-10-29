@@ -13,8 +13,8 @@ import {
   removeTaskModal,
 } from "../../helpers/ModalHelper";
 import { useRouter } from "next/router";
+import PageHeader from "../../components/Common/PageHeader";
 const TasksPage = ({ taskableCourses }) => {
-  console.log(taskableCourses);
   const { user, loading } = useAuth();
   const router = useRouter();
 
@@ -93,6 +93,10 @@ const TasksPage = ({ taskableCourses }) => {
 
   if (error) return <div>{error}</div>;
   if (!data) return <div>Loading..</div>;
+
+  if (data && data.length == 0) {
+    return <PageHeader header="No tasks, Hooray.." />;
+  }
 
   return (
     <Fragment>
