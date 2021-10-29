@@ -265,3 +265,73 @@ export const suspendAccountModal = (
     </div>
   );
 };
+
+export const createTeamModal = (handleClose, handleCreateTeam, managers) => {
+  return (
+    <div className="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h4>Create Team</h4>
+        </div>
+        <div className="modal-body">
+          <Formik
+            initialValues={{
+              name: "",
+              description: "",
+              leader_id: NaN,
+            }}
+            onSubmit={(values, { setSubmitting }) => {
+              handleCreateTeam(values, { setSubmitting });
+            }}
+          >
+            {(form) => {
+              return (
+                <Form>
+                  <TextInput
+                    key="name"
+                    placeholder="Team name"
+                    label="Team name"
+                    externalStyles="mb-3"
+                    name="name"
+                    type="text"
+                  />
+
+                  <TextAreaInput
+                    key="description"
+                    placeholder="Team Description"
+                    label="Team Description"
+                    externalStyles="mb-3"
+                    name="description"
+                    type="text"
+                  />
+                  <SelectInput
+                    label="Leader"
+                    externalStyles="mb-3"
+                    name="leader_id"
+                  >
+                    <option defaultValue>Select Leader</option>
+                    {managers.map((manager) => {
+                      return (
+                        <option key={manager.id} value={manager.id}>
+                          {manager.username}
+                        </option>
+                      );
+                    })}
+                  </SelectInput>
+                  <div className="modal-footer">
+                    <ActionButtonWithIcon
+                      text="Close"
+                      isSecondary
+                      action={handleClose}
+                    />
+                    <ActionButtonWithIcon text="Create" />
+                  </div>
+                </Form>
+              );
+            }}
+          </Formik>
+        </div>
+      </div>
+    </div>
+  );
+};
