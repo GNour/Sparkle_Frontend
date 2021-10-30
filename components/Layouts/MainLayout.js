@@ -2,15 +2,15 @@ import SideBar from "../Common/SideBar/SideBar";
 import styles from "./MainLayout.module.scss";
 import { useRouter } from "next/router";
 import BackButton from "../Common/BackButton";
-const MainLayout = ({ children }) => {
-  const { asPath } = useRouter();
+const MainLayout = ({ children, router }) => {
   return (
     <div
       className={`theme-default vh-100 ${styles.MainLayout} overflow-hidden`}
     >
-      {asPath.endsWith("create") || asPath.endsWith("login") ? null : (
+      {router.pathname.endsWith("create") ||
+      router.pathname.endsWith("login") ? null : (
         <div className={`${styles.MainLayoutSideBar}`}>
-          <SideBar />
+          <SideBar router={router} />
         </div>
       )}
 

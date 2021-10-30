@@ -6,7 +6,7 @@ function MyApp({ Component, pageProps, router }) {
   return (
     <AuthContextProvider>
       <ProtectRoute router={router}>
-        <MainLayout>
+        <MainLayout router={router}>
           <Component {...pageProps} />
         </MainLayout>
       </ProtectRoute>
