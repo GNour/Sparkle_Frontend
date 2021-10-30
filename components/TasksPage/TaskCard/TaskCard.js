@@ -126,13 +126,13 @@ const getCardFooterAdmin = (
             key="completed"
             icon={<MdAssignmentInd />}
             style="me-2"
-            text={stats?.completedUsers.length}
+            text={stats?.uncompletedUsers.length}
           />,
           <IconText
             key="uncompleted"
             icon={<BsPersonCheckFill />}
             style="me-2"
-            text={stats?.uncompletedUsers.length}
+            text={stats?.completedUsers.length}
           />,
         ]}
         actions={[
