@@ -25,7 +25,9 @@ const Chat = ({ users }) => {
   const fetcher = (url) =>
     axiosConfig
       .get(url)
-      .then((res) => res.data)
+      .then((res) => {
+        return res.data;
+      })
       .catch((err) => {
         console.log(err);
       });
@@ -51,11 +53,12 @@ const Chat = ({ users }) => {
     resetForm();
     await axiosConfig.post("message/send", values);
     setSubmitting(false);
+    scrollToBottom();
   };
 
   return (
     <ChatLayout>
-      <ScrollableContainer externalStyles="col-12 mh-450 minh-300 overflow-y-scroll chat-container-sub">
+      <ScrollableContainer externalStyles="" header="Global Channel">
         {data && data.length != 0 ? (
           data.map((message) => {
             return (
@@ -85,7 +88,7 @@ const Chat = ({ users }) => {
               <div className="d-flex">
                 <TextInput
                   key="description"
-                  placeholder={`Type you message`}
+                  placeholder={`Start Chatting`}
                   externalStyles="mb-3 flex-fill"
                   name="message"
                 />
@@ -99,7 +102,7 @@ const Chat = ({ users }) => {
             </Form>
           </Formik>
         }
-        <div style={{ float: "left", clear: "both" }} ref={lastMessage}></div>
+        <div style={{ float: "right", clear: "both" }} ref={lastMessage}></div>
       </ScrollableContainer>
     </ChatLayout>
   );
