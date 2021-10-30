@@ -124,12 +124,13 @@ const MemberPage = () => {
     }
   }, [modalType]);
 
-  const handleSuspendAccount = (values, { setSubmitting }) => {
+  const handleSuspendAccount = async (values, { setSubmitting }) => {
     if (values.username == "@" + data.username) {
-      setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
+      await axiosConfig.delete("user/delete/" + values.id).then((res) => {
         setSubmitting(false);
-      }, 400);
+        setIsModalOpen(false);
+        router.replace("/employees");
+      });
     }
   };
 
