@@ -10,7 +10,9 @@ import { Formik, Form } from "formik";
 import { useRouter } from "next/router";
 import axiosConfig from "../../../helpers/axiosConfig";
 import { useSWRConfig } from "swr";
+import { useAuth } from "../../../stores/AuthContext";
 const TasksLayout = ({ children, taskableCourses }) => {
+  const { user } = useAuth();
   const { mutate } = useSWRConfig();
   const router = useRouter();
   const [isModalOpened, setIsModalOpen] = useState(false);
@@ -40,19 +42,16 @@ const TasksLayout = ({ children, taskableCourses }) => {
       <PageHeaderWithActions
         header="Tasks"
         button={
-          <div>
-            <ActionButtonWithIcon
-              icon={<AiOutlinePlus />}
-              text={"Create task"}
-              externalStyles="me-1"
-              action={handleOpen}
-            />
-            <ActionButtonWithIcon
-              icon={<AiOutlinePlus />}
-              text={"Create Course"}
-              action={() => router.push("courses/create")}
-            />
-          </div>
+          user.role == "Admin" ? (
+            <div>
+              <ActionButtonWithIcon
+                icon={<AiOutlinePlus />}
+                text={"Create task"}
+                externalStyles="me-1"
+                action={handleOpen}
+              />
+            </div>
+          ) : null
         }
       />
       <div className="row g-3 gy-5 py-3 row-deck">{children}</div>
