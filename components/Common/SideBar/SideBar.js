@@ -17,7 +17,7 @@ import {
 import { BsChatDots } from "react-icons/bs";
 import { FaUsers, FaTasks } from "react-icons/fa";
 import { FiArrowRightCircle, FiArrowLeftCircle } from "react-icons/fi";
-import { GiHamburgerMenu } from "react-icons/gi";
+import { GiHamburgerMenu, GiTeacher } from "react-icons/gi";
 import SideBarActionButton from "./SideBarActionButton";
 import IconButton from "../IconButton";
 import styles from "./SideBar.module.scss";
@@ -110,6 +110,14 @@ const SideBar = ({ router }) => {
           >
             <Link href="/tasks">Tasks</Link>
           </MenuItem>
+          {user.role == "Admin" ? (
+            <MenuItem
+              active={router.asPath == "/courses" ? true : false}
+              icon={<GiTeacher size={18} />}
+            >
+              <Link href="/courses">Courses</Link>
+            </MenuItem>
+          ) : null}
           <MenuItem
             active={router.asPath == "/chat" ? true : false}
             icon={<BsChatDots size={18} />}
