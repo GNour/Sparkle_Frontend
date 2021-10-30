@@ -63,7 +63,7 @@ export const AuthContextProvider = ({ children }) => {
           "token"
         )}`;
 
-        if (user.role == "Admin") {
+        if (response.data.user.role == "Admin") {
           router.push("/");
         } else {
           router.push("/employees/" + response.data.user.id);
