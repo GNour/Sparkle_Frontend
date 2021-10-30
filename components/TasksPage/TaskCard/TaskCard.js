@@ -1,5 +1,4 @@
 import { Button } from "@material-ui/core";
-import { useEffect, useState } from "react";
 import { AiOutlinePlus, AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
 import { BsPersonCheckFill, BsTrash } from "react-icons/bs";
 import { MdAssignmentInd } from "react-icons/md";
@@ -7,12 +6,16 @@ import IconText from "../../Common/IconText";
 import InfoActionsFooter from "../../Common/InfoActionsFooter";
 import InfoBody from "../../Common/InfoBody";
 import styles from "./TaskCard.module.scss";
+import { RiVideoFill, RiArticleFill } from "react-icons/ri";
+import { MdQuiz } from "react-icons/md";
 const TaskCard = ({
   task,
   handleActionButton,
   handleRemoveAction,
   handlePopoverContent,
+  handleRoute,
   userRole,
+  isCourse,
 }) => {
   if (userRole == "Staff") {
     return (
@@ -28,6 +31,23 @@ const TaskCard = ({
           task.taskable_type,
           task.id,
           handleActionButton
+        )}
+      </div>
+    );
+  }
+
+  if (isCourse) {
+    return (
+      <div
+        className={`${styles.TaskCardContainer} cursor-pointer`}
+        id={task.id}
+        onClick={(e) => handleRoute(e)}
+      >
+        <InfoBody title={task.name} body={`${task.description}`} />
+        {getCardFooterCourse(
+          task.videos_count,
+          task.quizzes_count,
+          task.articles_count
         )}
       </div>
     );
@@ -68,6 +88,33 @@ const TaskCard = ({
         taskStats
       )}
     </div>
+  );
+};
+
+const getCardFooterCourse = (videosCount, quizzesCount, articlesCount) => {
+  return (
+    <InfoActionsFooter
+      icons={[
+        <IconText
+          key="videosCount"
+          icon={<RiVideoFill />}
+          style="me-2"
+          text={videosCount}
+        />,
+        <IconText
+          key="quizzesCount"
+          icon={<MdQuiz />}
+          style="me-2"
+          text={quizzesCount}
+        />,
+        <IconText
+          key="articlesCount"
+          icon={<RiArticleFill />}
+          style="me-2"
+          text={articlesCount}
+        />,
+      ]}
+    />
   );
 };
 
