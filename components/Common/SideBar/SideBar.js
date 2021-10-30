@@ -16,17 +16,14 @@ import {
 } from "react-icons/ai";
 import { BsChatDots } from "react-icons/bs";
 import { FaUsers, FaTasks } from "react-icons/fa";
-import {
-  FiArrowRightCircle,
-  FiArrowLeftCircle,
-  FiLogOut,
-} from "react-icons/fi";
+import { FiArrowRightCircle, FiArrowLeftCircle } from "react-icons/fi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import SideBarActionButton from "./SideBarActionButton";
 import IconButton from "../IconButton";
 import styles from "./SideBar.module.scss";
 import { useAuth } from "../../../stores/AuthContext";
-const SideBar = () => {
+import { BiLogOut } from "react-icons/bi";
+const SideBar = ({ router }) => {
   const [menuCollapse, setMenuCollapse] = useState(false);
   const [toggled, setToggled] = useState(false);
 
@@ -58,8 +55,8 @@ const SideBar = () => {
           {menuCollapse ? (
             <Image
               src="/logoSmall.png"
-              height="75"
-              width="75"
+              height="50"
+              width="50"
               layout="intrinsic"
               alt="LOGO"
               quality="100"
@@ -76,7 +73,14 @@ const SideBar = () => {
           )}
         </SidebarHeader>
         <Menu iconShape="rounded">
-          <MenuItem icon={<AiOutlineDashboard />}>
+          <MenuItem
+            active={
+              router.asPath == "/" || router.asPath == `/employees/${user.id}`
+                ? true
+                : false
+            }
+            icon={<AiOutlineDashboard size={18} />}
+          >
             {user.role == "Admin" ? (
               <Link href="/">DashBoard</Link>
             ) : (
@@ -84,37 +88,48 @@ const SideBar = () => {
             )}
           </MenuItem>
           {user.role == "Admin" ? (
-            <SubMenu title="Employees" icon={<FaUsers />}>
-              <MenuItem icon={<FaUsers />}>
+            <SubMenu title="Employees" icon={<FaUsers size={18} />}>
+              <MenuItem
+                active={router.asPath == "/employees" ? true : false}
+                icon={<FaUsers size={18} />}
+              >
                 <Link href="/employees">All Employees</Link>
               </MenuItem>
-              <MenuItem icon={<AiOutlineTeam />}>
+              <MenuItem
+                active={router.asPath == "/teams" ? true : false}
+                icon={<AiOutlineTeam size={18} />}
+              >
                 <Link href="/teams">Teams</Link>
               </MenuItem>
             </SubMenu>
           ) : null}
 
-          <MenuItem icon={<FaTasks />}>
+          <MenuItem
+            active={router.asPath == "/tasks" ? true : false}
+            icon={<FaTasks size={18} />}
+          >
             <Link href="/tasks">Tasks</Link>
           </MenuItem>
-          <MenuItem icon={<BsChatDots />}>
+          <MenuItem
+            active={router.asPath == "/chat" ? true : false}
+            icon={<BsChatDots size={18} />}
+          >
             <Link href="/chat">Chat</Link>
           </MenuItem>
         </Menu>
         <SidebarFooter style={{ textAlign: "center" }}>
           <SideBarActionButton
-            text="Collapse"
-            isCollapsed={menuCollapse}
-            action={menuIconClick}
-            icon={<FiArrowRightCircle />}
-            subIcon={<FiArrowLeftCircle />}
-          />
-          <SideBarActionButton
             text="Logout"
             isCollapsed={menuCollapse}
             action={logout}
-            icon={<FiLogOut />}
-            subIcon={<FiLogOut />}
+            icon={<BiLogOut size={18} />}
+            subIcon={<BiLogOut size={18} />}
+          />
+          <SideBarActionButton
+            isCollapsed={menuCollapse}
+            action={menuIconClick}
+            icon={<FiArrowRightCircle size={20} />}
+            subIcon={<FiArrowLeftCircle size={20} />}
           />
         </SidebarFooter>
       </ProSidebar>
