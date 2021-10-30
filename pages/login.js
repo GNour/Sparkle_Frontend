@@ -4,6 +4,7 @@ import { Form, Formik } from "formik";
 import TextInput from "../components/Common/Inputs/TextInput";
 import ActionButtonWithIcon from "../components/Common/Buttons/ActionButtonWithIcon";
 import { useAuth } from "../stores/AuthContext";
+import { BiLogIn } from "react-icons/bi";
 const Login = () => {
   const { login } = useAuth();
   return (
@@ -53,6 +54,7 @@ const Login = () => {
                   <ActionButtonWithIcon
                     text="Sign In"
                     icon={null}
+                    isSecondary
                     buttonType="submit"
                   />
                 </div>
