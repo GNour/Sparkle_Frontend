@@ -86,8 +86,17 @@ const TasksPage = ({ taskableCourses, teams }) => {
     setIsModalOpen(true);
   };
 
-  const confirmUnassignTask = (values) => {
-    console.log(values);
+  const confirmUnassignTask = async (values, { setSubmitting }) => {
+    await axiosConfig
+      .put("task/unassign/" + values.id)
+      .then((res) => {
+        setSubmitting(false);
+        mutate("task/all");
+        setIsModalOpen(false);
+      })
+      .catch((err) => console.log(err));
+
+    setSubmitting(false);
   };
 
   const handleRemoveTask = (id) => {
@@ -106,8 +115,15 @@ const TasksPage = ({ taskableCourses, teams }) => {
       .catch((err) => console.log(err));
   };
 
-  const handleCompleteTodo = (id) => {
-    console.log(id);
+  const handleCompleteTodo = async (id) => {
+    const res = await axiosConfig
+      .put("task/complete/" + id)
+      .then((res) => {
+        mutate("task/all");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleStartCourse = (id) => {
@@ -143,6 +159,7 @@ const TasksPage = ({ taskableCourses, teams }) => {
                 );
               })
             : data &&
+              data.todo &&
               data.todo.map((task) => {
                 return (
                   <TaskCard
@@ -178,7 +195,9 @@ const TasksPage = ({ taskableCourses, teams }) => {
                   />
                 );
               })
-            : data.course.map((task) => {
+            : data &&
+              data.course &&
+              data.course.map((task) => {
                 return (
                   <TaskCard
                     key={"Courses" + task.id}
@@ -214,7 +233,9 @@ const TasksPage = ({ taskableCourses, teams }) => {
                   />
                 );
               })
-            : getupcomingTaskss([...data.todo, ...data.course]).map((task) => {
+            : getUpcomingTasks(
+                data.todo && data.course && [...data.todo, ...data.course]
+              ).map((task) => {
                 return (
                   <TaskCard
                     key={"Urgent" + task.id}
@@ -253,18 +274,20 @@ const TasksPage = ({ taskableCourses, teams }) => {
   );
 };
 
-const getupcomingTaskss = (tasks) => {
+const getUpcomingTasks = (tasks) => {
   const temp = [];
-  tasks.forEach((task) => {
-    if (
-      Math.ceil(
-        (new Date(task.user_task.deadline).getTime() - new Date().getTime()) /
-          (1000 * 60 * 60 * 24)
-      ) < 2
-    ) {
-      temp.push(task);
-    }
-  });
+  tasks &&
+    tasks.length > 0 &&
+    tasks.forEach((task) => {
+      if (
+        Math.ceil(
+          (new Date(task.user_task.deadline).getTime() - new Date().getTime()) /
+            (1000 * 60 * 60 * 24)
+        ) < 2
+      ) {
+        temp.push(task);
+      }
+    });
 
   return temp;
 };
