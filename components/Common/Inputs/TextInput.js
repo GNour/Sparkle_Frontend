@@ -16,6 +16,7 @@ const TextInput = ({ externalStyles, label, type, ...props }) => {
       )}
       <input
         type={type}
+        autoComplete="off"
         className={`form-control ${styles.InputField}`}
         {...field}
         {...props}
