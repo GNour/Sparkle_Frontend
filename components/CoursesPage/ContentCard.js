@@ -12,6 +12,7 @@ const ContentCard = ({
   type,
   action,
   forwardedRef,
+  sub,
 }) => {
   const handleContentCardClick = (e) => {
     action(renderRelatedComponent(type, content), {
@@ -57,6 +58,7 @@ const ContentCard = ({
         <p className="mb-0 text-md">{title}</p>
         <p className="mb-0 text-sm fw-light">{description}</p>
       </div>
+      <p className="mb-0 text-sm fw-light float-end">{sub}</p>
     </div>
   );
 };
