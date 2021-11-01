@@ -579,7 +579,6 @@ export const createQuestionModal = (
             initialValues={{
               question: "",
               answer: "",
-              weight: 0,
             }}
             onSubmit={(values, { setSubmitting }) => {
               handleCreateQuestion(values, { setSubmitting });
@@ -603,16 +602,6 @@ export const createQuestionModal = (
                     externalStyles="mb-3"
                     name="answer"
                     type="text"
-                  />
-                  <TextInput
-                    key="question_weight"
-                    placeholder="Enter question weight here"
-                    label="Question weight"
-                    externalStyles="mb-3"
-                    name="weight"
-                    min={0}
-                    max={100}
-                    type="number"
                   />
                   <div className="modal-footer">
                     <ActionButtonWithIcon
