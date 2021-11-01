@@ -94,7 +94,7 @@ const CoursePage = ({ router }) => {
     let grade = -1;
     if (data.quizzes.length) {
       data.quizzes.forEach((quiz) => {
-        grade += (quiz.user[0].grade / quiz.weight) * 100;
+        grade += quiz.user[0].details.grade;
       });
     }
 
@@ -276,9 +276,27 @@ const CoursePage = ({ router }) => {
             handleAction={openCreateVideoModal}
           />
         </div>
+        {data && !data.quizzes.length ? (
+          <div className="col-12 p-0 m-0 me-md-2 col-md-4 mb-2 col-lg-2">
+            <SquareButton
+              text={"Quiz"}
+              icon={<AiFillPlusCircle size={50} />}
+              handleAction={openCreateQuizModal}
+            />
+          </div>
+        ) : (
+          <div className="col-12 p-0 m-0 me-md-2 col-md-4 mb-2 col-lg-2">
+            <SquareButton
+              text={"Question"}
+              icon={<AiFillPlusCircle size={50} />}
+              handleAction={openCreateQuestionModal}
+            />
+          </div>
+        )}
       </div>
     );
   };
+  console.log(data);
   return (
     <Fragment>
       <CourseLayout
