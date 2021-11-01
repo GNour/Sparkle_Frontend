@@ -126,10 +126,10 @@ const TasksPage = ({ taskableCourses, teams }) => {
       });
   };
 
-  const handleStartCourse = async (id) => {
+  const handleStartCourse = async (id, taskId) => {
     await axiosConfig
       .put("course/take/" + id)
-      .then((res) => router.push("courses/" + id));
+      .then((res) => router.push("courses/" + id + "?tid=" + taskId));
   };
 
   if (error) return <div>{error}</div>;
@@ -207,7 +207,7 @@ const TasksPage = ({ taskableCourses, teams }) => {
                     userRole={user.role}
                     handlePopoverContent={handleCardClick}
                     handleActionButton={() =>
-                      handleStartCourse(task.taskable_id)
+                      handleStartCourse(task.taskable_id, task.id)
                     }
                   />
                 );
