@@ -51,6 +51,7 @@ const TeamsPage = ({ teams, managers }) => {
     filter: false,
     pagination: true,
     search: false,
+    selectableRows: "none",
     print: false,
     download: false,
     expandableRows: true,
