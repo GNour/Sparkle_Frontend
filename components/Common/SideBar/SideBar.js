@@ -23,6 +23,7 @@ import IconButton from "../IconButton";
 import styles from "./SideBar.module.scss";
 import { useAuth } from "../../../stores/AuthContext";
 import { BiLogOut } from "react-icons/bi";
+import { BsFillCalendarCheckFill } from "react-icons/bs";
 const SideBar = ({ router }) => {
   const [menuCollapse, setMenuCollapse] = useState(false);
   const [toggled, setToggled] = useState(false);
@@ -94,6 +95,12 @@ const SideBar = ({ router }) => {
                 icon={<FaUsers size={18} />}
               >
                 <Link href="/employees">All Employees</Link>
+              </MenuItem>
+              <MenuItem
+                active={router.asPath == "/employees/attendance" ? true : false}
+                icon={<BsFillCalendarCheckFill size={18} />}
+              >
+                <Link href="/employees/attendance">Attendance</Link>
               </MenuItem>
               <MenuItem
                 active={router.asPath == "/teams" ? true : false}
