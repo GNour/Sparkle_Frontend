@@ -39,7 +39,7 @@ const CreateEmployee = () => {
           password_confirmation: "",
           profile_picture: undefined,
         }}
-        onSubmit={(values, { setSubmitting }) => {
+        onSubmit={(values, { setSubmitting, resetForm }) => {
           const formData = new FormData();
           for (let key in values) {
             formData.append(key, values[key]);
@@ -49,7 +49,7 @@ const CreateEmployee = () => {
               headers: { "Content-Type": "multipart/form-data" },
             })
             .then((response) => {
-              console.log(response);
+              resetForm();
             })
             .catch((e) => {
               console.log(e);
