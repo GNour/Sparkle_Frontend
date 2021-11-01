@@ -26,6 +26,7 @@ const Chat = ({ users }) => {
     axiosConfig
       .get(url)
       .then((res) => {
+        scrollToBottom();
         return res.data;
       })
       .catch((err) => {
@@ -102,7 +103,7 @@ const Chat = ({ users }) => {
             </Form>
           </Formik>
         }
-        <div style={{ float: "right", clear: "both" }} ref={lastMessage}></div>
+        <div style={{ display: "none" }} ref={lastMessage}></div>
       </ScrollableContainer>
     </ChatLayout>
   );
