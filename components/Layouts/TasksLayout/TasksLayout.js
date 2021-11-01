@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import axiosConfig from "../../../helpers/axiosConfig";
 import { useSWRConfig } from "swr";
 import { useAuth } from "../../../stores/AuthContext";
-const TasksLayout = ({ children, taskableCourses }) => {
+const TasksLayout = ({ children, taskableCourses, header }) => {
   const { user } = useAuth();
   const { mutate } = useSWRConfig();
   const router = useRouter();
@@ -40,7 +40,7 @@ const TasksLayout = ({ children, taskableCourses }) => {
   return (
     <Fragment>
       <PageHeaderWithActions
-        header="Tasks"
+        header={header}
         button={
           user.role == "Admin" ? (
             <div>
