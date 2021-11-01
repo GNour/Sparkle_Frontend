@@ -14,7 +14,7 @@ const MainLayout = ({ children, router }) => {
         </div>
       )}
 
-      <main className="ps-lg-2 pe-lg-4 mt-2 w-100 py-5 py-md-0 vh-100 overflow-y-scroll pe-md-4 ps-md-2">
+      <main className="container ps-lg-2 pe-lg-4 mt-2 w-100 py-5 py-md-0 vh-100 overflow-y-scroll pe-md-4 ps-md-2">
         {children}
       </main>
     </div>
