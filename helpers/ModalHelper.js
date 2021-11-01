@@ -4,6 +4,7 @@ import ActionButtonWithIcon from "../components/Common/Buttons/ActionButtonWithI
 import TextAreaInput from "../components/Common/Inputs/TextAreaInput";
 import SelectInput from "../components/Common/Inputs/SelectInput";
 import { BsTrash } from "react-icons/bs";
+
 export const unassignTaskModal = (
   task,
   handleClose,
@@ -350,6 +351,281 @@ export const createTeamModal = (handleClose, handleCreateTeam, managers) => {
                       action={handleClose}
                     />
                     <ActionButtonWithIcon text="Create" />
+                  </div>
+                </Form>
+              );
+            }}
+          </Formik>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const createArticleModal = (handleClose, handleCreateArticle) => {
+  return (
+    <div className="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h4>Create Article</h4>
+        </div>
+        <div className="modal-body">
+          <Formik
+            initialValues={{
+              title: "",
+              description: "",
+              body: "",
+            }}
+            onSubmit={(values, { setSubmitting }) => {
+              handleCreateArticle(values, { setSubmitting });
+            }}
+          >
+            <Form key="articleForm">
+              <TextInput
+                key="title"
+                placeholder="Article Title"
+                label="Article Title"
+                externalStyles="mb-3"
+                name="title"
+                type="text"
+              />
+
+              <TextAreaInput
+                key="description"
+                placeholder="Article Description"
+                label="Article Description"
+                externalStyles="mb-3"
+                name="description"
+                type="text"
+              />
+
+              <TextAreaInput
+                key="body"
+                placeholder="Article body"
+                label="Article body"
+                externalStyles="mb-3"
+                name="body"
+                type="text"
+              />
+              <div className="modal-footer">
+                <ActionButtonWithIcon
+                  text="Close"
+                  isSecondary
+                  action={handleClose}
+                />
+                <ActionButtonWithIcon
+                  text="Create"
+                  type="submit"
+                  buttonType="submit"
+                  action={"submit"}
+                />
+              </div>
+            </Form>
+          </Formik>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const createVideoModal = (handleClose, handleCreateVideo) => {
+  return (
+    <div className="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h4>Create Video</h4>
+        </div>
+        <div className="modal-body">
+          <Formik
+            initialValues={{
+              video: "",
+              title: "",
+              description: "",
+            }}
+            onSubmit={(values, { setSubmitting }) => {
+              handleCreateVideo(values, { setSubmitting });
+            }}
+          >
+            <Form>
+              <TextInput
+                key="title"
+                placeholder="Video Title"
+                label="Video Title"
+                externalStyles="mb-3"
+                name="title"
+                type="text"
+              />
+
+              <TextAreaInput
+                key="description"
+                placeholder="Video Description"
+                label="Video Description"
+                externalStyles="mb-3"
+                name="description"
+                type="text"
+              />
+
+              <TextInput
+                key="url"
+                placeholder="Video url"
+                label="Video url"
+                externalStyles="mb-3"
+                name="video"
+                type="text"
+              />
+              <div className="modal-footer">
+                <ActionButtonWithIcon
+                  text="Close"
+                  isSecondary
+                  action={handleClose}
+                />
+                <ActionButtonWithIcon
+                  text="Create"
+                  type="submit"
+                  buttonType="submit"
+                  action={"submit"}
+                />
+              </div>
+            </Form>
+          </Formik>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const createQuizModal = (handleClose, handleCreateQuiz) => {
+  return (
+    <div className="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h4>Create Quiz</h4>
+        </div>
+        <div className="modal-body">
+          <Formik
+            initialValues={{
+              title: "",
+              limit: "",
+              description: "",
+              weight: 100,
+            }}
+            onSubmit={(values, { setSubmitting }) => {
+              handleCreateQuiz(values, { setSubmitting });
+            }}
+          >
+            {(form) => {
+              return (
+                <Form key="quizForm">
+                  <TextInput
+                    key="title"
+                    placeholder="Quiz Title"
+                    label="Quiz Title"
+                    externalStyles="mb-3"
+                    name="title"
+                    type="text"
+                  />
+                  <TextAreaInput
+                    key="description"
+                    placeholder="Quiz Description"
+                    label="Quiz Description"
+                    externalStyles="mb-3"
+                    name="description"
+                    type="text"
+                  />
+                  <TextInput
+                    key="limit"
+                    placeholder="01:30:00 (Hours:Minutes:Seconds)"
+                    label="Quiz Limit"
+                    externalStyles="mb-3"
+                    name="limit"
+                    type="text"
+                  />
+                  <div className="modal-footer">
+                    <ActionButtonWithIcon
+                      text="Close"
+                      isSecondary
+                      action={handleClose}
+                    />
+                    <ActionButtonWithIcon
+                      text="Create"
+                      type="submit"
+                      buttonType="submit"
+                      action={"submit"}
+                    />
+                  </div>
+                </Form>
+              );
+            }}
+          </Formik>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const createQuestionModal = (
+  quiz,
+  handleClose,
+  handleCreateQuestion
+) => {
+  return (
+    <div className="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h4>Create Question for {quiz && quiz.title}</h4>
+        </div>
+        <div className="modal-body">
+          <Formik
+            initialValues={{
+              question: "",
+              answer: "",
+              weight: 0,
+            }}
+            onSubmit={(values, { setSubmitting }) => {
+              handleCreateQuestion(values, { setSubmitting });
+            }}
+          >
+            {(form) => {
+              return (
+                <Form key="questionForm">
+                  <TextInput
+                    key="question_title"
+                    placeholder="Question"
+                    label="Enter Question here"
+                    externalStyles="mb-3"
+                    name="question"
+                    type="text"
+                  />
+                  <TextAreaInput
+                    key="question_answer"
+                    placeholder="Enter answer here"
+                    label="Question Answer"
+                    externalStyles="mb-3"
+                    name="answer"
+                    type="text"
+                  />
+                  <TextInput
+                    key="question_weight"
+                    placeholder="Enter question weight here"
+                    label="Question weight"
+                    externalStyles="mb-3"
+                    name="weight"
+                    min={0}
+                    max={100}
+                    type="number"
+                  />
+                  <div className="modal-footer">
+                    <ActionButtonWithIcon
+                      text="Close"
+                      isSecondary
+                      action={handleClose}
+                    />
+                    <ActionButtonWithIcon
+                      text="Create"
+                      type="submit"
+                      buttonType="submit"
+                      action={"submit"}
+                    />
                   </div>
                 </Form>
               );
