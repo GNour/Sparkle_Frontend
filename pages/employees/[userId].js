@@ -15,7 +15,11 @@ import SelectInput from "../../components/Common/Inputs/SelectInput";
 import { Form, Formik } from "formik";
 import { Pie } from "react-chartjs-2";
 import ChartContainer from "../../components/Common/ChartContainer";
-import { getTasksStats, getNotesStats } from "../../helpers/UserStatsHelpers";
+import {
+  getTasksStats,
+  getNotesStats,
+  getCoursesStats,
+} from "../../helpers/UserStatsHelpers";
 import {
   createNoteModal,
   suspendAccountModal,
@@ -79,7 +83,20 @@ const MemberPage = () => {
   };
 
   const coursesStatsData = {
-    labels: [],
+    labels: ["A", "B", "C", "D", "F"],
+    datasets: [
+      {
+        label: "User Course Statistics",
+        data: userCoursesStats,
+        backgroundColor: [
+          "rgba(126, 185, 63, 1)",
+          "rgba(73,180,240,80)",
+          "rgba(73,180,150,80)",
+          "rgba(219,196,64,86)",
+          "rgba(255, 24, 67, 1)",
+        ],
+      },
+    ],
   };
 
   // States for modal, Confirmation modal and Add note modal
@@ -138,6 +155,7 @@ const MemberPage = () => {
     if (data) {
       setUserNotesStats(getNotesStats(data.notes));
       setUserTasksStats(getTasksStats(data.tasks));
+      setUserCoursesStats(getCoursesStats(data.courses));
       setUserNotes(data.notes);
     }
   }, [data]);
@@ -179,7 +197,7 @@ const MemberPage = () => {
             header="Courses"
           >
             <Pie
-              data={tasksStatsData}
+              data={coursesStatsData}
               width={500}
               height={300}
               options={{ maintainAspectRatio: false }}
