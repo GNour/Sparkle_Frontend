@@ -112,7 +112,7 @@ const SideBar = ({ router }) => {
           </MenuItem>
           {user.role == "Admin" ? (
             <MenuItem
-              active={router.asPath == "/courses" ? true : false}
+              active={router.asPath.startsWith("/courses") ? true : false}
               icon={<GiTeacher size={18} />}
             >
               <Link href="/courses">Courses</Link>
