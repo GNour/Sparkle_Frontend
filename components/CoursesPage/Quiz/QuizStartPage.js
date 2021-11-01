@@ -109,6 +109,7 @@ const QuizStartPage = ({ quiz }) => {
             <p className="fw-bold text-sm text-muted">{res.data.message}</p>
           </div>
         );
+        mutate("course/show/" + quiz.course_id);
       });
   };
 
