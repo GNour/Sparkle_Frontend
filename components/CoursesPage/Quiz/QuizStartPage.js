@@ -2,6 +2,8 @@ import ActionButtonWithIcon from "../../Common/Buttons/ActionButtonWithIcon";
 import { useState } from "react";
 import QuizContainer from "./QuizContainer";
 import QuizMCQ from "./QuizMCQ";
+import { Form, Formik } from "formik";
+import { shuffleArray } from "../../../helpers/CourseHelper";
 const QuizStartPage = ({ quiz }) => {
   const handleStart = () => {
     setStartQuiz(renderQuiz(quiz));
@@ -14,18 +16,36 @@ const QuizStartPage = ({ quiz }) => {
     </div>
   );
 
-  const renderQuiz = ({ quiz }) => {
+  const getLimitInSeconds = (limit) => {
+    let ts = limit.split(":");
+    return parseInt(ts[0] * 3600) + parseInt(ts[1] * 60) + parseInt(ts[2]);
+  };
+
+  const createAndShuffleAnswersArray = (questions) => {
+    let answersArray = [];
+    questions.forEach((question) => {
+      answersArray.push(question.answer);
+    });
+    return shuffleArray(answersArray);
+  };
+
+  const renderQuiz = (quiz) => {
+    let answersArray = createAndShuffleAnswersArray(quiz.questions);
     return (
       <div>
-        <QuizContainer expiryTimestamp={3000} questions={quiz.questions}>
-          <QuizMCQ
-            answersArray={[
-              { id: 1, answer: "Hello world" },
-              { id: 2, answer: "Hello" },
-              { id: 3, answer: "world" },
-            ]}
-            question={{ id: 1, question: "Basic question" }}
-          />
+        <QuizContainer
+          expiryTimestamp={getLimitInSeconds(quiz.limit)}
+          questions={quiz.questions}
+        >
+          {quiz.questions.map((question) => {
+            return (
+              <QuizMCQ
+                key={"question" + question.id}
+                answersArray={answersArray}
+                question={question}
+              />
+            );
+          })}
         </QuizContainer>
       </div>
     );

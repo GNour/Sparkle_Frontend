@@ -17,13 +17,26 @@ const QuizContainer = ({ expiryTimestamp, children, questions }) => {
     onExpire: () => console.warn("onExpire called"),
   });
 
-  const handleQuizSubmission = () => {
-    console.log("Handle");
+  const handleQuizSubmission = (values, { setSubmitting }) => {
+    console.log(values);
+  };
+
+  const getFormValues = (questions) => {
+    let data = {};
+    questions.forEach((question) => {
+      data[question.id] = "";
+    });
+    console.log(data);
   };
 
   return (
     <div>
-      <Formik>
+      <Formik
+        initialValues={getFormValues(questions)}
+        onSubmit={(values, { setSubmitting }) => {
+          handleQuizSubmission(values, { setSubmitting });
+        }}
+      >
         <Form>
           {children}
           <ActionButtonWithIcon
