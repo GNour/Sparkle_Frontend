@@ -13,7 +13,9 @@ import {
   removeTaskModal,
 } from "../../helpers/ModalHelper";
 import { useRouter } from "next/router";
-import PageHeader from "../../components/Common/PageHeader";
+import PageHeaderWithActions from "../../components/Common/PageHeaderWithActions";
+import ActionButtonWithIcon from "../../components/Common/Buttons/ActionButtonWithIcon";
+import { AiOutlinePlus } from "react-icons/ai";
 const TasksPage = ({ taskableCourses, teams }) => {
   console.log(teams);
   const { user, loading } = useAuth();
@@ -135,13 +137,12 @@ const TasksPage = ({ taskableCourses, teams }) => {
   if (error) return <div>{error}</div>;
   if (!data) return <div>Loading..</div>;
 
-  if (data && data.length == 0) {
-    return <PageHeader header="No tasks, Hooray.." />;
-  }
-
   return (
     <Fragment>
-      <TasksLayout taskableCourses={taskableCourses}>
+      <TasksLayout
+        taskableCourses={taskableCourses}
+        header={data && data.length == 0 ? "No Tasks... Hooray" : "Tasks"}
+      >
         <ColoumnContainer title={user.role == "Admin" ? "Assigned" : "Todos"}>
           {user.role == "Admin"
             ? data &&
