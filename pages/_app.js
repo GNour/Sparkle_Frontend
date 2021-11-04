@@ -1,11 +1,14 @@
 import MainLayout from "../components/Layouts/MainLayout";
 import { ProtectRoute } from "../stores/AuthContext";
 import "../styles/globals.scss";
-import { AuthContextProvider } from "../stores/AuthContext";
+import { AuthContextProvider, useAuth } from "../stores/AuthContext";
 import { useEffect } from "react";
 import Pusher from "pusher-js";
 import { mutate } from "swr";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function MyApp({ Component, pageProps, router }) {
+  const user = useAuth();
   useEffect(() => {
     Pusher.logToConsole = true;
 
@@ -15,14 +18,18 @@ function MyApp({ Component, pageProps, router }) {
 
     var channel = pusher.subscribe("chat");
     channel.bind("message", function (data) {
-      // Message from users for global messages
+      // FROM USERS
       if (data.from > 0) {
         mutate("/message/messages");
+        if (router.asPath != "/chat") {
+          toast.info("New messages in global chat");
+        }
       }
-
-      // Message from arduino RFID Card Reader
-      if (data.from == -1) {
-        console.log("Arduino");
+      // FROM ARDUINO
+      else if (data.from == -1) {
+        if (user.role == "Admin" || user.role == "Manager") {
+          toast(data.message);
+        }
       }
     });
     return () => {
@@ -34,6 +41,7 @@ function MyApp({ Component, pageProps, router }) {
       <ProtectRoute router={router}>
         <MainLayout router={router}>
           <Component router={router} {...pageProps} />
+          <ToastContainer />
         </MainLayout>
       </ProtectRoute>
     </AuthContextProvider>
