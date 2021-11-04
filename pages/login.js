@@ -39,6 +39,7 @@ const Login = () => {
                   placeholder={`example@email.com`}
                   label={`Enter Email`}
                   externalStyles="mb-3"
+                  externalLabelStyles="color-white"
                   name="email"
                   type="text"
                 />
@@ -47,6 +48,7 @@ const Login = () => {
                   placeholder={`password`}
                   label={`Enter Password`}
                   externalStyles="mb-5"
+                  externalLabelStyles="color-white"
                   name="password"
                   type="password"
                 />
