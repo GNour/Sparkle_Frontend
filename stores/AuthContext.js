@@ -48,7 +48,6 @@ export const AuthContextProvider = ({ children }) => {
         password: values.password,
       })
       .then((response) => {
-        console.log(response);
         let code = response.data.code;
         if (parseInt(code) !== 200) {
           if (parseInt(code) == 401) {
