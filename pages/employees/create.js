@@ -7,7 +7,8 @@ import { Form, Formik } from "formik";
 import ActionButtonWithIcon from "../../components/Common/Buttons/ActionButtonWithIcon";
 import RoundedImageWithText from "../../components/Common/Images/RoundedImageWithText/RoundedImageWithText";
 import axiosConfig from "../../helpers/axiosConfig";
-const CreateEmployee = () => {
+const CreateEmployee = ({ teams }) => {
+  console.log(teams);
   const [profilePicturePreview, setProfilePicturePreview] =
     useState("/id_img.jpg");
 
@@ -36,8 +37,10 @@ const CreateEmployee = () => {
           role: "",
           position: "",
           password: "",
+          card_uid: "",
+          team_id: 0,
           password_confirmation: "",
-          profile_picture: undefined,
+          profile_picture: "default.png",
         }}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           const formData = new FormData();
@@ -100,6 +103,14 @@ const CreateEmployee = () => {
                   name="password_confirmation"
                   type="password"
                 />
+                <TextInput
+                  key="card_uid"
+                  placeholder={`Card UID`}
+                  label={`Card UID`}
+                  externalStyles="mb-3 col-12 col-sm-6 col-md-3"
+                  name="card_uid"
+                  type="text"
+                />
               </div>
               <div className="row mb-3">
                 <h5 className="">Identity Card Information</h5>
@@ -159,6 +170,21 @@ const CreateEmployee = () => {
                   <option value="Manager">Manager</option>
                   <option value="Staff">Staff</option>
                 </SelectInput>
+                <SelectInput
+                  label="Team"
+                  externalStyles="mb-3 col-12 col-sm-4 col-md-2"
+                  name="team_id"
+                >
+                  {teams &&
+                    teams.length > 0 &&
+                    teams.map((team) => {
+                      return (
+                        <option value={team.id} key={"team" + team.id}>
+                          {team.name}
+                        </option>
+                      );
+                    })}
+                </SelectInput>
                 <TextInput
                   key="position"
                   placeholder={`Position`}
@@ -181,6 +207,26 @@ const CreateEmployee = () => {
       </Formik>
     </Fragment>
   );
+};
+
+export const getServerSideProps = async () => {
+  try {
+    const teams = await axiosConfig.post("server/teams", {
+      key: process.env.API_KEY,
+    });
+
+    return {
+      props: {
+        teams: teams.data,
+      },
+    };
+  } catch (error) {
+    console.log(error);
+  }
+
+  return {
+    props: {},
+  };
 };
 
 export default CreateEmployee;
