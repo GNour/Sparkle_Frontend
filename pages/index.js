@@ -3,7 +3,7 @@ import PageHeader from "../components/Common/PageHeader";
 import axiosConfig from "../helpers/axiosConfig";
 import ChartContainer from "../components/Common/ChartContainer";
 import { Pie, Doughnut } from "react-chartjs-2";
-
+import Loader from "react-loader-spinner";
 const IndexPage = ({ data, router }) => {
   const getTasksCount = () => {
     let count = 0;
@@ -13,7 +13,18 @@ const IndexPage = ({ data, router }) => {
     return count;
   };
 
-  if (!data) return <div>Loading...</div>;
+  if (!data)
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <Loader
+          type="Puff"
+          color="#355ea0"
+          height={100}
+          width={100}
+          timeout={3000} //3 secs
+        />
+      </div>
+    );
 
   const tasksStatsData = {
     labels: ["Assigned", "Unassigned", "Finished"],

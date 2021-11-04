@@ -13,6 +13,7 @@ import axiosConfig from "../../helpers/axiosConfig";
 import CustomModal from "../../components/Common/CustomModal";
 import SquareButton from "../../components/Common/Buttons/SquareButton";
 import { AiFillPlusCircle, AiFillCheckCircle } from "react-icons/ai";
+import Loader from "react-loader-spinner";
 import {
   createQuizModal,
   createArticleModal,
@@ -205,7 +206,17 @@ const CoursePage = ({ router }) => {
 
   const handleContentCardOnClick = async (content, details) => {
     setPreviewedContentDetails(details);
-    setPreviewedContent(<div>loading...</div>);
+    setPreviewedContent(
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <Loader
+          type="Puff"
+          color="#355ea0"
+          height={100}
+          width={100}
+          timeout={3000} //3 secs
+        />
+      </div>
+    );
     if (details.type == "Article" || details.type == "Video") {
       let route =
         details.type == "Article"
@@ -257,7 +268,18 @@ const CoursePage = ({ router }) => {
   if (error) {
     console.log(error);
   }
-  if (!data) return <div>Loading...</div>;
+  if (!data)
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <Loader
+          type="Puff"
+          color="#355ea0"
+          height={100}
+          width={100}
+          timeout={3000} //3 secs
+        />
+      </div>
+    );
 
   const renderAdminCreateActions = () => {
     return (

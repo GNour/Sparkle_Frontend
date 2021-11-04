@@ -3,6 +3,8 @@ import axiosConfig from "../helpers/axiosConfig";
 import { useRouter } from "next/router";
 import AuthHelper from "../helpers/AuthHelper";
 import Cookies from "js-cookie";
+import Loader from "react-loader-spinner";
+import { toast } from "react-toastify";
 
 const AuthContext = createContext({});
 
@@ -36,6 +38,7 @@ export const AuthContextProvider = ({ children }) => {
       setLoading(false);
     }
     loadUserFromCookies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const login = async (values) => {
@@ -45,6 +48,7 @@ export const AuthContextProvider = ({ children }) => {
         password: values.password,
       })
       .then((response) => {
+        console.log(response);
         let code = response.data.code;
         if (parseInt(code) !== 200) {
           if (parseInt(code) == 401) {
@@ -70,7 +74,7 @@ export const AuthContextProvider = ({ children }) => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response);
       });
   };
 
@@ -112,7 +116,17 @@ export const useAuth = () => useContext(AuthContext);
 export const ProtectRoute = ({ children, router }) => {
   const { isAuthenticated, loading } = useAuth();
   if (loading || (!isAuthenticated && router.pathname !== "/login")) {
-    return <div>Loading...</div>;
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <Loader
+          type="Puff"
+          color="#355ea0"
+          height={100}
+          width={100}
+          timeout={3000} //3 secs
+        />
+      </div>
+    );
   }
 
   return children;

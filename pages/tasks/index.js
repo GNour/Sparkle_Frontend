@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import PageHeaderWithActions from "../../components/Common/PageHeaderWithActions";
 import ActionButtonWithIcon from "../../components/Common/Buttons/ActionButtonWithIcon";
 import { AiOutlinePlus } from "react-icons/ai";
+import Loader from "react-loader-spinner";
 const TasksPage = ({ taskableCourses, teams }) => {
   const { user, loading } = useAuth();
   const router = useRouter();
@@ -56,7 +57,18 @@ const TasksPage = ({ taskableCourses, teams }) => {
   };
 
   if (error) return <div>{error}</div>;
-  if (!data) return <div>Loading..</div>;
+  if (!data)
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <Loader
+          type="Puff"
+          color="#355ea0"
+          height={100}
+          width={100}
+          timeout={3000} //3 secs
+        />
+      </div>
+    );
 
   const handleAssignTask = (id) => {
     setModal(assignTaskModal(teams, handleModalClose, confirmAssignTask, id));
