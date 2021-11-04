@@ -33,22 +33,6 @@ const Chat = ({ users }) => {
         console.log(err);
       });
   const { data, error } = useSWR("/message/messages", fetcher);
-  useEffect(() => {
-    Pusher.logToConsole = false;
-
-    var pusher = new Pusher("31ab41bd72b4edd636e8", {
-      cluster: "ap2",
-    });
-
-    var channel = pusher.subscribe("chat");
-    channel.bind("message", function (data) {
-      mutate("/message/messages");
-      scrollToBottom();
-    });
-    return () => {
-      pusher.unsubscribe("chat");
-    };
-  }, []);
 
   const handleSendMessage = async (values, { setSubmitting, resetForm }) => {
     resetForm();
