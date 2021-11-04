@@ -13,6 +13,7 @@ const TaskCard = ({
   handleActionButton,
   handleRemoveAction,
   handlePopoverContent,
+  handleFinishAction,
   handleRoute,
   userRole,
   isCourse,
@@ -54,10 +55,190 @@ const TaskCard = ({
   }
 
   const taskStats = getTaskStats(task.users);
-  const taskStatsProgress = Math.floor(
-    (taskStats?.completedUsers.length / taskStats?.uncompletedUsers.length) *
-      100
-  );
+  const taskStatsProgress =
+    taskStats?.uncompletedUsers.length == 0
+      ? 100
+      : Math.floor(
+          (taskStats?.completedUsers.length /
+            taskStats?.uncompletedUsers.length) *
+            100
+        );
+
+  const getCardFooterAdmin = (
+    task,
+    status,
+    id,
+    handleActionButton,
+    handleRemoveAction,
+    stats
+  ) => {
+    if (status == 1) {
+      return (
+        <InfoActionsFooter
+          icons={[
+            <IconText
+              key="completed"
+              icon={<MdAssignmentInd />}
+              style="me-2"
+              text={stats?.uncompletedUsers.length}
+            />,
+            <IconText
+              key="uncompleted"
+              icon={<BsPersonCheckFill />}
+              style="me-2"
+              text={stats?.completedUsers.length}
+            />,
+          ]}
+          actions={[
+            taskStatsProgress == 100 ? (
+              <Button
+                key={id}
+                id={id}
+                size="small"
+                variant="outlined"
+                startIcon={<AiOutlineCheck />}
+                onClick={handleFinishAction}
+              >
+                Finish
+              </Button>
+            ) : (
+              <Button
+                key={id}
+                id={id}
+                size="small"
+                variant="outlined"
+                startIcon={<AiOutlineClose />}
+                onClick={handleActionButton}
+              >
+                Unassign
+              </Button>
+            ),
+          ]}
+        />
+      );
+    } else if (status == 0) {
+      return (
+        <InfoActionsFooter
+          actions={[
+            <Button
+              key={"Assign" + id}
+              id={id}
+              size="small"
+              variant="outlined"
+              startIcon={<AiOutlinePlus />}
+              onClick={handleActionButton}
+            >
+              Assign
+            </Button>,
+          ]}
+        />
+      );
+    } else if (status == 2) {
+      return (
+        <InfoActionsFooter
+          icons={[
+            <IconText
+              key="uncompleted"
+              icon={<BsPersonCheckFill />}
+              style="me-2"
+              text={stats?.completedUsers.length}
+            />,
+          ]}
+          actions={[
+            <Button
+              key={"Ressagin" + id}
+              id={id}
+              size="small"
+              variant="outlined"
+              startIcon={<AiOutlinePlus />}
+              onClick={handleActionButton}
+            >
+              Reassign
+            </Button>,
+            <Button
+              key={"Remove" + id}
+              id={id}
+              size="small"
+              style={{
+                color: "#e53e3e",
+              }}
+              variant="outlined"
+              startIcon={<BsTrash />}
+              onClick={handleRemoveAction}
+            >
+              Remove
+            </Button>,
+          ]}
+        />
+      );
+    }
+  };
+
+  const getCardFooterCourse = (videosCount, quizzesCount, articlesCount) => {
+    return (
+      <InfoActionsFooter
+        icons={[
+          <IconText
+            key="videosCount"
+            icon={<RiVideoFill />}
+            style="me-2"
+            text={videosCount}
+          />,
+          <IconText
+            key="quizzesCount"
+            icon={<MdQuiz />}
+            style="me-2"
+            text={quizzesCount}
+          />,
+          <IconText
+            key="articlesCount"
+            icon={<RiArticleFill />}
+            style="me-2"
+            text={articlesCount}
+          />,
+        ]}
+      />
+    );
+  };
+
+  const getCardFooterEmployee = ({}, type, id, action) => {
+    if (type == "todo") {
+      return (
+        <InfoActionsFooter
+          actions={[
+            <Button
+              key={"Complete" + id}
+              id={id}
+              size="small"
+              variant="outlined"
+              startIcon={<AiOutlineCheck />}
+              onClick={action}
+            >
+              Complete
+            </Button>,
+          ]}
+        />
+      );
+    }
+    if (type == "course") {
+      return (
+        <InfoActionsFooter
+          actions={[
+            <Button
+              key={"Start" + id}
+              id={id}
+              size="small"
+              variant="outlined"
+              startIcon={<AiOutlineCheck />}
+              onClick={action}
+            >
+              Start
+            </Button>,
+          ]}
+        />
+      );
+    }
+  };
 
   return (
     <div
@@ -91,169 +272,6 @@ const TaskCard = ({
   );
 };
 
-const getCardFooterCourse = (videosCount, quizzesCount, articlesCount) => {
-  return (
-    <InfoActionsFooter
-      icons={[
-        <IconText
-          key="videosCount"
-          icon={<RiVideoFill />}
-          style="me-2"
-          text={videosCount}
-        />,
-        <IconText
-          key="quizzesCount"
-          icon={<MdQuiz />}
-          style="me-2"
-          text={quizzesCount}
-        />,
-        <IconText
-          key="articlesCount"
-          icon={<RiArticleFill />}
-          style="me-2"
-          text={articlesCount}
-        />,
-      ]}
-    />
-  );
-};
-
-const getCardFooterEmployee = ({}, type, id, action) => {
-  if (type == "todo") {
-    return (
-      <InfoActionsFooter
-        actions={[
-          <Button
-            key={"Complete" + id}
-            id={id}
-            size="small"
-            variant="outlined"
-            startIcon={<AiOutlineCheck />}
-            onClick={action}
-          >
-            Complete
-          </Button>,
-        ]}
-      />
-    );
-  }
-  if (type == "course") {
-    return (
-      <InfoActionsFooter
-        actions={[
-          <Button
-            key={"Start" + id}
-            id={id}
-            size="small"
-            variant="outlined"
-            startIcon={<AiOutlineCheck />}
-            onClick={action}
-          >
-            Start
-          </Button>,
-        ]}
-      />
-    );
-  }
-};
-
-const getCardFooterAdmin = (
-  task,
-  status,
-  id,
-  handleActionButton,
-  handleRemoveAction,
-  stats
-) => {
-  if (status == 1) {
-    return (
-      <InfoActionsFooter
-        icons={[
-          <IconText
-            key="completed"
-            icon={<MdAssignmentInd />}
-            style="me-2"
-            text={stats?.uncompletedUsers.length}
-          />,
-          <IconText
-            key="uncompleted"
-            icon={<BsPersonCheckFill />}
-            style="me-2"
-            text={stats?.completedUsers.length}
-          />,
-        ]}
-        actions={[
-          <Button
-            key={id}
-            id={id}
-            size="small"
-            variant="outlined"
-            startIcon={<AiOutlineClose />}
-            onClick={handleActionButton}
-          >
-            Unassign
-          </Button>,
-        ]}
-      />
-    );
-  } else if (status == 0) {
-    return (
-      <InfoActionsFooter
-        actions={[
-          <Button
-            key={"Assign" + id}
-            id={id}
-            size="small"
-            variant="outlined"
-            startIcon={<AiOutlinePlus />}
-            onClick={handleActionButton}
-          >
-            Assign
-          </Button>,
-        ]}
-      />
-    );
-  } else if (status == 2) {
-    return (
-      <InfoActionsFooter
-        icons={[
-          <IconText
-            key="uncompleted"
-            icon={<BsPersonCheckFill />}
-            style="me-2"
-            text={stats?.completedUsers.length}
-          />,
-        ]}
-        actions={[
-          <Button
-            key={"Ressagin" + id}
-            id={id}
-            size="small"
-            variant="outlined"
-            startIcon={<AiOutlinePlus />}
-            onClick={handleActionButton}
-          >
-            Reassign
-          </Button>,
-          <Button
-            key={"Remove" + id}
-            id={id}
-            size="small"
-            style={{
-              color: "#e53e3e",
-            }}
-            variant="outlined"
-            startIcon={<BsTrash />}
-            onClick={handleRemoveAction}
-          >
-            Remove
-          </Button>,
-        ]}
-      />
-    );
-  }
-};
-
 const getTaskStats = (users) => {
   if (users.length == 0) return;
   let completedUsers = [];
@@ -267,4 +285,5 @@ const getTaskStats = (users) => {
   });
   return { completedUsers, uncompletedUsers };
 };
+
 export default TaskCard;

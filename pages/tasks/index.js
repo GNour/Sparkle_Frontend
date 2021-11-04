@@ -17,7 +17,6 @@ import PageHeaderWithActions from "../../components/Common/PageHeaderWithActions
 import ActionButtonWithIcon from "../../components/Common/Buttons/ActionButtonWithIcon";
 import { AiOutlinePlus } from "react-icons/ai";
 const TasksPage = ({ taskableCourses, teams }) => {
-  console.log(teams);
   const { user, loading } = useAuth();
   const router = useRouter();
 
@@ -128,6 +127,17 @@ const TasksPage = ({ taskableCourses, teams }) => {
       });
   };
 
+  const handleFinishTask = async (id) => {
+    const res = await axiosConfig
+      .put("task/finish/" + id)
+      .then((res) => {
+        mutate("task/all");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const handleStartCourse = async (id, taskId) => {
     await axiosConfig
       .put("course/take/" + id)
@@ -136,7 +146,7 @@ const TasksPage = ({ taskableCourses, teams }) => {
 
   if (error) return <div>{error}</div>;
   if (!data) return <div>Loading..</div>;
-
+  console.log(data);
   return (
     <Fragment>
       <TasksLayout
@@ -154,6 +164,10 @@ const TasksPage = ({ taskableCourses, teams }) => {
                     task={task}
                     userRole={user.role}
                     handlePopoverContent={handleCardClick}
+                    handleFinishAction={(e) => {
+                      e.stopPropagation();
+                      handleFinishTask(task.id);
+                    }}
                     handleActionButton={(e) => {
                       e.stopPropagation();
                       handleUnassignTask(task.id);
