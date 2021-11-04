@@ -7,6 +7,7 @@ import Pusher from "pusher-js";
 import { mutate } from "swr";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 function MyApp({ Component, pageProps, router }) {
   const user = useAuth();
   useEffect(() => {
@@ -35,6 +36,7 @@ function MyApp({ Component, pageProps, router }) {
     return () => {
       pusher.unsubscribe("chat");
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <AuthContextProvider>
