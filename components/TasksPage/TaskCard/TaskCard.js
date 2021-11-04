@@ -174,33 +174,6 @@ const TaskCard = ({
     }
   };
 
-  const getCardFooterCourse = (videosCount, quizzesCount, articlesCount) => {
-    return (
-      <InfoActionsFooter
-        icons={[
-          <IconText
-            key="videosCount"
-            icon={<RiVideoFill />}
-            style="me-2"
-            text={videosCount}
-          />,
-          <IconText
-            key="quizzesCount"
-            icon={<MdQuiz />}
-            style="me-2"
-            text={quizzesCount}
-          />,
-          <IconText
-            key="articlesCount"
-            icon={<RiArticleFill />}
-            style="me-2"
-            text={articlesCount}
-          />,
-        ]}
-      />
-    );
-  };
-
   const getCardFooterEmployee = ({}, type, id, action) => {
     if (type == "todo") {
       return (
@@ -284,6 +257,33 @@ const getTaskStats = (users) => {
     }
   });
   return { completedUsers, uncompletedUsers };
+};
+
+const getCardFooterCourse = (videosCount, quizzesCount, articlesCount) => {
+  return (
+    <InfoActionsFooter
+      icons={[
+        <IconText
+          key="videosCount"
+          icon={<RiVideoFill />}
+          style="me-2"
+          text={videosCount}
+        />,
+        <IconText
+          key="quizzesCount"
+          icon={<MdQuiz />}
+          style="me-2"
+          text={quizzesCount}
+        />,
+        <IconText
+          key="articlesCount"
+          icon={<RiArticleFill />}
+          style="me-2"
+          text={articlesCount}
+        />,
+      ]}
+    />
+  );
 };
 
 export default TaskCard;
