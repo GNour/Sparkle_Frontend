@@ -43,7 +43,7 @@ const MembersPage = (props) => {
               <UserCard
                 key={employee.id}
                 id={employee.id}
-                image={`http://localhost:8000/images/${employee.profile_picture}`}
+                image={`http://3.144.31.214/images/${employee.profile_picture}`}
                 imageText={employee.position}
                 action={() => router.push("/employees/" + employee.id)}
                 name={employee.first_name + " " + employee.last_name}

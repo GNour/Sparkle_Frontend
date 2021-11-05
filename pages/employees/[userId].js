@@ -9,12 +9,9 @@ import Infolist from "../../components/Common/Infolist";
 import ScrollableContainer from "../../components/Common/ScrollableContainer";
 import NoteCard from "../../components/Common/Cards/NoteCard";
 import CustomModal from "../../components/Common/CustomModal";
-import TextInput from "../../components/Common/Inputs/TextInput";
-import TextAreaInput from "../../components/Common/Inputs/TextAreaInput";
-import SelectInput from "../../components/Common/Inputs/SelectInput";
-import { Form, Formik } from "formik";
 import { Pie } from "react-chartjs-2";
 import ChartContainer from "../../components/Common/ChartContainer";
+import Loader from "react-loader-spinner";
 import {
   getTasksStats,
   getNotesStats,
@@ -161,7 +158,18 @@ const MemberPage = () => {
   }, [data]);
 
   if (error) return <div>{error}</div>;
-  if (!data) return <div>Loading..</div>;
+  if (!data)
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <Loader
+          type="Puff"
+          color="#355ea0"
+          height={100}
+          width={100}
+          timeout={3000} //3 secs
+        />
+      </div>
+    );
 
   return (
     <Fragment>
@@ -210,7 +218,7 @@ const MemberPage = () => {
             <UserCard
               key={data.id}
               id={data.id}
-              image={`http://localhost:8000/images/${data.profile_picture}`}
+              image={`http://3.144.31.214/images/${data.profile_picture}`}
               imageText={data.position}
               name={data.first_name + " " + data.last_name}
               username={data.username}
