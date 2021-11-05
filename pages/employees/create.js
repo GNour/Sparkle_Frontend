@@ -40,7 +40,7 @@ const CreateEmployee = ({ teams }) => {
           card_uid: "",
           team_id: 0,
           password_confirmation: "",
-          profile_picture: "default.png",
+          profile_picture: undefined,
         }}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           const formData = new FormData();
@@ -198,7 +198,7 @@ const CreateEmployee = ({ teams }) => {
               <ActionButtonWithIcon
                 text="Create"
                 externalStyles={"w-100 mb-5"}
-                type="submit"
+                buttonType="submit"
                 action={"submit"}
               />
             </Form>
