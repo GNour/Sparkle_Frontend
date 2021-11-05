@@ -6,6 +6,6 @@ module.exports = {
     prependData: `@import "_variables.scss";`,
   },
   images: {
-    domains: ["localhost"],
+    domains: ["localhost", "3.144.31.214"],
   },
 };
