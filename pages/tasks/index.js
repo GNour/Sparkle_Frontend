@@ -157,8 +157,18 @@ const TasksPage = ({ taskableCourses, teams }) => {
   };
 
   if (error) return <div>{error}</div>;
-  if (!data) return <div>Loading..</div>;
-  console.log(data);
+  if (!data)
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <Loader
+          type="Puff"
+          color="#355ea0"
+          height={100}
+          width={100}
+          timeout={3000} //3 secs
+        />
+      </div>
+    );
   return (
     <Fragment>
       <TasksLayout
