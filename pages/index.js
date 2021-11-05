@@ -5,6 +5,7 @@ import ChartContainer from "../components/Common/ChartContainer";
 import { Pie, Doughnut } from "react-chartjs-2";
 import Loader from "react-loader-spinner";
 const IndexPage = ({ data, router }) => {
+  console.log(data);
   const getTasksCount = () => {
     let count = 0;
     data.tasks?.forEach((data) => {
@@ -61,7 +62,7 @@ const IndexPage = ({ data, router }) => {
           data && data.attendance,
           data && data.courses,
           data && data.todos,
-          data && data.employees,
+          data && data.users,
           data && data.teams,
           data && data.messages,
         ],

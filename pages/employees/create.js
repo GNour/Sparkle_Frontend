@@ -175,6 +175,7 @@ const CreateEmployee = ({ teams }) => {
                   externalStyles="mb-3 col-12 col-sm-4 col-md-2"
                   name="team_id"
                 >
+                  <option defaultValue>Select Team</option>
                   {teams &&
                     teams.length > 0 &&
                     teams.map((team) => {

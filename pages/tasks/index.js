@@ -20,6 +20,12 @@ import Loader from "react-loader-spinner";
 const TasksPage = ({ taskableCourses, teams }) => {
   const { user, loading } = useAuth();
   const router = useRouter();
+  console.log(taskableCourses, teams);
+
+  useEffect(() => {
+    mutate("server/teams");
+    mutate("server/courses");
+  }, []);
 
   // States for modal, Confirmation modal and Add note modal
   const [isModalOpened, setIsModalOpen] = useState(false);

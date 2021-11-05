@@ -174,45 +174,6 @@ const TaskCard = ({
     }
   };
 
-  const getCardFooterEmployee = ({}, type, id, action) => {
-    if (type == "todo") {
-      return (
-        <InfoActionsFooter
-          actions={[
-            <Button
-              key={"Complete" + id}
-              id={id}
-              size="small"
-              variant="outlined"
-              startIcon={<AiOutlineCheck />}
-              onClick={action}
-            >
-              Complete
-            </Button>,
-          ]}
-        />
-      );
-    }
-    if (type == "course") {
-      return (
-        <InfoActionsFooter
-          actions={[
-            <Button
-              key={"Start" + id}
-              id={id}
-              size="small"
-              variant="outlined"
-              startIcon={<AiOutlineCheck />}
-              onClick={action}
-            >
-              Start
-            </Button>,
-          ]}
-        />
-      );
-    }
-  };
-
   return (
     <div
       className={`${styles.TaskCardContainer}`}
@@ -257,6 +218,45 @@ const getTaskStats = (users) => {
     }
   });
   return { completedUsers, uncompletedUsers };
+};
+
+const getCardFooterEmployee = ({}, type, id, action) => {
+  if (type == "todo") {
+    return (
+      <InfoActionsFooter
+        actions={[
+          <Button
+            key={"Complete" + id}
+            id={id}
+            size="small"
+            variant="outlined"
+            startIcon={<AiOutlineCheck />}
+            onClick={action}
+          >
+            Complete
+          </Button>,
+        ]}
+      />
+    );
+  }
+  if (type == "course") {
+    return (
+      <InfoActionsFooter
+        actions={[
+          <Button
+            key={"Start" + id}
+            id={id}
+            size="small"
+            variant="outlined"
+            startIcon={<AiOutlineCheck />}
+            onClick={action}
+          >
+            Start
+          </Button>,
+        ]}
+      />
+    );
+  }
 };
 
 const getCardFooterCourse = (videosCount, quizzesCount, articlesCount) => {
