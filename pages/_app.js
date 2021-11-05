@@ -9,7 +9,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 function MyApp({ Component, pageProps, router }) {
-  const user = useAuth();
+  const { user } = useAuth();
+  console.log(user);
   useEffect(() => {
     Pusher.logToConsole = true;
 
@@ -19,17 +20,17 @@ function MyApp({ Component, pageProps, router }) {
 
     var channel = pusher.subscribe("chat");
     channel.bind("message", function (data) {
+      console.log(data);
+
+      // FROM ARDUINO
+      if (data.from == -1) {
+        toast(data.message);
+      }
       // FROM USERS
-      if (data.from > 0) {
+      else if (data.from > 0) {
         mutate("/message/messages");
         if (router.asPath != "/chat") {
           toast.info("New messages in global chat");
-        }
-      }
-      // FROM ARDUINO
-      else if (data.from == -1) {
-        if (user.role == "Admin" || user.role == "Manager") {
-          toast(data.message);
         }
       }
     });
