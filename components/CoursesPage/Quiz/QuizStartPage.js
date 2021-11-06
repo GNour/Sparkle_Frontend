@@ -33,7 +33,7 @@ const QuizStartPage = ({ quiz }) => {
   });
 
   const handleStart = async () => {
-    if (user.role == "Admin") {
+    if (user.role == "Manager") {
       setStartQuiz(RenderAdminPreview(quiz));
     } else {
       await axiosConfig
@@ -60,12 +60,12 @@ const QuizStartPage = ({ quiz }) => {
             Quiz Timelimit: {quiz.limit}
           </p>
           <p>
-            {user.role == "Admin"
+            {user.role == "Manager"
               ? "Preview Quiz ?"
               : "Confirm by pressing Start button"}
           </p>
           <ActionButtonWithIcon
-            text={user.role == "Admin" ? "Preview" : "Start"}
+            text={user.role == "Manager" ? "Preview" : "Start"}
             isSecondary
             action={handleStart}
           />

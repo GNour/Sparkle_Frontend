@@ -82,13 +82,13 @@ const SideBar = ({ router }) => {
             }
             icon={<AiOutlineDashboard size={18} />}
           >
-            {user.role == "Admin" ? (
-              <Link href="/">DashBoard</Link>
+            {user.role == "Manager" ? (
+              <Link href="/">Dashboard</Link>
             ) : (
               <Link href={`/employees/${user.id}`}>My Dashboard</Link>
             )}
           </MenuItem>
-          {user.role == "Admin" ? (
+          {user.role == "Manager" ? (
             <SubMenu title="Employees" icon={<FaUsers size={18} />}>
               <MenuItem
                 active={router.asPath == "/employees" ? true : false}
@@ -117,7 +117,7 @@ const SideBar = ({ router }) => {
           >
             <Link href="/tasks">Tasks</Link>
           </MenuItem>
-          {user.role == "Admin" ? (
+          {user.role == "Manager" ? (
             <MenuItem
               active={router.asPath.startsWith("/courses") ? true : false}
               icon={<GiTeacher size={18} />}

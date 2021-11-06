@@ -42,7 +42,7 @@ const TasksLayout = ({ children, taskableCourses, header }) => {
       <PageHeaderWithActions
         header={header}
         button={
-          user.role == "Admin" ? (
+          user.role == "Manager" ? (
             <div>
               <ActionButtonWithIcon
                 icon={<AiOutlinePlus />}

@@ -176,7 +176,7 @@ const MemberPage = () => {
       <PageHeaderWithActions
         header={data.username + " Dashboard"}
         button={
-          loggedInUser.role == "Admin" ? (
+          loggedInUser.role == "Manager" ? (
             <ActionButtonWithIcon
               icon={<AiOutlineClose />}
               text={"Suspend"}
@@ -254,7 +254,7 @@ const MemberPage = () => {
             externalStyles="mh-450 overflow-y-scroll order-1 order-md-2 rounded custom-container-sub"
             header="Feedbacks"
             button={
-              loggedInUser.role == "Admin" ? (
+              loggedInUser.role == "Manager" ? (
                 <ActionButtonWithIcon
                   icon={<AiOutlinePlus />}
                   action={handleOpen}

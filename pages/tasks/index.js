@@ -47,7 +47,7 @@ const TasksPage = ({ taskableCourses, teams }) => {
 
   if (user.role == "Staff" && data) {
     console.log(data);
-  } else if (user.role == "Admin" && data) {
+  } else if (user.role == "Manager" && data) {
   }
 
   // TaskCard Popover
@@ -181,8 +181,8 @@ const TasksPage = ({ taskableCourses, teams }) => {
         taskableCourses={taskableCourses}
         header={data && data.length == 0 ? "No Tasks... Hooray" : "Tasks"}
       >
-        <ColoumnContainer title={user.role == "Admin" ? "Assigned" : "Todos"}>
-          {user.role == "Admin"
+        <ColoumnContainer title={user.role == "Manager" ? "Assigned" : "Todos"}>
+          {user.role == "Manager"
             ? data &&
               data[1] &&
               data[1].map((task) => {
@@ -221,9 +221,9 @@ const TasksPage = ({ taskableCourses, teams }) => {
               })}
         </ColoumnContainer>
         <ColoumnContainer
-          title={user.role == "Admin" ? "Unassigned" : "Courses"}
+          title={user.role == "Manager" ? "Unassigned" : "Courses"}
         >
-          {user.role == "Admin"
+          {user.role == "Manager"
             ? data &&
               data[0] &&
               data[0].map((task) => {
@@ -257,9 +257,9 @@ const TasksPage = ({ taskableCourses, teams }) => {
               })}
         </ColoumnContainer>
         <ColoumnContainer
-          title={user.role == "Admin" ? "Finished" : "Upcoming Deadlines"}
+          title={user.role == "Manager" ? "Finished" : "Upcoming Deadlines"}
         >
-          {user.role == "Admin"
+          {user.role == "Manager"
             ? data &&
               data[2] &&
               data[2].map((task) => {

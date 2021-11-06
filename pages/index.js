@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import PageHeader from "../components/Common/PageHeader";
 import axiosConfig from "../helpers/axiosConfig";
 import ChartContainer from "../components/Common/ChartContainer";
-import { Pie, Doughnut } from "react-chartjs-2";
+import { Pie, Bar } from "react-chartjs-2";
 import Loader from "react-loader-spinner";
 const IndexPage = ({ data, router }) => {
   console.log(data);
@@ -46,6 +46,25 @@ const IndexPage = ({ data, router }) => {
     ],
   };
 
+  const todosStats = {
+    labels: ["All", "Monthly", "Today"],
+    datasets: [
+      {
+        label: "Todos Statistics",
+        data: [
+          data && data.todos && data.todos[0],
+          data && data.todos && data.todos[1],
+          data && data.todos && data.todos[2],
+        ],
+        backgroundColor: [
+          "rgba(73,180,240,80)",
+          "rgba(255, 24, 67, 1)",
+          "rgba(126, 185, 63, 1)",
+        ],
+      },
+    ],
+  };
+
   const generalStats = {
     labels: [
       "Today's Attendance",
@@ -57,14 +76,14 @@ const IndexPage = ({ data, router }) => {
     ],
     datasets: [
       {
-        label: "General Statistics",
+        label: "Overall stats",
         data: [
           data && data.attendance,
           data && data.courses,
-          data && data.todos,
+          data && data.todos[0],
           data && data.users,
           data && data.teams,
-          data && data.messages,
+          data && data.messages[0],
         ],
         backgroundColor: [
           "rgba(73,180,240,80)",
@@ -78,22 +97,32 @@ const IndexPage = ({ data, router }) => {
     ],
   };
 
+  const barOptions = {
+    indexAxis: "y",
+    elements: {
+      bar: {
+        borderWidth: 2,
+      },
+    },
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "right",
+      },
+      title: {
+        display: true,
+        text: "Overall Statistics",
+      },
+    },
+  };
+
   return (
     <Fragment>
       <PageHeader header="Dashboard" />
       <div className="row g-3 gy-5 py-3 row-deck">
         <div className="col-12 col-sm-8">
-          <ChartContainer
-            externalStyles="custom-container rounded p-2 mb-2"
-            header="General Stats"
-          >
-            <Doughnut
-              data={generalStats}
-              width={500}
-              height={300}
-              options={{ maintainAspectRatio: false }}
-              redraw={false}
-            />
+          <ChartContainer externalStyles="custom-container rounded p-2 mb-2">
+            <Bar data={generalStats} options={barOptions} redraw={false} />
           </ChartContainer>
         </div>
         <div className="col-12 col-sm-4">
@@ -103,6 +132,18 @@ const IndexPage = ({ data, router }) => {
           >
             <Pie
               data={tasksStatsData}
+              width={500}
+              height={300}
+              options={{ maintainAspectRatio: false }}
+              redraw={false}
+            />
+          </ChartContainer>
+          <ChartContainer
+            externalStyles="custom-container rounded p-2 mb-2"
+            header="Todos"
+          >
+            <Pie
+              data={todosStats}
               width={500}
               height={300}
               options={{ maintainAspectRatio: false }}

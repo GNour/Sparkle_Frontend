@@ -1,20 +1,20 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import ChatLayout from "../components/Layouts/ChatLayout";
 import Pusher from "pusher-js";
 import axiosConfig from "../helpers/axiosConfig";
 import useSWR, { mutate } from "swr";
 import ScrollableContainer from "../components/Common/ScrollableContainer";
-import ChatUserCard from "../components/ChatPage/ChatUserCard";
 import ChatMessage from "../components/ChatPage/ChatMessage";
 import { Formik, Form } from "formik";
 import TextInput from "../components/Common/Inputs/TextInput";
 import ActionButtonWithIcon from "../components/Common/Buttons/ActionButtonWithIcon";
-import { AiOutlineSend, AiOutlinePlus } from "react-icons/ai";
+import { AiOutlineSend } from "react-icons/ai";
 import { useAuth } from "../stores/AuthContext";
 const Chat = ({ users }) => {
   const lastMessage = useRef(null);
   const { user } = useAuth();
   const loggedInUserId = user.id;
+  const [sentMessages, setSentMessages] = useState([]);
 
   const scrollToBottom = () => {
     if (lastMessage) {
@@ -27,6 +27,7 @@ const Chat = ({ users }) => {
       .get(url)
       .then((res) => {
         scrollToBottom();
+        setSentMessages([]);
         return res.data;
       })
       .catch((err) => {
@@ -35,6 +36,7 @@ const Chat = ({ users }) => {
   const { data, error } = useSWR("/message/messages", fetcher);
 
   const handleSendMessage = async (values, { setSubmitting, resetForm }) => {
+    setSentMessages([...sentMessages, values]);
     resetForm();
     await axiosConfig.post("message/send", values);
     setSubmitting(false);
@@ -59,6 +61,10 @@ const Chat = ({ users }) => {
             <span className="text-muted text-sm">No Messages yet...</span>
           </div>
         )}
+        {sentMessages.length > 0 &&
+          sentMessages.map((message) => {
+            return <ChatMessage key={"SENT"} type={"sent"} content={message} />;
+          })}
         {
           <Formik
             initialValues={{
@@ -91,16 +97,6 @@ const Chat = ({ users }) => {
       </ScrollableContainer>
     </ChatLayout>
   );
-};
-
-const getUnreadMessagesCount = (messagesFromUser, currentUser) => {
-  let count = 0;
-  // messagesFromUser.forEach((message) => {
-  //   if (message.read == 0 && message.to.id == currentUser) {
-  //     count++;
-  //   }
-  // });
-  return count;
 };
 
 export const getServerSideProps = async () => {

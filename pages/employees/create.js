@@ -38,7 +38,7 @@ const CreateEmployee = ({ teams }) => {
           position: "",
           password: "",
           card_uid: "",
-          team_id: 0,
+          team_id: "",
           password_confirmation: "",
           profile_picture: undefined,
         }}
@@ -52,6 +52,7 @@ const CreateEmployee = ({ teams }) => {
               headers: { "Content-Type": "multipart/form-data" },
             })
             .then((response) => {
+              setSubmitting(false);
               resetForm();
             })
             .catch((e) => {

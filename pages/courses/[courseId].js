@@ -427,9 +427,7 @@ const CoursePage = ({ router }) => {
             })}
         </ScrollableContainer>
       </CourseLayout>
-      {(user && user.role == "Admin") || user.role == "Manager"
-        ? renderAdminCreateActions()
-        : null}
+      {user && user.role == "Manager" ? renderAdminCreateActions() : null}
       <CustomModal isModalOpened={isModalOpened} modalClose={handleClose}>
         {modal}
       </CustomModal>
