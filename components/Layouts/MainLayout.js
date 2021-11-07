@@ -1,8 +1,43 @@
 import SideBar from "../Common/SideBar/SideBar";
 import styles from "./MainLayout.module.scss";
-import { useRouter } from "next/router";
-import BackButton from "../Common/BackButton";
+import Pusher from "pusher-js";
+import { useEffect } from "react";
+import { useAuth } from "../../stores/AuthContext";
+import { mutate } from "swr";
+import { toast } from "react-toastify";
 const MainLayout = ({ children, router }) => {
+  const { user } = useAuth();
+  console.log(user);
+  useEffect(() => {
+    Pusher.logToConsole = false;
+
+    var pusher = new Pusher("31ab41bd72b4edd636e8", {
+      cluster: "ap2",
+    });
+
+    var channel = pusher.subscribe("chat");
+    channel.bind("message", function (data) {
+      // FROM ARDUINO
+      if (data.from == -1) {
+        if (user && user.role == "Manager") {
+          toast(data.message);
+        }
+      }
+      // FROM USERS
+      else if (data.from > 0) {
+        mutate("/message/messages");
+        if (router.asPath != "/chat") {
+          if (user) {
+            toast.info("New messages in global chat");
+          }
+        }
+      }
+    });
+    return () => {
+      pusher.unsubscribe("chat");
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div
       className={`theme-default vh-100 ${styles.MainLayout} overflow-hidden`}
