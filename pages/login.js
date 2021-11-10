@@ -4,13 +4,12 @@ import { Form, Formik } from "formik";
 import TextInput from "../components/Common/Inputs/TextInput";
 import ActionButtonWithIcon from "../components/Common/Buttons/ActionButtonWithIcon";
 import { useAuth } from "../stores/AuthContext";
-import { BiLogIn } from "react-icons/bi";
 const Login = () => {
   const { login } = useAuth();
   return (
     <Fragment>
       <div className="row justify-content-center">
-        <div className="col-12 col-sm-4">
+        <div className="col-12 col-sm-8 col-md-4">
           <div className="h-100 rounded custom-container-primary p-5">
             <div className="d-flex justify-content-center mb-3">
               <Image
