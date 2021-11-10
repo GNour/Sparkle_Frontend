@@ -62,7 +62,10 @@ const CoursesPage = ({ courses }) => {
             // Render in desc order
             let course = data[data.length - index - 1];
             return (
-              <div key={"Course" + course.id} className="col-4">
+              <div
+                key={"Course" + course.id}
+                className="col-12 col-sm-8 col-md-4"
+              >
                 <TaskCard
                   externalStyles={"col"}
                   handleRoute={() => router.push("/courses/" + course.id)}
