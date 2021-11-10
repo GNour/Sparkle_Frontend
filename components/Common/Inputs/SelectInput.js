@@ -29,7 +29,7 @@ const SelectInput = ({
         {children}
       </select>
       {meta.touched && meta.error ? (
-        <div className="error">{meta.error}</div>
+        <div className="text-danger error">{meta.error}</div>
       ) : null}
     </div>
   );
