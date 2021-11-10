@@ -7,6 +7,7 @@ import { Form, Formik } from "formik";
 import ActionButtonWithIcon from "../../components/Common/Buttons/ActionButtonWithIcon";
 import RoundedImageWithText from "../../components/Common/Images/RoundedImageWithText/RoundedImageWithText";
 import axiosConfig from "../../helpers/axiosConfig";
+import { createEmployeeSchema } from "../../helpers/FormHelpers";
 const CreateEmployee = ({ teams }) => {
   console.log(teams);
   const [profilePicturePreview, setProfilePicturePreview] =
@@ -42,6 +43,7 @@ const CreateEmployee = ({ teams }) => {
           password_confirmation: "",
           profile_picture: undefined,
         }}
+        validationSchema={createEmployeeSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           const formData = new FormData();
           for (let key in values) {
@@ -62,7 +64,7 @@ const CreateEmployee = ({ teams }) => {
       >
         {(formik) => {
           return (
-            <Form>
+            <Form style={{}}>
               <div className="row mb-3">
                 <TextInput
                   key="profile_picture"
