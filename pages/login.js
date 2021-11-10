@@ -1,9 +1,10 @@
-import { Fragment, useContext } from "react";
+import { Fragment } from "react";
 import Image from "next/image";
-import { Form, Formik } from "formik";
+import { ErrorMessage, Form, Formik } from "formik";
 import TextInput from "../components/Common/Inputs/TextInput";
 import ActionButtonWithIcon from "../components/Common/Buttons/ActionButtonWithIcon";
 import { useAuth } from "../stores/AuthContext";
+import { loginSchema } from "../helpers/FormHelpers";
 const Login = () => {
   const { login } = useAuth();
   return (
@@ -31,8 +32,9 @@ const Login = () => {
                 setSubmitting(false);
                 login(values);
               }}
+              validationSchema={loginSchema}
             >
-              <Form>
+              <Form style={{ color: "rgba(255, 24, 67, 1)" }}>
                 <TextInput
                   key="email"
                   placeholder={`example@email.com`}

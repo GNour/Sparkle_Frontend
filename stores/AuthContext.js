@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axiosConfig from "../helpers/axiosConfig";
 import { useRouter } from "next/router";
-import AuthHelper from "../helpers/AuthHelper";
 import Cookies from "js-cookie";
 import Loader from "react-loader-spinner";
 import { toast } from "react-toastify";
@@ -74,6 +73,7 @@ export const AuthContextProvider = ({ children }) => {
       })
       .catch((err) => {
         console.log(err.response);
+        toast.error(err.response.data.error);
       });
   };
 
