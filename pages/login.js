@@ -34,7 +34,7 @@ const Login = () => {
               }}
               validationSchema={loginSchema}
             >
-              <Form style={{ color: "rgba(255, 24, 67, 1)" }}>
+              <Form>
                 <TextInput
                   key="email"
                   placeholder={`example@email.com`}
