@@ -1,8 +1,7 @@
 import { useRef, useState } from "react";
 import ChatLayout from "../components/Layouts/ChatLayout";
-import Pusher from "pusher-js";
 import axiosConfig from "../helpers/axiosConfig";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import ScrollableContainer from "../components/Common/ScrollableContainer";
 import ChatMessage from "../components/ChatPage/ChatMessage";
 import { Formik, Form } from "formik";

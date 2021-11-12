@@ -13,14 +13,10 @@ import {
   removeTaskModal,
 } from "../../helpers/ModalHelper";
 import { useRouter } from "next/router";
-import PageHeaderWithActions from "../../components/Common/PageHeaderWithActions";
-import ActionButtonWithIcon from "../../components/Common/Buttons/ActionButtonWithIcon";
-import { AiOutlinePlus } from "react-icons/ai";
 import Loader from "react-loader-spinner";
 const TasksPage = ({ taskableCourses, teams }) => {
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
   const router = useRouter();
-  console.log(taskableCourses, teams);
 
   useEffect(() => {
     mutate("server/teams");
@@ -46,16 +42,14 @@ const TasksPage = ({ taskableCourses, teams }) => {
   const { data, error } = useSWR("task/all", fetcher);
 
   if (user.role == "Staff" && data) {
-    console.log(data);
   } else if (user.role == "Manager" && data) {
   }
 
-  // TaskCard Popover
+  // TaskCard Popover - REF NOT WORKING
   const open = Boolean(anchorEl);
   const [anchorEl, setAnchorEl] = useState(null);
   const [popoverContent, setPopoverContent] = useState("Nothing to show");
   const handleCardClick = (event) => {
-    console.log(event);
     setAnchorEl(event.currentTarget);
   };
   const handlePopoverClose = () => {
@@ -87,7 +81,6 @@ const TasksPage = ({ taskableCourses, teams }) => {
       teams: values.teams,
       deadline: new Date(values.deadline).toISOString().split("T")[0],
     };
-    console.log(data);
     await axiosConfig
       .put("task/assign/" + values.id, data)
       .then((res) => {

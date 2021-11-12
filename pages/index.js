@@ -4,8 +4,7 @@ import axiosConfig from "../helpers/axiosConfig";
 import ChartContainer from "../components/Common/ChartContainer";
 import { Pie, Bar } from "react-chartjs-2";
 import Loader from "react-loader-spinner";
-const IndexPage = ({ data, router }) => {
-  console.log(data);
+const IndexPage = ({ data }) => {
   const getTasksCount = () => {
     let count = 0;
     data.tasks?.forEach((data) => {

@@ -9,7 +9,6 @@ import RoundedImageWithText from "../../components/Common/Images/RoundedImageWit
 import axiosConfig from "../../helpers/axiosConfig";
 import { createEmployeeSchema } from "../../helpers/FormHelpers";
 const CreateEmployee = ({ teams }) => {
-  console.log(teams);
   const [profilePicturePreview, setProfilePicturePreview] =
     useState("/id_img.jpg");
 

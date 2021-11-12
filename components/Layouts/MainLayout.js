@@ -9,7 +9,7 @@ import Head from "next/head";
 
 const MainLayout = ({ children, router }) => {
   const { user } = useAuth();
-  console.log(user);
+
   useEffect(() => {
     Pusher.logToConsole = false;
 
@@ -20,18 +20,14 @@ const MainLayout = ({ children, router }) => {
     var channel = pusher.subscribe("chat");
     channel.bind("message", function (data) {
       // FROM ARDUINO
-      if (data.from == -1) {
-        if (user && user.role == "Manager") {
-          toast(data.message);
-        }
+      if (data.from == -1 && user && user.role == "Manager") {
+        toast(data.message);
       }
       // FROM USERS
       else if (data.from > 0) {
         mutate("/message/messages");
-        if (router.asPath != "/chat") {
-          if (user) {
-            toast.info("New messages in global chat");
-          }
+        if (router.asPath != "/chat" && user) {
+          toast.info("New messages in global chat");
         }
       }
     });
@@ -40,6 +36,7 @@ const MainLayout = ({ children, router }) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <div>
       <Head>

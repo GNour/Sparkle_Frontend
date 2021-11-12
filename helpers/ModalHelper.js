@@ -187,7 +187,6 @@ export const createNoteModal = (id, handleClose, handleCreateNote) => {
           positive: "",
         }}
         onSubmit={(values, { setSubmitting }) => {
-          console.log(values);
           setSubmitting(false);
           handleCreateNote(values, id);
         }}

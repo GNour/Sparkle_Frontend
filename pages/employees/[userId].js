@@ -51,7 +51,6 @@ const MemberPage = () => {
       });
   const { data, error } = useSWR("user/show/" + userId, fetcher);
 
-  console.log(data);
   const notesStatsData = {
     labels: ["Negative", "Positive"],
     datasets: [
@@ -104,7 +103,6 @@ const MemberPage = () => {
   const handleOpen = (value, id) => {
     setModalType(value);
     setIsModalOpen(true);
-    console.log(modalType, id);
   };
 
   const handleAddNote = async (values) => {

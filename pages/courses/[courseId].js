@@ -3,7 +3,7 @@ import ContentCard from "../../components/CoursesPage/ContentCard";
 import CourseLayout from "../../components/Layouts/TasksLayout/CourseLayout";
 import { RiVideoFill, RiArticleFill, RiCheckDoubleFill } from "react-icons/ri";
 import { MdQuiz } from "react-icons/md";
-import { useEffect, useRef, useState, Fragment } from "react";
+import { useRef, useState, Fragment } from "react";
 import TitleDescription from "../../components/Common/TitleDescription";
 import ActionButtonWithIcon from "../../components/Common/Buttons/ActionButtonWithIcon";
 import { Form, Formik } from "formik";
@@ -12,7 +12,7 @@ import useSWR, { mutate } from "swr";
 import axiosConfig from "../../helpers/axiosConfig";
 import CustomModal from "../../components/Common/CustomModal";
 import SquareButton from "../../components/Common/Buttons/SquareButton";
-import { AiFillPlusCircle, AiFillCheckCircle } from "react-icons/ai";
+import { AiFillPlusCircle } from "react-icons/ai";
 import Loader from "react-loader-spinner";
 import {
   createQuizModal,
@@ -91,9 +91,9 @@ const CoursePage = ({ router }) => {
   };
 
   const handleCompleteCourse = async (values, { setSubmitting }) => {
-    console.log(values);
     let grade = -1;
     if (data.quizzes.length) {
+      grade = 0;
       data.quizzes.forEach((quiz) => {
         grade += quiz.user[0].details.grade;
       });
@@ -102,7 +102,7 @@ const CoursePage = ({ router }) => {
     await axiosConfig
       .put("course/complete/" + values.id, { grade: grade })
       .then((res) => console.log(res))
-      .catch((res) => console.log(res));
+      .catch((err) => console.log(err));
 
     await axiosConfig
       .put("task/complete/" + router.query.tid)
@@ -111,11 +111,6 @@ const CoursePage = ({ router }) => {
       })
       .catch((err) => console.log(err));
   };
-  console.log(data);
-  useEffect(() => {
-    if (previewedContentRef.current) {
-    }
-  }, [previewedContent]);
 
   const [previewedContentDetails, setPreviewedContentDetails] = useState({
     title: "Content preview",
@@ -173,7 +168,6 @@ const CoursePage = ({ router }) => {
         setIsModalOpen(false);
       })
       .catch((err) => {
-        console.log();
         console.log(err.message);
       });
   };
@@ -204,6 +198,13 @@ const CoursePage = ({ router }) => {
     setIsModalOpen(true);
   };
 
+  const handleRemoveContent = async (type, id) => {
+    await axiosConfig
+      .delete("course/" + type.toLowerCase() + "/delete/" + id)
+      .then((res) => mutate("/course/show/" + courseId))
+      .catch((err) => console.log(err));
+  };
+
   const handleContentCardOnClick = async (content, details) => {
     setPreviewedContentDetails(details);
     setPreviewedContent(
@@ -213,7 +214,7 @@ const CoursePage = ({ router }) => {
           color="#355ea0"
           height={100}
           width={100}
-          timeout={3000} //3 secs
+          timeout={1000}
         />
       </div>
     );
@@ -318,7 +319,6 @@ const CoursePage = ({ router }) => {
       </div>
     );
   };
-  console.log(data);
   return (
     <Fragment>
       <CourseLayout
@@ -380,6 +380,9 @@ const CoursePage = ({ router }) => {
                   type="Article"
                   content={article}
                   forwardedRef={previewedContentRef}
+                  handleRemoveContent={
+                    user && user.role == "Manager" && handleRemoveContent
+                  }
                   action={handleContentCardOnClick}
                 />
               );
@@ -387,7 +390,6 @@ const CoursePage = ({ router }) => {
           {data &&
             data.videos.length > 0 &&
             data.videos.map((video) => {
-              console.log(video);
               return (
                 <ContentCard
                   key={`video${video.id}`}
@@ -400,6 +402,9 @@ const CoursePage = ({ router }) => {
                   )}
                   content={video}
                   forwardedRef={previewedContentRef}
+                  handleRemoveContent={
+                    user && user.role == "Manager" && handleRemoveContent
+                  }
                   action={handleContentCardOnClick}
                 />
               );
@@ -407,7 +412,6 @@ const CoursePage = ({ router }) => {
           {data &&
             data.quizzes.length > 0 &&
             data.quizzes.map((quiz) => {
-              console.log(quiz);
               return (
                 <ContentCard
                   key={`quiz${quiz.id}`}
@@ -420,6 +424,9 @@ const CoursePage = ({ router }) => {
                   )}
                   type="Quiz"
                   content={quiz}
+                  handleRemoveContent={
+                    user && user.role == "Manager" && handleRemoveContent
+                  }
                   forwardedRef={previewedContentRef}
                   action={handleContentCardOnClick}
                 />

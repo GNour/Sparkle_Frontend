@@ -7,17 +7,16 @@ import SelectInput from "../../Common/Inputs/SelectInput";
 import ActionButtonWithIcon from "../../Common/Buttons/ActionButtonWithIcon";
 import { AiOutlinePlus } from "react-icons/ai";
 import { Formik, Form } from "formik";
-import { useRouter } from "next/router";
 import axiosConfig from "../../../helpers/axiosConfig";
 import { useSWRConfig } from "swr";
 import { useAuth } from "../../../stores/AuthContext";
+
 const TasksLayout = ({ children, taskableCourses, header }) => {
   const { user } = useAuth();
   const { mutate } = useSWRConfig();
-  const router = useRouter();
   const [isModalOpened, setIsModalOpen] = useState(false);
 
-  const handleOpen = (value) => {
+  const handleOpen = () => {
     setIsModalOpen(true);
   };
   const handleClose = () => {
@@ -25,7 +24,7 @@ const TasksLayout = ({ children, taskableCourses, header }) => {
   };
 
   const handleCreateTask = async (values, { setSubmitting }) => {
-    const res = await axiosConfig
+    await axiosConfig
       .post("task/create", values)
       .then(() => {
         setSubmitting(false);

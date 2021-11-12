@@ -73,7 +73,6 @@ const TeamsPage = ({ teams, managers }) => {
       return (
         <TableRow>
           <TableCell colSpan={colSpan}>
-            {console.log()}
             {expandableData[rowMeta.rowIndex][0].map((x, i) => {
               return (
                 <p
