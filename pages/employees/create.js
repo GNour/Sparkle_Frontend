@@ -10,7 +10,7 @@ import axiosConfig from "../../helpers/axiosConfig";
 import { createEmployeeSchema } from "../../helpers/FormHelpers";
 const CreateEmployee = ({ teams }) => {
   const [profilePicturePreview, setProfilePicturePreview] =
-    useState("/id_img.jpg");
+    useState("/id_img.png");
 
   const handlePreviewPicture = (picture) => {
     const fileReader = new FileReader();
