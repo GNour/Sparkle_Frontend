@@ -9,6 +9,7 @@ const PageHeaderWithActions = ({
   header,
   haveNav,
   haveSearchBar,
+  handleSearchBarAction,
   haveSubNav,
   button,
 }) => {
@@ -50,7 +51,11 @@ const PageHeaderWithActions = ({
           ) : (
             ""
           )}
-          {haveSearchBar ? <SearchBar /> : ""}
+          {haveSearchBar ? (
+            <SearchBar handleSearch={handleSearchBarAction} />
+          ) : (
+            ""
+          )}
         </div>
       </div>
       <hr />
