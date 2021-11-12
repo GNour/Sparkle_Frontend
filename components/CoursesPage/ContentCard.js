@@ -1,8 +1,8 @@
 import styles from "./ContentCard.module.scss";
 import ReactPlayer from "react-player/youtube";
-import { useRef } from "react";
 import QuizStartPage from "./Quiz/QuizStartPage";
-import QuizContainer from "./Quiz/QuizContainer";
+import { AiOutlineClose } from "react-icons/ai";
+import { useAuth } from "../../stores/AuthContext";
 const ContentCard = ({
   icon,
   title,
@@ -12,8 +12,11 @@ const ContentCard = ({
   type,
   action,
   forwardedRef,
+  handleRemoveContent,
   sub,
 }) => {
+  const { user } = useAuth();
+
   const handleContentCardClick = (e) => {
     action(renderRelatedComponent(type, content), {
       title: content.title,
@@ -59,6 +62,15 @@ const ContentCard = ({
         <p className="mb-0 text-sm fw-light">{description}</p>
       </div>
       <p className="mb-0 text-sm fw-light float-end">{sub}</p>
+      {handleRemoveContent && (
+        <AiOutlineClose
+          onClick={(e) => {
+            e.stopPropagation();
+            handleRemoveContent(type, content.id);
+          }}
+          style={{ cursor: "pointer" }}
+        />
+      )}
     </div>
   );
 };
