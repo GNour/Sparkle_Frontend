@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import { useAuth } from "../../stores/AuthContext";
 import { mutate } from "swr";
 import { toast } from "react-toastify";
+import Head from "next/head";
+
 const MainLayout = ({ children, router }) => {
   const { user } = useAuth();
   console.log(user);
@@ -39,19 +41,24 @@ const MainLayout = ({ children, router }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div
-      className={`theme-default vh-100 ${styles.MainLayout} overflow-hidden`}
-    >
-      {router.pathname.endsWith("create") ||
-      router.pathname.endsWith("login") ? null : (
-        <div className={`${styles.MainLayoutSideBar}`}>
-          <SideBar router={router} />
-        </div>
-      )}
+    <div>
+      <Head>
+        <title>SparkleTMS</title>
+      </Head>
+      <div
+        className={`theme-default vh-100 ${styles.MainLayout} overflow-hidden`}
+      >
+        {router.pathname.endsWith("create") ||
+        router.pathname.endsWith("login") ? null : (
+          <div className={`${styles.MainLayoutSideBar}`}>
+            <SideBar router={router} />
+          </div>
+        )}
 
-      <main className="container ps-lg-2 pe-lg-4 mt-2 w-100 py-5 py-md-0 vh-100 overflow-y-scroll pe-md-4 ps-md-2">
-        {children}
-      </main>
+        <main className="container ps-lg-2 pe-lg-4 mt-2 w-100 py-5 py-md-0 vh-100 overflow-y-scroll pe-md-4 ps-md-2">
+          {children}
+        </main>
+      </div>
     </div>
   );
 };
