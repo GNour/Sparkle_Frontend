@@ -59,8 +59,9 @@ const TaskCard = ({
     taskStats?.uncompletedUsers.length == 0
       ? 100
       : Math.floor(
-          (taskStats?.completedUsers.length /
-            taskStats?.uncompletedUsers.length) *
+          (taskStats?.uncompletedUsers.length /
+            taskStats?.uncompletedUsers.length +
+            taskStats?.completedUsers.length) *
             100
         );
 
