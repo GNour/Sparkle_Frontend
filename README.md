@@ -1,34 +1,152 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<p align="center"><a href="https://sparkletms.vercel.app/" target="_blank"><img src="https://github.com/GNour/Sparkle_Server/blob/main/documentations/Sparkle_Logo.png?raw=true" width="200"></a></p>
+
+## About Sparkle Nextjs
+
+Sparkle Nextjs serves as the frontend repo of Sparkle Team Management System.
 
 ## Getting Started
 
-First, run the development server:
+First, clone repo or download the .zip file:
+- run ``npm install``
 
+To start the development server:
 ```bash
 npm run dev
-# or
-yarn dev
+```
+
+To build and run:
+```bash
+npm run build
+npm run start
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+**Contact me** to send you the correct declarations in the **.env.local** file and the public API keys.
+Any help needed, feel free to open an issue or email me directly [ghyathnour@gmail.com](mailto:ghyathnour@gmail.com).
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## Repo Tree
+**Find the components, helpers, stores, etc...**
+```bash
+├── components
+│   ├── ChatPage
+│   │   ├── ChatMessage.js
+│   │   ├── Chat.module.scss
+│   │   └── ChatUserCard.js
+│   ├── Common
+│   │   ├── BackButton.js
+│   │   ├── Buttons
+│   │   │   ├── ActionButtonWithIcon.js
+│   │   │   ├── Buttons.module.scss
+│   │   │   └── SquareButton.js
+│   │   ├── Cards
+│   │   │   ├── NoteCard.js
+│   │   │   └── NoteCard.module.scss
+│   │   ├── ChartContainer.js
+│   │   ├── ColoumnContainer.js
+│   │   ├── Common.module.scss
+│   │   ├── CoursesContentPreview.js
+│   │   ├── CustomModal.js
+│   │   ├── IconButton.js
+│   │   ├── IconText.js
+│   │   ├── Images
+│   │   │   └── RoundedImageWithText
+│   │   │       ├── RoundedImageWithText.js
+│   │   │       └── RoundedImageWithText.module.scss
+│   │   ├── InfoActionsFooter.js
+│   │   ├── InfoBody.js
+│   │   ├── Infolist.js
+│   │   ├── InfoText.js
+│   │   ├── Inputs
+│   │   │   ├── Inputs.module.scss
+│   │   │   ├── SelectInput.js
+│   │   │   ├── TextAreaInput.js
+│   │   │   └── TextInput.js
+│   │   ├── Navs
+│   │   │   ├── HeaderNavItem.js
+│   │   │   ├── HeaderNav.js
+│   │   │   └── Nav.module.scss
+│   │   ├── PageHeader.js
+│   │   ├── PageHeaderWithActions.js
+│   │   ├── ScrollableContainer.js
+│   │   ├── SearchBar.js
+│   │   ├── SideBar
+│   │   │   ├── SideBarActionButton.js
+│   │   │   ├── SideBar.js
+│   │   │   └── SideBar.module.scss
+│   │   └── TitleDescription.js
+│   ├── CoursesPage
+│   │   ├── ContentCard.js
+│   │   ├── ContentCard.module.scss
+│   │   └── Quiz
+│   │       ├── QuizContainer.js
+│   │       ├── QuizMCQ.js
+│   │       ├── Quiz.module.scss
+│   │       └── QuizStartPage.js
+│   ├── EmployeesPage
+│   │   └── UserCard
+│   │       ├── UserCard.js
+│   │       └── UserCard.module.scss
+│   ├── Layouts
+│   │   ├── ChatLayout.js
+│   │   ├── Employees
+│   │   │   ├── AllEmployeeLayout.module.scss
+│   │   │   ├── AllEmployeesLayout.js
+│   │   │   └── EmployeeLayout.js
+│   │   ├── MainLayout.js
+│   │   ├── MainLayout.module.scss
+│   │   └── TasksLayout
+│   │       ├── CourseLayout.js
+│   │       └── TasksLayout.js
+│   └── TasksPage
+│       └── TaskCard
+│           ├── TaskCard.js
+│           └── TaskCard.module.scss
+├── helpers
+│   ├── axiosConfig.js
+│   ├── CourseHelper.js
+│   ├── FormHelpers.js
+│   ├── ModalHelper.js
+│   └── UserStatsHelpers.js
+├── next.config.js
+├── package.json
+├── package-lock.json
+├── pages
+│   ├── _app.js
+│   ├── chat.js
+│   ├── courses
+│   │   ├── [courseId].js
+│   │   └── index.js
+│   ├── employees
+│   │   ├── attendance.js
+│   │   ├── create.js
+│   │   ├── Employees.module.scss
+│   │   ├── index.js
+│   │   └── [userId].js
+│   ├── index.js
+│   ├── login.js
+│   ├── tasks
+│   │   └── index.js
+│   └── teams
+│       └── index.js
+├── public
+│   ├── favicon.ico
+│   ├── id_img.png
+│   ├── logoBig.png
+│   ├── logoSmall.png
+│   └── vercel.svg
+├── README.md
+├── stores
+│   └── AuthContext.js
+└── styles
+    ├── _animations.scss
+    ├── _base.scss
+    ├── globals.scss
+    ├── _mixins.scss
+    ├── _overrides.scss
+    ├── _utilities.scss
+    └── _variables.scss
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+**Don't hesitate to contact me for follow-ups on components props, functions, etc...**
