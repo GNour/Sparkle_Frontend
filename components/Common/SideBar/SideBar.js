@@ -6,7 +6,7 @@ import {
   MenuItem,
   SubMenu,
 } from "react-pro-sidebar";
-import { Fragment, useContext, useState } from "react";
+import { Fragment, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
