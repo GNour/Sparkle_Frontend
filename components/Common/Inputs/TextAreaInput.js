@@ -1,6 +1,7 @@
 import styles from "./Inputs.module.scss";
 import { useField } from "formik";
 const TextAreaInput = ({ externalStyles, label, type, ...props }) => {
+  // Formik State
   const [field, meta] = useField(props);
   return (
     <div className={`${externalStyles}`}>
@@ -21,6 +22,7 @@ const TextAreaInput = ({ externalStyles, label, type, ...props }) => {
         rows={3}
         className={`form-control ${styles.InputField}`}
       />
+      {/* Yup Validation div */}
       {meta.touched && meta.error ? (
         <div className="text-danger error">{meta.error}</div>
       ) : null}

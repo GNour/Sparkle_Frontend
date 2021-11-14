@@ -7,6 +7,7 @@ const TextInput = ({
   type,
   ...props
 }) => {
+  // Formik state
   const [field, meta] = useField(props);
   return (
     <div className={`${externalStyles}`}>
@@ -27,6 +28,7 @@ const TextInput = ({
         {...field}
         {...props}
       />
+      {/* Yup Validation div */}
       {meta.touched && meta.error ? (
         <div className="text-danger error">{meta.error}</div>
       ) : null}

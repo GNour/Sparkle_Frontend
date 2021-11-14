@@ -7,7 +7,9 @@ const SelectInput = ({
   isMultiple,
   ...props
 }) => {
+  // Formik state
   const [field, meta] = useField(props);
+
   return (
     <div className={`${externalStyles}`}>
       {label ? (
@@ -28,6 +30,7 @@ const SelectInput = ({
       >
         {children}
       </select>
+      {/* Yup Validation div */}
       {meta.touched && meta.error ? (
         <div className="text-danger error">{meta.error}</div>
       ) : null}

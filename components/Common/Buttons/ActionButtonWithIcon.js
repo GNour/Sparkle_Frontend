@@ -1,4 +1,5 @@
 import styles from "./Buttons.module.scss";
+// Button can be Primary, Secondary, or Tertiary.
 const ActionButtonWithIcon = ({
   icon,
   text,
@@ -11,7 +12,7 @@ const ActionButtonWithIcon = ({
   buttonType,
   isDisabled,
 }) => {
-  // Incase of submit action, no need to handleAction...
+  // Incase of submit action, no need to handleAction. The type refer to what is the action the button will do
   let handleAction = () => {};
   if (typeof action === "function") {
     handleAction = (e) => {
