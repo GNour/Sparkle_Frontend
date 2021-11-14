@@ -97,7 +97,7 @@ const IndexPage = ({ data }) => {
   };
 
   const barOptions = {
-    indexAxis: "y",
+    indexAxis: "x",
     elements: {
       bar: {
         borderWidth: 2,
@@ -106,10 +106,10 @@ const IndexPage = ({ data }) => {
     responsive: true,
     plugins: {
       legend: {
-        position: "right",
+        position: "bottom",
       },
       title: {
-        display: true,
+        display: false,
         text: "Overall Statistics",
       },
     },
