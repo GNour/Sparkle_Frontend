@@ -20,6 +20,8 @@ const CoursesPage = ({ courses }) => {
       .catch((err) => {
         err;
       });
+
+  // Keep the fallbackData to the server side pre-fetched courses
   const { data, error } = useSWR("server/courses", fetcher, {
     fallbackData: courses,
   });

@@ -54,6 +54,7 @@ const TaskCard = ({
     );
   }
 
+  // Buttons will be rendered differently depending on this progress.
   const taskStats = getTaskStats(task.users);
   const taskStatsProgress =
     taskStats?.uncompletedUsers.length == 0

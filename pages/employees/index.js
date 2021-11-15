@@ -7,14 +7,14 @@ import ActionButtonWithIcon from "../../components/Common/Buttons/ActionButtonWi
 import { useRouter } from "next/router";
 import axiosConfig from "../../helpers/axiosConfig";
 import useSWR from "swr";
-const MembersPage = (props) => {
+const MembersPage = () => {
   const router = useRouter();
-  const [fetchedEmployees, setFetchedEmployees] = useState([]);
+  const [searchedEmployees, setSearchedEmployees] = useState([]);
 
   const handleSearch = (value) => {
     let temp = [];
     if (value.length == 0) {
-      setFetchedEmployees([]);
+      setSearchedEmployees([]);
     } else {
       data.forEach((employee) => {
         let name = (
@@ -27,7 +27,7 @@ const MembersPage = (props) => {
         }
       });
     }
-    setFetchedEmployees(temp);
+    setSearchedEmployees(temp);
   };
 
   // Fetch data with SWR
@@ -36,7 +36,6 @@ const MembersPage = (props) => {
       return res.data;
     });
   const { data, error } = useSWR("user/all", fetcher);
-  // const showSkeleton = error || loading;
 
   return (
     <Fragment>
@@ -55,8 +54,8 @@ const MembersPage = (props) => {
       />
 
       <AllEmployeesLayout>
-        {fetchedEmployees &&
-          fetchedEmployees.map((employee) => {
+        {searchedEmployees &&
+          searchedEmployees.map((employee) => {
             return (
               <UserCard
                 key={"SEARCH" + employee.id}
